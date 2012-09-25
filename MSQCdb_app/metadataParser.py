@@ -17,7 +17,8 @@
 
 import re
 
-metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\Promix_200812_1.RAW.metadata"
+metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_XL_out\Promix_200812_1.RAW.metadata"
+#metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_Elite_out-OrbiHCD\FL-promix-1D-01.raw.metadata"
 metadata_model_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\metadata.model"
 metadata_model_discrepency_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\metadata_discrepency.ignore"
 metadata_current_model_filename = r"C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb_app\models.py"
@@ -159,7 +160,10 @@ for line in fh_in:
         key = key.replace (".", "")
         key = key.replace ("(", "")
         key = key.replace (")", "")
+        key = key.replace ("[", "_")
+        key = key.replace ("]", "_")
         key = key.replace ("-", "")
+        key = key.replace ("%", "percent")
         key = key.lower()
         value = value.lstrip()
         
@@ -184,13 +188,15 @@ for line in fh_in:
             if not fieldsIgnoreDict.get(section + subsectionTmp + "-" + key):
                 print "Model discrepency:\t" + fieldTypeValue + " : " + currentValue + "\t\t" + section + subsectionTmp + "-" + key
             else:
-                fh_out.write("    " + key + " = models." + currentValue + "\n\n")
+                #fh_out.write("    " + key + " = models." + currentValue + "\n\n")
                 continue
             
     else:
         print "Model missing value:\t" + fieldTypeValue + "\t\t\t" + section + subsectionTmp + "-" + key
+        fieldTypeValue = fieldTypeValue.replace (")", "null=True, blank=True)")
+        fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
     
-    fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
+    #fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
 
 
 # Check that file has all the fields defined in the model
@@ -199,7 +205,8 @@ for field in fieldsDict:
     #print fieldsInFileDict.get(field)
     if fieldsInFileDict.get(field) == None:
         if not (field.endswith('metadata') or field.endswith('creation_date')):
-            print "File missing value:\t" + field
+            if not fieldsDict[field].endswith('null=True, blank=True)'):
+                print "File missing value:\t" + field
     
     
 fh_out.close()
