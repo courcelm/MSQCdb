@@ -163,7 +163,9 @@ for line in fh_in:
         key = key.replace ("[", "_")
         key = key.replace ("]", "_")
         key = key.replace ("-", "")
+        key = key.replace ("__", "_")
         key = key.replace ("%", "percent")
+        key = key.rstrip("_")
         key = key.lower()
         value = value.lstrip()
         
