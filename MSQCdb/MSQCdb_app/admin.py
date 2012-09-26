@@ -11,4 +11,7 @@ admin.site.register(MetadataOverviewNegativePolarity)
 admin.site.register(MetadataOverviewAdditionalFtTuneFileValue)
 admin.site.register(MetadataOverviewReagentIonSourceTuneFileValue)
 admin.site.register(MetadataOverviewCalibrationFileValue)
+admin.site.register(MetadataOverviewCalibrationFileValueResEject)
+admin.site.register(MetadataOverviewCalibrationFileValueMass)
+admin.site.register(MetadataOverviewCalibrationFileValueFtCal)
 

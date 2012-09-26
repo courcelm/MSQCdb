@@ -121,6 +121,10 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     
+    # Schema migration
+    'south',
+    
+    # MSQCdb app
     'MSQCdb.MSQCdb_app',
 )
 

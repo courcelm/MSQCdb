@@ -18,9 +18,14 @@
 import re
 from MSQCdb.MSQCdb_app.models import *
 import MSQCdb.settings as S
+import modelReader
+from django.utils.dateparse import parse_datetime
+import pytz
+from django.db.utils import IntegrityError
 
-metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_XL_out\Promix_200812_1.RAW.metadata"
-#metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_Elite_out-OrbiHCD\FL-promix-1D-01.raw.metadata"
+## Input/Output Files
+#metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_XL_out\Promix_200812_1.RAW.metadata"
+metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_Elite_out-OrbiHCD\FL-promix-1D-01.raw.metadata"
 metadata_model_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\metadata.model"
 metadata_model_discrepency_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\metadata_discrepency.ignore"
 metadata_current_model_filename = r"C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb\MSQCdb_app\models.py"
@@ -28,158 +33,79 @@ metadata_current_model_filename = r"C:\Users\Mathieu\Documents\Aptana Studio 3 W
 
 
 ### Read current model
-classPattern = re.compile('^class (?P<class>.+)\(models\.Model\)')
-
-convertion = dict()
-convertion['MetadataOverview'] = 'Metadata_Overview' 
-convertion['MetadataOverviewTuneFileValue'] = 'Metadata_Overview_Tune_File_Values'
-convertion['MetadataOverviewPositivePolarity'] = 'Metadata_Overview_POSITIVE_POLARITY'
-convertion['MetadataOverviewNegativePolarity'] = 'Metadata_Overview_NEGATIVE_POLARITY'
-convertion['MetadataOverviewAdditionalFtTuneFileValue'] = 'Metadata_Overview_Additional_FT_Tune_File_Values'
-convertion['MetadataOverviewReagentIonSourceTuneFileValue'] = 'Metadata_Overview_Reagent_Ion_Source_Tune_File_Values'
-convertion['MetadataOverviewCalibrationFileValue'] = 'Metadata_Overview_Calibration_File_Values'
-
-inv_convertion = dict()
-
-for key, value in convertion.iteritems():
-    inv_convertion[value] = key
-    
-    
-values = dict()
-for key in convertion:
-    values[key] = dict()
-    
-
-
-fh_in = open(metadata_current_model_filename, "r")
-
-fieldsDict = dict()
-section = ""
-for line in fh_in:
-    
-    line = line.rstrip()
-    
-    match = classPattern.search(line)
-    if hasattr(match, 'group'):
-        section = match.group('class')
-        section = convertion[section]
-        
-        #print line
-        continue
-    
-    keyVal_list = line.split("=", 1)
-    
-    if len(keyVal_list) == 2:
-        key, value = keyVal_list
-        key = key.replace (" ", "")
-        value = value.replace (" models.", "")
-        fieldsDict[section + '-' + key] = value
-        #print (section + '-' + "%s=%s") % (key, value)
-
-fh_in.close()
+fieldsModelDict = modelReader.readModel(metadata_current_model_filename)
 
 
 ### Read metadata_discrepency.ignore
-fh_in = open(metadata_model_discrepency_filename, "r")
-
-fieldsIgnoreDict = dict()
-fieldsIgnoreDict.setdefault('missing', False)
-section = ""
-for line in fh_in:
-    
-    line = line.rstrip()
-    fieldsIgnoreDict[line] = True
-
-fh_in.close()
+fieldsIgnoreDict = modelReader.readIgnoreList(metadata_model_discrepency_filename)
 
 
 
-### Metafile reading
 
-# Regexp pattern definition for parsing
+### Metafile reading #####################################################################
+
+fieldsInFileDict = dict()
 sectionPattern = re.compile('^------ (?P<section>[\w\s]+) ------')
-dateTimePattern = re.compile('^(?P<section>\d+-\d+-\d+ \d+:\d+)')
-intPattern = re.compile('^(?P<floatValue>[-]*\d+$)')
-floatPattern = re.compile('^(?P<floatValue>[-]*\d+\.\d+$)')
-floatPattern2 = re.compile('^(?P<floatValue>[-]*\d+\.\d+E-\d+$)')
-
-
-maxValue = 0
-
-def fieldType(s):
-        
-    match = floatPattern.search(s)
-    if hasattr(match, 'group'):
-        return 'FloatField()'
-    
-    match = floatPattern2.search(s)
-    if hasattr(match, 'group'):
-        return 'FloatField()'
-        
-    match = intPattern.search(s)
-    if hasattr(match, 'group'):
-        return "IntegerField()"
-        
-
-    match = dateTimePattern.search(s)
-    if hasattr(match, 'group'):
-        return "DateTimeField()"
-
-    if len(s) > 50:
-        return "CharField(max_length=100)"
-            
-    return "CharField(max_length=50)"
-
+section = "MetadataOverview"
+subsection = ""
+storeFlag = True
+values = dict()
+values[section] = dict()
 
 
 # Prepare header of meta output model
 fh_out = open(metadata_model_filename, "w")
 fh_out.write('from django.db import models\n\n\n\n\n')
-
-fieldsInFileDict = dict()
-fieldsIgnoreDict.setdefault('missing', True)
-section = "Metadata_Overview"
-subsection = ""
-subsectionTmp = ""
-
-fh_out.write("class " + section + "(models.Model):\n\n\n")
-
+fh_out.write("class %s(models.Model):\n\n\n" % (section))
 fh_out.write('    creation_date = models.DateTimeField(auto_now_add=True)\n\n')
 
 
-
+# Open and read metadata file
 fh_in = open(metadata_filename, "r")
 for line in fh_in:
     line = line.rstrip()
     #print line
     
+    
+    # Check for section
     match = sectionPattern.search(line)
     if hasattr(match, 'group'):
-        section = match.group('section').replace (" ", "_")
-        
+        section = match.group('section').title().replace(" ", "")
+        if not values.has_key(section):
+            values[section] = dict()
         #print "SECTION:" + section
         
         ## Stop reading the file at this point
         ## all required data should be read at this point
-        if section == "LTQ_Metadata":
+        if section == "LtqMetadata":
             break
         continue
-
+    
+        
+    # Skip blank line        
     if line == "":
         continue
         #print "space line"
 
+
+    
     keyVal_list = line.split(":", 1)
     
-    fieldTypeValue = ""
+    
     if len(keyVal_list) == 1:
-        subsection = line.replace (" ", "_")
-        subsectionTmp = "_" + subsection
-        #print "SUB-SECTION:" + subsection 
-        fh_out.write("\n\n\n\nclass " + section + "_" + subsection + "(models.Model):\n\n\n")
-        fh_out.write("    metadata = models.ForeignKey(Metadata_Overview, related_name='metadata')\n\n")
+        # This is a subsection
+        subsection = line.title().replace (" ", "").rstrip("s")
+        
+        if not values.has_key(section + subsection):
+            values[section + subsection] = dict()
+                
+        # Write new subsection to the new model file
+        fh_out.write("\n\n\n\nclass %s%s(models.Model):\n\n\n" % (section, subsection))
+        fh_out.write("    metadata = models.ForeignKey(MetadataOverview, related_name='%(class)s_metadata')\n\n")
         continue
+
     else:
+        # If we reach here, we read key value pair
         key, value = keyVal_list;
         key = key.replace (" ", "_")
         key = key.replace (".", "")
@@ -194,83 +120,107 @@ for line in fh_in:
         key = key.lower()
         value = value.lstrip()
         
-#        maxValue = max(len(value), maxValue)
-#        print maxValue
-        
-        #print ("%s=%s") % (key, value)
-        fieldTypeValue = ""
-        if re.search("^ft_cal_item", key):
-            fieldTypeValue = "FloatField()"
-        else:
-            fieldTypeValue = fieldType(value)
-            
-        
-    
-    
-    # Check if field is in current model and no conflict
-    fieldsInFileDict[section + subsectionTmp + "-" + key] = False
-    if section + subsectionTmp + "-" + key in fieldsDict:
-        currentValue = fieldsDict[section + subsectionTmp + "-" + key]
-        if fieldTypeValue != currentValue:
-            if not fieldsIgnoreDict.get(section + subsectionTmp + "-" + key):
-                print "Model discrepency:\t" + fieldTypeValue + " : " + currentValue + "\t\t" + section + subsectionTmp + "-" + key
-            else:
-                fh_out.write("    " + key + " = models." + currentValue + "\n\n")
-                values[inv_convertion[section + subsectionTmp]][key] = value
-                continue
-            
-    else:
-        print "Model missing value:\t" + fieldTypeValue + "\t\t\t" + section + subsectionTmp + "-" + key
-        fieldTypeValue = fieldTypeValue.replace (")", "null=True, blank=True)")
-        #fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
-    
-    fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
-    values[inv_convertion[section + subsectionTmp]][key] = value
-    
 
-# Check that file has all the fields defined in the model
-for field in fieldsDict:
-    #print field
-    #print fieldsInFileDict.get(field)
-    if fieldsInFileDict.get(field) == None:
-        if not (field.endswith('metadata') or field.endswith('creation_date')):
-            if not fieldsDict[field].endswith('null=True, blank=True)'):
-                print "File missing value:\t" + field
+        ## Split CalibrationFileValue into multiple section
+        kv = dict()
+        kv['mass_'] = 'CalibrationFileValueMass'
+        kv['ft_cal'] = 'CalibrationFileValueFtCal'
+        kv['res_eject'] = 'CalibrationFileValueResEject'
+        
+        
+        if subsection.startswith('Calibration') and not subsection.endswith('Value'):
+            
+            flag = True
+            for k, v in kv.iteritems():
+                if key.startswith(k):
+                    flag = False
+            
+            if flag:
+                subsection = 'CalibrationFileValue'
+                            
+                # Write new subsection to the new model file
+                fh_out.write("\n\n\n\nclass %s%s(models.Model):\n\n\n" % (section, subsection))
+                fh_out.write("    metadata = models.ForeignKey(MetadataOverview, related_name='%(class)s_metadata')\n\n")
+
+        
+        
+        for k, v in kv.iteritems():
+            if key.startswith(k) and subsection != v:
+                subsection = v
+                            
+                if not values.has_key(section + subsection):
+                    values[section + subsection] = dict()
+                
+                # Write new subsection to the new model file
+                fh_out.write("\n\n\n\nclass %s%s(models.Model):\n\n\n" % (section, subsection))
+                fh_out.write("    metadata = models.ForeignKey(MetadataOverview, related_name='%(class)s_metadata')\n\n")
+                break
+            
+                        
+
+        
+        fieldTypeValue = ""
+
+        if re.search("^ft_cal_item", key):
+            fieldTypeValue = "FloatField(null=True, blank=True)"
+        else:
+            fieldTypeValue = modelReader.fieldType(value)
+            
+        
     
-    
+        # Check if field is in current model and no field type conflict
+        longKey = "%s%s-%s" % (section, subsection, key)
+        
+        if longKey in fieldsModelDict:
+            currentValue = fieldsModelDict[longKey]
+            
+            if re.sub(r'\(.*\)', '', fieldTypeValue) != re.sub(r'\(.*\)', '', currentValue):
+                if fieldsIgnoreDict.get(longKey) == None:
+                    print "Model discrepency:\t%s : %s\t\t%s%s-%s" % (fieldTypeValue, currentValue, section, subsection, key)
+                    storeFlag = False
+                
+            if fieldTypeValue != currentValue:
+                fh_out.write("    %s = models.%s\n\n" % (key, currentValue))
+                values[section + subsection][key] = value
+                continue
+                
+        else:
+            print "Model missing value:\t%s\t\t\t%s%s-%s" % (fieldTypeValue, section, subsection, key)
+            storeFlag = False
+        
+        fh_out.write("    %s = models.%s\n\n" % (key, fieldTypeValue))
+        values[section + subsection][key] = value
+
 fh_out.close()
-fh_in.close()
+fh_in.close()    
+
+
+
 
 
 
 ## Store objects in db
-from django.utils.dateparse import parse_datetime
-#import pytz
-#for key in convertion:
+if storeFlag:
+    MetadataOverview_dic = values['MetadataOverview']
+    mtl = pytz.timezone(S.TIME_ZONE)    
+    naive = parse_datetime(MetadataOverview_dic['experimentdate'])
+    MetadataOverview_dic['experimentdate'] = mtl.localize(naive)
+        
+    mo_obj = MetadataOverview(**MetadataOverview_dic)
     
-MetadataOverview_dic = values['MetadataOverview']
-    
-    
-naive = parse_datetime(MetadataOverview_dic['experimentdate'])
-#print type(naive)
-from django.utils.timezone import utc
-naive.replace(tzinfo=utc)
-print naive
-    #print pytz.timezone(S.TIME_ZONE).localize(naive)
-    #print S.TIME_ZONE
-del(MetadataOverview_dic['experimentdate'])
-    #import datetime
-    #print datetime.datetime.now()
-    
-    
-    
-obj = MetadataOverview(**MetadataOverview_dic)
-obj.experimentdate = naive
-print obj
-print obj.instrument_name
-obj.save()
-    
-#    d = values[key]
-#    if len(d):
-#        print key + ":" + str(d)
-
+    try:
+        mo_obj.save()
+        
+        del(values['MetadataOverview'])
+        del(values['LtqMetadata'])
+        
+        for key in values:    
+            d = values[key]
+            d['metadata'] = mo_obj
+            
+            if len(d):
+                obj = eval(key + "(**d)")
+                obj.save()
+    except IntegrityError, Argument:
+        print "IntegrityError: " +  str(Argument) + " (file is probably already loaded in database)"
+            
