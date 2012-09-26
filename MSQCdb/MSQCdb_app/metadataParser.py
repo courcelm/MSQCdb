@@ -16,17 +16,40 @@
 ## License along with MSQCdb. If not, see <http://www.gnu.org/licenses/>.
 
 import re
+from MSQCdb.MSQCdb_app.models import *
+import MSQCdb.settings as S
 
 metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_XL_out\Promix_200812_1.RAW.metadata"
 #metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_Elite_out-OrbiHCD\FL-promix-1D-01.raw.metadata"
 metadata_model_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\metadata.model"
 metadata_model_discrepency_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\metadata_discrepency.ignore"
-metadata_current_model_filename = r"C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb_app\models.py"
+metadata_current_model_filename = r"C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb\MSQCdb_app\models.py"
 
 
 
 ### Read current model
 classPattern = re.compile('^class (?P<class>.+)\(models\.Model\)')
+
+convertion = dict()
+convertion['MetadataOverview'] = 'Metadata_Overview' 
+convertion['MetadataOverviewTuneFileValue'] = 'Metadata_Overview_Tune_File_Values'
+convertion['MetadataOverviewPositivePolarity'] = 'Metadata_Overview_POSITIVE_POLARITY'
+convertion['MetadataOverviewNegativePolarity'] = 'Metadata_Overview_NEGATIVE_POLARITY'
+convertion['MetadataOverviewAdditionalFtTuneFileValue'] = 'Metadata_Overview_Additional_FT_Tune_File_Values'
+convertion['MetadataOverviewReagentIonSourceTuneFileValue'] = 'Metadata_Overview_Reagent_Ion_Source_Tune_File_Values'
+convertion['MetadataOverviewCalibrationFileValue'] = 'Metadata_Overview_Calibration_File_Values'
+
+inv_convertion = dict()
+
+for key, value in convertion.iteritems():
+    inv_convertion[value] = key
+    
+    
+values = dict()
+for key in convertion:
+    values[key] = dict()
+    
+
 
 fh_in = open(metadata_current_model_filename, "r")
 
@@ -39,6 +62,8 @@ for line in fh_in:
     match = classPattern.search(line)
     if hasattr(match, 'group'):
         section = match.group('class')
+        section = convertion[section]
+        
         #print line
         continue
     
@@ -190,16 +215,18 @@ for line in fh_in:
             if not fieldsIgnoreDict.get(section + subsectionTmp + "-" + key):
                 print "Model discrepency:\t" + fieldTypeValue + " : " + currentValue + "\t\t" + section + subsectionTmp + "-" + key
             else:
-                #fh_out.write("    " + key + " = models." + currentValue + "\n\n")
+                fh_out.write("    " + key + " = models." + currentValue + "\n\n")
+                values[inv_convertion[section + subsectionTmp]][key] = value
                 continue
             
     else:
         print "Model missing value:\t" + fieldTypeValue + "\t\t\t" + section + subsectionTmp + "-" + key
         fieldTypeValue = fieldTypeValue.replace (")", "null=True, blank=True)")
-        fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
+        #fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
     
-    #fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
-
+    fh_out.write("    " + key + " = models." + fieldTypeValue + "\n\n")
+    values[inv_convertion[section + subsectionTmp]][key] = value
+    
 
 # Check that file has all the fields defined in the model
 for field in fieldsDict:
@@ -215,4 +242,35 @@ fh_out.close()
 fh_in.close()
 
 
+
+## Store objects in db
+from django.utils.dateparse import parse_datetime
+#import pytz
+#for key in convertion:
+    
+MetadataOverview_dic = values['MetadataOverview']
+    
+    
+naive = parse_datetime(MetadataOverview_dic['experimentdate'])
+#print type(naive)
+from django.utils.timezone import utc
+naive.replace(tzinfo=utc)
+print naive
+    #print pytz.timezone(S.TIME_ZONE).localize(naive)
+    #print S.TIME_ZONE
+del(MetadataOverview_dic['experimentdate'])
+    #import datetime
+    #print datetime.datetime.now()
+    
+    
+    
+obj = MetadataOverview(**MetadataOverview_dic)
+obj.experimentdate = naive
+print obj
+print obj.instrument_name
+obj.save()
+    
+#    d = values[key]
+#    if len(d):
+#        print key + ":" + str(d)
 
