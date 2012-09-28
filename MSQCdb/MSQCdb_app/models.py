@@ -1,4 +1,31 @@
 from django.db import models
+from django.contrib.auth.models import User
+
+class EventLog(models.Model):
+    
+    created_by = models.ForeignKey(User, null=True, blank=True, 
+                                   related_name='%(class)s_created_by', editable = False)
+    
+    creation_date = models.DateTimeField(auto_now_add=True)
+    
+    modification_date = models.DateTimeField('Modified at', auto_now=True)
+
+    datetime = models.DateTimeField()
+    
+    EVENT_TYPES = (('Calibration', 'Calibration'),
+                   ('Failure', 'Failure'),
+                   ('Maintenance', 'Maintenance'),
+                   )
+    
+    event_type = models.CharField('Event type', max_length=30, 
+                                     choices=EVENT_TYPES )
+    
+    instrument_name = models.CharField(max_length=50)
+    
+    name = models.CharField('Name', max_length=200, 
+                            help_text='Short description of the event')
+    
+    description = models.TextField( 'Detailed description (what was replaced, how it was fixed)', blank=True)
 
 
 
@@ -8,15 +35,15 @@ class MetadataOverview(models.Model):
 
     creation_date = models.DateTimeField(auto_now_add=True)
 
-    experimentdate = models.DateTimeField(null=True, blank=True)
+    experimentdate = models.DateTimeField()
 
     instrumentmethod = models.CharField(max_length=1000, null=True, blank=True)
 
-    thermo_raw_file = models.CharField(max_length=1000, null=True, blank=True)
+    thermo_raw_file = models.CharField(max_length=1000)
 
     sha1_hash = models.CharField(max_length=40, null=True, blank=True)
 
-    instrument_name = models.CharField(max_length=50, null=True, blank=True)
+    instrument_name = models.CharField(max_length=50)
 
     instrument_serial_number = models.CharField(max_length=50, null=True, blank=True)
 

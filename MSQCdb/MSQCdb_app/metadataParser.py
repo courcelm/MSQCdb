@@ -22,10 +22,17 @@ import modelReader
 from django.utils.dateparse import parse_datetime
 import pytz
 from django.db.utils import IntegrityError
+#import sys
+#
+#instrumentsChoice = [(metadataOverviewObject.instrument_name, metadataOverviewObject.instrument_name) for metadataOverviewObject in MetadataOverview.objects.all().distinct().order_by('instrument_name')]
+#instrumentsChoice.append((u'--------',  None))
+#print instrumentsChoice
+#
+#sys.exit(0)
 
 ## Input/Output Files
-#metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_XL_out\Promix_200812_1.RAW.metadata"
-metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_Elite_out-OrbiHCD\FL-promix-1D-01.raw.metadata"
+metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_XL_out\Promix_200812_1.RAW.metadata"
+#metadata_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\LTQ-Orbitrap_Elite_out-OrbiHCD\FL-promix-1D-01.raw.metadata"
 metadata_model_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\metadata.model"
 metadata_model_discrepency_filename = r"H:\Mathieu\NIST_MSQC_pipeline_test\metadata_discrepency.ignore"
 metadata_current_model_filename = r"C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb\MSQCdb_app\models.py"
