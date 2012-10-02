@@ -42,6 +42,8 @@ class EventLogAdmin(admin.ModelAdmin):
             obj.created_by = request.user
             
         obj.save()
+
+
             
 
 class MetadataOverviewAdmin(admin.ModelAdmin):
