@@ -19,9 +19,10 @@ def listEventLog(request):
 
 def chartView(request):
     
+    events = EventLog.objects.all()
     chart_data_link = '/MSQCdb/chartDataJSON?'
     t = loader.get_template('chart.html')
-    c = Context({ 'chart_data_link': chart_data_link, 'MEDIA_URL': settings.MEDIA_URL})
+    c = Context({ 'chart_data_link': chart_data_link, 'events': events,  'MEDIA_URL': settings.MEDIA_URL})
     return HttpResponse(t.render(c))
 
 
@@ -30,7 +31,7 @@ def chartView(request):
 def chartDataJSON(request):
     
     strTmp = '[\n'    
-    objects = MetadataOverviewPositivePolarity.objects.all()
+    objects = MetadataOverviewPositivePolarity.objects.all().order_by('metadata__experimentdate')
     
     for obj in objects:
         epoch = int(time.mktime(obj.metadata.experimentdate.timetuple())*1000)
@@ -44,3 +45,4 @@ def chartDataJSON(request):
     callback = request.GET.get('callback', '')  # For javascript getJSON
     response = callback + '(' + strTmp + ');'
     return HttpResponse(response, mimetype="application/json")
+

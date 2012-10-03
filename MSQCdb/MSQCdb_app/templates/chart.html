@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Highstock Example</title>
+		<title>MSQCdb - ChartView - Instrument TOSET</title>
 
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript">
@@ -20,46 +20,52 @@ $(function() {
 		    },
 
 		    title: {
-		        text: 'USD to EUR exchange rate'
+		        text: 'Instrument Chart to SET'
 		    },
 
 		    yAxis: {
 		        title: {
-		            text: 'Exchange rate'
+		            text: 'to SET'
 		        }
 		    },
 
 			series: [{
-		        name: 'USD to EUR',
+		        name: 'to SET',
 		        data: data,
 				id: 'dataseries',
 				tooltip: {
-					valueDecimals: 4
+					valueDecimals: 2
 				}
-		    }, {
-		        type: 'flags',
-		        name: 'Flags on series',
-		        data: [{
-					x: Date.UTC(2011, 1, 14),
-					title: 'On series'
-				}, {
-					x: Date.UTC(2011, 3, 28),
-					title: 'On series'
+		    }, 
+		    {% for event in events %}
+		    {
+				type : 'flags',
+				data : [{
+					x : Date.UTC({{event.datetime.year}}, {{event.datetime.month }} - 1, {{event.datetime.day}}),
+					title : '{{ event.event_type|slice:"1" }}',
+					text : '{{ event.event_type }}: "{{ event.name }}"'
 				}],
-		        onSeries: 'dataseries',
-		        shape: 'squarepin'
-		    }, {
-		        type: 'flags',
-		        name: 'Flags on axis',
-		        data: [{
-					x: Date.UTC(2011, 2, 1),
-					title: 'On axis'
-				}, {
-					x: Date.UTC(2011, 3, 1),
-					title: 'On axis'
-				}],
-		        shape: 'squarepin'
-		    }]
+				{% if event.event_type|slice:"1" == 'F' %}
+				shape : 'squarepin',
+            			color : '#AA4643',
+            	{% else %}
+            		{% if event.event_type|slice:"1" == 'C' %}
+            			shape : 'circlepin',
+            			color : '#006000',
+            		{% else %}
+            			shape : 'circlepin',
+            			color : '#8b8989',
+            		{% endif %}
+            	{% endif %}
+				width : 16,
+				events: {
+        			click: function(event) {
+        				location.href='/admin/MSQCdb_app/eventlog/{{ event.pk }}/';
+        			}
+        		}
+			},
+		    {% endfor %}
+		    ]
 		});
 	});
 });
