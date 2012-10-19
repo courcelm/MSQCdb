@@ -1,6 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+class Sample(models.Model):
+    
+    creation_date = models.DateTimeField(auto_now_add=True)
+    
+    raw_file = models.CharField(max_length=1000)
+    
+    instrument_name = models.CharField(max_length=50)
+
+    description = models.TextField( 'Detailed description', blank=True)
+    
+    
+    class Meta:
+        unique_together = ('raw_file', 'instrument_name')
+        
+        
+
+
 class EventLog(models.Model):
     
     created_by = models.ForeignKey(User, null=True, blank=True, 
@@ -60,8 +78,7 @@ class MetadataOverview(models.Model):
     instrument_hardware_version = models.CharField(max_length=10, null=True, blank=True)
 
 
-    class Meta:
-        unique_together = ('thermo_raw_file', 'instrument_name')
+
 
 
 class MetadataOverviewTuneFileValue(models.Model):
@@ -3720,4 +3737,1462 @@ class MetadataOverviewCalibrationFileValueFtCal(models.Model):
     ft_cal_item_499 = models.FloatField(null=True, blank=True)
 
     ft_cal_item_500 = models.FloatField(null=True, blank=True)
+
+
+
+
+
+
+
+
+
+
+
+
+class SpectrumCount(models.Model):
+
+
+    class Meta:
+        verbose_name = "Spectrum Count"
+
+
+    ms2_scans = models.IntegerField("MS2 Scans", null=True, blank=True)
+
+    ms1_scans_full = models.IntegerField("MS1 Scans/Full", null=True, blank=True)
+
+    ms1_scans_other = models.IntegerField("MS1 Scans/Other", null=True, blank=True)
+
+
+
+
+
+class FirstAndLastMs1Rt_Min_(models.Model):
+
+
+    class Meta:
+        verbose_name = "First and Last MS1 RT (min)"
+
+
+    first_ms1 = models.FloatField("First MS1", null=True, blank=True)
+
+    last_ms1 = models.FloatField("Last MS1", null=True, blank=True)
+
+
+
+
+
+class TrypticPeptideCount(models.Model):
+
+
+    class Meta:
+        verbose_name = "Tryptic Peptide Count"
+
+
+    peptides = models.IntegerField("Peptides", null=True, blank=True)
+
+    ions = models.IntegerField("Ions", null=True, blank=True)
+
+    identifications = models.IntegerField("Identifications", null=True, blank=True)
+
+    abundance_pct = models.FloatField("Abundance Pct", null=True, blank=True)
+
+    abundance_1000 = models.FloatField("Abundance/1000", null=True, blank=True)
+
+    ions_peptide = models.FloatField("Ions/Peptide", null=True, blank=True)
+
+    ids_peptide = models.FloatField("IDs/Peptide", null=True, blank=True)
+
+
+
+
+
+class PeptideCount(models.Model):
+
+
+    class Meta:
+        verbose_name = "Peptide Count"
+
+
+    peptides = models.IntegerField("Peptides", null=True, blank=True)
+
+    ions = models.IntegerField("Ions", null=True, blank=True)
+
+    identifications = models.IntegerField("Identifications", null=True, blank=True)
+
+    semi_tryp_peps = models.FloatField("Semi/Tryp Peps", null=True, blank=True)
+
+    semi_tryp_cnts = models.FloatField("Semi/Tryp Cnts", null=True, blank=True)
+
+    semi_tryp_abund = models.FloatField("Semi/Tryp Abund", null=True, blank=True)
+
+    miss_tryp_peps = models.FloatField("Miss/Tryp Peps", null=True, blank=True)
+
+    miss_tryp_cnts = models.FloatField("Miss/Tryp Cnts", null=True, blank=True)
+
+    miss_tryp_abund = models.FloatField("Miss/Tryp Abund", null=True, blank=True)
+
+    top_50_ids = models.IntegerField("Top  50 IDs", null=True, blank=True)
+
+    top_100_ids = models.IntegerField("Top 100 IDs", null=True, blank=True)
+
+    top_200_ids = models.IntegerField("Top 200 IDs", null=True, blank=True)
+
+    idpercent_50_top = models.FloatField("Id%  50 Top", null=True, blank=True)
+
+    idpercent_100_top = models.FloatField("Id% 100 Top", null=True, blank=True)
+
+    idpercent_200_top = models.FloatField("Id% 200 Top", null=True, blank=True)
+
+    abpercent_50_top = models.FloatField("Ab% 50 Top", null=True, blank=True)
+
+    abpercent_100_top = models.FloatField("Ab% 100 Top", null=True, blank=True)
+
+    abpercent_200_top = models.FloatField("Ab% 200 Top", null=True, blank=True)
+
+    idsemipercent_50 = models.FloatField("IdSemi%  50", null=True, blank=True)
+
+    idsemipercent_100 = models.FloatField("IdSemi% 100", null=True, blank=True)
+
+    idsemipercent_200 = models.FloatField("IdSemi% 200", null=True, blank=True)
+
+    absemipercent_50 = models.FloatField("AbSemi% 50", null=True, blank=True)
+
+    absemipercent_100 = models.FloatField("AbSemi% 100", null=True, blank=True)
+
+    absemipercent_200 = models.FloatField("AbSemi% 200", null=True, blank=True)
+
+    net_oversample = models.FloatField("Net Oversample", null=True, blank=True)
+
+    ions_peptide = models.FloatField("Ions/Peptide", null=True, blank=True)
+
+    ids_peptide = models.FloatField("IDs/Peptide", null=True, blank=True)
+
+
+
+
+
+class DifferentProtein(models.Model):
+
+
+    class Meta:
+        verbose_name = "Different Protein"
+
+
+    n1_or_more_peps = models.IntegerField("1 or more Peps", null=True, blank=True)
+
+    gt1_peptides = models.IntegerField(">1 Peptides", null=True, blank=True)
+
+
+
+
+
+class MiddlePeptideRetentionTimePeriod_Min_(models.Model):
+
+
+    class Meta:
+        verbose_name = "Middle Peptide Retention Time Period (min)"
+
+
+    half_period = models.FloatField("Half Period", null=True, blank=True)
+
+    start_time = models.FloatField("Start Time", null=True, blank=True)
+
+    mid_time = models.FloatField("Mid Time", null=True, blank=True)
+
+    qratio_time = models.FloatField("Qratio Time", null=True, blank=True)
+
+    ms2_scans = models.IntegerField("MS2 scans", null=True, blank=True)
+
+    ms1_scans = models.IntegerField("MS1 Scans", null=True, blank=True)
+
+    pep_id_rate = models.FloatField("Pep ID Rate", null=True, blank=True)
+
+    id_rate = models.FloatField("ID Rate", null=True, blank=True)
+
+    id_efficiency = models.FloatField("ID Efficiency", null=True, blank=True)
+
+
+
+
+
+class Ms1DuringMiddle_AndEarly_PeptideRetentionPeriod(models.Model):
+
+
+    class Meta:
+        verbose_name = "MS1 During Middle (and Early) Peptide Retention Period"
+
+
+    s_n_median = models.FloatField("S/N Median", null=True, blank=True)
+
+    tic_median_1000 = models.IntegerField("TIC Median/1000", null=True, blank=True)
+
+    npeaks_median = models.IntegerField("Npeaks Median", null=True, blank=True)
+
+    scantoscan = models.FloatField("Scan-to-Scan", null=True, blank=True)
+
+    s2s3q_med = models.FloatField("S2S-3Q/Med", null=True, blank=True)
+
+    s2s1qrt_med = models.FloatField("S2S-1Qrt/Med", null=True, blank=True)
+
+    s2s2qrt_med = models.FloatField("S2S-2Qrt/Med", null=True, blank=True)
+
+    s2s3qrt_med = models.FloatField("S2S-3Qrt/Med", null=True, blank=True)
+
+    s2s4qrt_med = models.FloatField("S2S-4Qrt/Med", null=True, blank=True)
+
+    esi_off_time = models.FloatField("ESI Off Time", null=True, blank=True)
+
+    max_ms1_jump = models.FloatField("Max MS1 Jump", null=True, blank=True)
+
+    max_ms1_fall = models.FloatField("Max MS1 Fall", null=True, blank=True)
+
+    ms1_jumps_gt10x = models.IntegerField("MS1 Jumps >10x", null=True, blank=True)
+
+    ms1_falls_lt1x = models.IntegerField("MS1 Falls <.1x", null=True, blank=True)
+
+    esi_off_lowrt = models.FloatField("ESI Off LowRT", null=True, blank=True)
+
+    max_jump_lowrt = models.FloatField("Max Jump LowRT", null=True, blank=True)
+
+    max_fall_lowrt = models.FloatField("Max Fall LowRT", null=True, blank=True)
+
+    ms1_lowrt_gt10x = models.IntegerField("MS1 LowRT >10x", null=True, blank=True)
+
+    ms1_lowrt_lt1x = models.IntegerField("MS1 LowRT <.1x", null=True, blank=True)
+
+    esi_off_hirt = models.FloatField("ESI Off HiRT", null=True, blank=True)
+
+    max_jump_hirt = models.FloatField("Max Jump HiRT", null=True, blank=True)
+
+    max_fall_hirt = models.FloatField("Max Fall HiRT", null=True, blank=True)
+
+    ms1_hirt_gt10x = models.IntegerField("MS1 HiRT >10x", null=True, blank=True)
+
+    ms1_hirt_lt1x = models.IntegerField("MS1 HiRT <.1x", null=True, blank=True)
+
+
+
+
+
+class Ms1TotalIonCurrentForDifferentRtPeriod(models.Model):
+
+
+    class Meta:
+        verbose_name = "MS1 Total Ion Current For Different RT Period"
+
+
+    n1st_quart_id = models.FloatField("1st Quart ID", null=True, blank=True)
+
+    middle_id = models.FloatField("Middle ID", null=True, blank=True)
+
+    last_id_quart = models.FloatField("Last ID Quart", null=True, blank=True)
+
+    to_end_of_run = models.FloatField("To End of Run", null=True, blank=True)
+
+
+
+
+
+class TotalIonCurrentForIdsAtPeakMaxima(models.Model):
+
+
+    class Meta:
+        verbose_name = "Total Ion Current For IDs at Peak Maxima"
+
+
+    med_tic_id_1000 = models.FloatField("Med TIC ID/1000", null=True, blank=True)
+
+    interq_tic = models.FloatField("InterQ TIC", null=True, blank=True)
+
+    mid_interq_tic = models.FloatField("Mid InterQ TIC", null=True, blank=True)
+
+
+
+
+
+class PrecursorMZForId(models.Model):
+
+
+    class Meta:
+        verbose_name = "Precursor m/z for ID"
+
+
+    median = models.FloatField("Median", null=True, blank=True)
+
+    half_width = models.FloatField("Half Width", null=True, blank=True)
+
+    quart_ratio = models.FloatField("Quart Ratio", null=True, blank=True)
+
+    precursor_min = models.FloatField("Precursor Min", null=True, blank=True)
+
+    precursor_max = models.FloatField("Precursor Max", null=True, blank=True)
+
+    med_at_q1_tic = models.FloatField("Med @ Q1 TIC", null=True, blank=True)
+
+    med_at_q2_tic = models.FloatField("Med @ Q2 TIC", null=True, blank=True)
+
+    med_at_q3_tic = models.FloatField("Med @ Q3 TIC", null=True, blank=True)
+
+    med_at_q4_tic = models.FloatField("Med @ Q4 TIC", null=True, blank=True)
+
+    med_at_q1_rt = models.FloatField("Med @ Q1 RT", null=True, blank=True)
+
+    med_at_q2_rt = models.FloatField("Med @ Q2 RT", null=True, blank=True)
+
+    med_at_q3_rt = models.FloatField("Med @ Q3 RT", null=True, blank=True)
+
+    med_at_q4_rt = models.FloatField("Med @ Q4 RT", null=True, blank=True)
+
+    med_at_q1_rt_plus2 = models.FloatField("Med @ Q1 RT/+2", null=True, blank=True)
+
+    med_at_q2_rt_plus2 = models.FloatField("Med @ Q2 RT/+2", null=True, blank=True)
+
+    med_at_q3_rt_plus2 = models.FloatField("Med @ Q3 RT/+2", null=True, blank=True)
+
+    med_at_q4_rt_plus2 = models.FloatField("Med @ Q4 RT/+2", null=True, blank=True)
+
+    med_charge_plus1 = models.FloatField("Med Charge +1", null=True, blank=True)
+
+    med_charge_plus2 = models.FloatField("Med Charge +2", null=True, blank=True)
+
+    med_charge_plus3 = models.FloatField("Med Charge +3", null=True, blank=True)
+
+    med_charge_plus4 = models.FloatField("Med Charge +4", null=True, blank=True)
+
+
+
+
+
+class NumberOfIonsVsCharge(models.Model):
+
+
+    class Meta:
+        verbose_name = "Number of Ions vs Charge"
+
+
+    charge_plus1 = models.IntegerField("Charge +1", null=True, blank=True)
+
+    charge_plus2 = models.IntegerField("Charge +2", null=True, blank=True)
+
+    charge_plus3 = models.IntegerField("Charge +3", null=True, blank=True)
+
+    charge_plus4 = models.IntegerField("Charge +4", null=True, blank=True)
+
+    charge_plus5 = models.IntegerField("Charge +5", null=True, blank=True)
+
+    plus2_at_q1_rt = models.IntegerField("+2 @ Q1 RT", null=True, blank=True)
+
+    plus2_at_q2_rt = models.IntegerField("+2 @ Q2 RT", null=True, blank=True)
+
+    plus2_at_q3_rt = models.IntegerField("+2 @ Q3 RT", null=True, blank=True)
+
+    plus2_at_q4_rt = models.IntegerField("+2 @ Q4 RT", null=True, blank=True)
+
+    plus1_plus2_at_q1_rt = models.FloatField("+1/+2 @ Q1 RT", null=True, blank=True)
+
+    plus1_plus2_at_q2_rt = models.FloatField("+1/+2 @ Q2 RT", null=True, blank=True)
+
+    plus1_plus2_at_q3_rt = models.FloatField("+1/+2 @ Q3 RT", null=True, blank=True)
+
+    plus1_plus2_at_q4_rt = models.FloatField("+1/+2 @ Q4 RT", null=True, blank=True)
+
+    plus3_plus2_at_q1_rt = models.FloatField("+3/+2 @ Q1 RT", null=True, blank=True)
+
+    plus3_plus2_at_q2_rt = models.FloatField("+3/+2 @ Q2 RT", null=True, blank=True)
+
+    plus3_plus2_at_q3_rt = models.FloatField("+3/+2 @ Q3 RT", null=True, blank=True)
+
+    plus3_plus2_at_q4_rt = models.FloatField("+3/+2 @ Q4 RT", null=True, blank=True)
+
+
+
+
+
+class AveragesVsRtForIdedPeptide(models.Model):
+
+
+    class Meta:
+        verbose_name = "Averages vs RT for IDed Peptide"
+
+
+    length_q1 = models.FloatField("Length Q1", null=True, blank=True)
+
+    length_q4 = models.FloatField("Length Q4", null=True, blank=True)
+
+    charge_q1 = models.FloatField("Charge Q1", null=True, blank=True)
+
+    charge_q4 = models.FloatField("Charge Q4", null=True, blank=True)
+
+
+
+
+
+class PrecursorMZ_PeptideIonMZ_plus2ChargeOnlyRejectgt0(models.Model):
+
+
+    class Meta:
+        verbose_name = "Precursor m/z - Peptide Ion m/z (+2 Charge Only, Reject >0.45 m/z)"
+
+
+    spectra = models.IntegerField("Spectra", null=True, blank=True)
+
+    median = models.FloatField("Median", null=True, blank=True)
+
+    mean_absolute = models.FloatField("Mean Absolute", null=True, blank=True)
+
+    ppm_median = models.FloatField("ppm Median", null=True, blank=True)
+
+    ppm_interq = models.FloatField("ppm InterQ", null=True, blank=True)
+
+
+
+
+
+class IonIdsByChargeState_RelativeToplus2_(models.Model):
+
+
+    class Meta:
+        verbose_name = "Ion IDs by Charge State (Relative to +2)"
+
+
+    plus2_ion_count = models.IntegerField("+2 Ion Count", null=True, blank=True)
+
+    charge_plus1 = models.FloatField("Charge +1", null=True, blank=True)
+
+    charge_plus2 = models.FloatField("Charge +2", null=True, blank=True)
+
+    charge_plus3 = models.FloatField("Charge +3", null=True, blank=True)
+
+    charge_plus4 = models.FloatField("Charge +4", null=True, blank=True)
+
+
+
+
+
+class AveragePeptideLengthsForDifferentChargeState(models.Model):
+
+
+    class Meta:
+        verbose_name = "Average Peptide Lengths for Different Charge State"
+
+
+    charge_plus1 = models.FloatField("Charge +1", null=True, blank=True)
+
+    charge_plus2 = models.FloatField("Charge +2", null=True, blank=True)
+
+    charge_plus3 = models.FloatField("Charge +3", null=True, blank=True)
+
+    charge_plus4 = models.FloatField("Charge +4", null=True, blank=True)
+
+
+
+
+
+class AveragePeptideLengthsForCharge2ForDifferentNumber(models.Model):
+
+
+    class Meta:
+        verbose_name = "Average Peptide Lengths For Charge 2 for Different Numbers of Mobile Proton"
+
+
+    naa_cheq2_mpeq1 = models.FloatField("NAA,Ch=2,MP=1", null=True, blank=True)
+
+    naa_cheq2_mpeq0 = models.FloatField("NAA,Ch=2,MP=0", null=True, blank=True)
+
+    naa_cheq2_mpeq1 = models.FloatField("NAA,Ch=2,MP=1", null=True, blank=True)
+
+    naa_cheq2_mpeq2 = models.FloatField("NAA,Ch=2,MP=2", null=True, blank=True)
+
+
+
+
+
+class NumbersOfIonIdsAtDifferentChargesWith1MobileProton(models.Model):
+
+
+    class Meta:
+        verbose_name = "Numbers of Ion Ids at Different Charges with 1 Mobile Proton"
+
+
+    cheq1_mpeq1 = models.IntegerField("Ch=1 MP=1", null=True, blank=True)
+
+    cheq2_mpeq1 = models.IntegerField("Ch=2 MP=1", null=True, blank=True)
+
+    cheq3_mpeq1 = models.IntegerField("Ch=3 MP=1", null=True, blank=True)
+
+    cheq4_mpeq1 = models.IntegerField("Ch=4 MP=1", null=True, blank=True)
+
+
+
+
+
+class PercentOfIdsAtDifferentChargesAndMobileProtonsRel(models.Model):
+
+
+    class Meta:
+        verbose_name = "Percent of IDs at Different Charges and Mobile Protons Relative to IDs with 1 Mobile Proton"
+
+
+    cheq1_mpeq1 = models.FloatField("Ch=1 MP=1", null=True, blank=True)
+
+    cheq1_mpeq0 = models.FloatField("Ch=1 MP=0", null=True, blank=True)
+
+    cheq1_mpeq1 = models.FloatField("Ch=1 MP=1", null=True, blank=True)
+
+    cheq2_mpeq1 = models.FloatField("Ch=2 MP=1", null=True, blank=True)
+
+    cheq2_mpeq0 = models.FloatField("Ch=2 MP=0", null=True, blank=True)
+
+    cheq2_mpeq1 = models.FloatField("Ch=2 MP=1", null=True, blank=True)
+
+    cheq3_mpeq1 = models.FloatField("Ch=3 MP=1", null=True, blank=True)
+
+    cheq3_mpeq0 = models.FloatField("Ch=3 MP=0", null=True, blank=True)
+
+    cheq3_mpeq1 = models.FloatField("Ch=3 MP=1", null=True, blank=True)
+
+
+
+
+
+class IntensitiesVsDifferentMobileProton(models.Model):
+
+
+    class Meta:
+        verbose_name = "Intensities vs Different Mobile Proton"
+
+
+    ions_mpeq1 = models.IntegerField("Ions, MP=1", null=True, blank=True)
+
+    ions_mpeq0 = models.IntegerField("Ions, MP=0", null=True, blank=True)
+
+    ions_mpeq1 = models.IntegerField("Ions, MP=1", null=True, blank=True)
+
+    ions_mpeq2 = models.IntegerField("Ions, MP=2", null=True, blank=True)
+
+    inten_mpeq1 = models.FloatField("Inten, MP=1", null=True, blank=True)
+
+    inten_mpeq0 = models.FloatField("Inten, MP=0", null=True, blank=True)
+
+    inten_mpeq1 = models.FloatField("Inten, MP=1", null=True, blank=True)
+
+    inten_mpeq2 = models.FloatField("Inten, MP=2", null=True, blank=True)
+
+
+
+
+
+class PrecursorMZ_MonoisotopeExactMZ(models.Model):
+
+
+    class Meta:
+        verbose_name = "Precursor m/z - Monoisotope Exact m/z"
+
+
+    more_than_100 = models.IntegerField("More Than 100", null=True, blank=True)
+
+    betw_1000500 = models.IntegerField("Betw 100.0-50.0", null=True, blank=True)
+
+    betw_500250 = models.IntegerField("Betw 50.0-25.0", null=True, blank=True)
+
+    betw_250125 = models.IntegerField("Betw 25.0-12.5", null=True, blank=True)
+
+    betw_12563 = models.IntegerField("Betw 12.5-6.3", null=True, blank=True)
+
+    betw_6331 = models.IntegerField("Betw 6.3-3.1", null=True, blank=True)
+
+    betw_3116 = models.IntegerField("Betw 3.1-1.6", null=True, blank=True)
+
+    betw_1608 = models.IntegerField("Betw 1.6-0.8", null=True, blank=True)
+
+    top_half = models.IntegerField("Top Half", null=True, blank=True)
+
+    next_half_2 = models.IntegerField("Next Half (2)", null=True, blank=True)
+
+    next_half_3 = models.IntegerField("Next Half (3)", null=True, blank=True)
+
+    next_half_4 = models.IntegerField("Next Half (4)", null=True, blank=True)
+
+    next_half_5 = models.IntegerField("Next Half (5)", null=True, blank=True)
+
+    next_half_6 = models.IntegerField("Next Half (6)", null=True, blank=True)
+
+    next_half_7 = models.IntegerField("Next Half (7)", null=True, blank=True)
+
+    next_half_8 = models.IntegerField("Next Half (8)", null=True, blank=True)
+
+
+
+
+
+class Ms2IdSpectra(models.Model):
+
+
+    class Meta:
+        verbose_name = "MS2 ID Spectra"
+
+
+    npeaks_median = models.IntegerField("NPeaks Median", null=True, blank=True)
+
+    npeaks_interq = models.FloatField("NPeaks InterQ", null=True, blank=True)
+
+    s_n_median = models.FloatField("S/N Median", null=True, blank=True)
+
+    s_n_interq = models.FloatField("S/N InterQ", null=True, blank=True)
+
+    id_score_median = models.FloatField("ID Score Median", null=True, blank=True)
+
+    id_score_interq = models.FloatField("ID Score InterQ", null=True, blank=True)
+
+    idsc_med_q1msmx = models.FloatField("IDSc Med Q1Msmx", null=True, blank=True)
+
+
+
+
+
+class Ms1IdMax(models.Model):
+
+
+    class Meta:
+        verbose_name = "MS1 ID Max"
+
+
+    median = models.FloatField("Median", null=True, blank=True)
+
+    half_width = models.FloatField("Half Width", null=True, blank=True)
+
+    quart_ratio = models.FloatField("Quart Ratio", null=True, blank=True)
+
+    median_midrt = models.FloatField("Median MidRT", null=True, blank=True)
+
+    n75_25_midrt = models.FloatField("75/25 MidRT", null=True, blank=True)
+
+    n95_5_midrt = models.FloatField("95/5 MidRT", null=True, blank=True)
+
+    n75_25_pctile = models.FloatField("75/25 Pctile", null=True, blank=True)
+
+    n95_5_pctile = models.FloatField("95/5 Pctile", null=True, blank=True)
+
+
+
+
+
+class FractionOfMs2IdentifiedAtDifferentMs1MaxQuartile(models.Model):
+
+
+    class Meta:
+        verbose_name = "Fraction of MS2 Identified at Different MS1max Quartile"
+
+
+    id_fract_q1 = models.FloatField("ID Fract Q1", null=True, blank=True)
+
+    id_fract_q2 = models.FloatField("ID fract Q2", null=True, blank=True)
+
+    id_fract_q3 = models.FloatField("ID Fract Q3", null=True, blank=True)
+
+    id_fract_q4 = models.FloatField("ID Fract Q4", null=True, blank=True)
+
+
+
+
+
+class Ms1IdAbundAtMs2Acquisition(models.Model):
+
+
+    class Meta:
+        verbose_name = "MS1 ID Abund at MS2 Acquisition"
+
+
+    median = models.FloatField("Median", null=True, blank=True)
+
+    half_width = models.FloatField("Half Width", null=True, blank=True)
+
+    n75_25_pctile = models.FloatField("75/25 Pctile", null=True, blank=True)
+
+    n95_5_pctile = models.FloatField("95/5 Pctile", null=True, blank=True)
+
+
+
+
+
+class Ms2IdAbundReported(models.Model):
+
+
+    class Meta:
+        verbose_name = "MS2 ID Abund Reported"
+
+
+    median = models.IntegerField("Median", null=True, blank=True)
+
+    half_width = models.IntegerField("Half Width", null=True, blank=True)
+
+    n75_25_pctile = models.FloatField("75/25 Pctile", null=True, blank=True)
+
+    n95_5_pctile = models.FloatField("95/5 Pctile", null=True, blank=True)
+
+
+
+
+
+class PeakWidthAtHalfHeightForId(models.Model):
+
+
+    class Meta:
+        verbose_name = "Peak Width at Half Height for ID"
+
+
+    median_value = models.FloatField("Median Value", null=True, blank=True)
+
+    med_top_quart = models.FloatField("Med Top Quart", null=True, blank=True)
+
+    med_top_16th = models.FloatField("Med Top 16th", null=True, blank=True)
+
+    med_top_100 = models.FloatField("Med Top 100", null=True, blank=True)
+
+    median_disper = models.FloatField("Median Disper", null=True, blank=True)
+
+    med_quart_disp = models.FloatField("Med Quart Disp", null=True, blank=True)
+
+    med_16th_disp = models.FloatField("Med 16th Disp", null=True, blank=True)
+
+    med_100_disp = models.FloatField("Med 100 Disp", null=True, blank=True)
+
+    n3quart_value = models.FloatField("3Quart Value", null=True, blank=True)
+
+    n9dec_value = models.FloatField("9Dec Value", null=True, blank=True)
+
+    ms1_interscan_s = models.FloatField("MS1 Interscan/s", null=True, blank=True)
+
+    ms1_scan_fwhm = models.FloatField("MS1 Scan/FWHM", null=True, blank=True)
+
+    ids_used = models.IntegerField("IDs Used", null=True, blank=True)
+
+
+
+
+
+class PeakWidthsAtHalfMaxOverRtDecilesForId(models.Model):
+
+
+    class Meta:
+        verbose_name = "Peak Widths at Half Max over RT deciles for ID"
+
+
+    first_decile = models.FloatField("First Decile", null=True, blank=True)
+
+    median_value = models.FloatField("Median Value", null=True, blank=True)
+
+    last_decile = models.FloatField("Last Decile", null=True, blank=True)
+
+
+
+
+
+class NearbyResamplingOfIds_OversamplingDetail(models.Model):
+
+
+    class Meta:
+        verbose_name = "Nearby Resampling of IDs - Oversampling Detail"
+
+
+    repeated_ids = models.IntegerField("Repeated IDs", null=True, blank=True)
+
+    med_rt_diff_s = models.FloatField("Med RT Diff/s", null=True, blank=True)
+
+    n1q_rt_diff_s = models.FloatField("1Q RT Diff/s", null=True, blank=True)
+
+    n1dec_rt_diff_s = models.FloatField("1Dec RT Diff/s", null=True, blank=True)
+
+    median_dm_z = models.FloatField("Median dm/z", null=True, blank=True)
+
+    quart_dm_z = models.FloatField("Quart dm/z", null=True, blank=True)
+
+
+
+
+
+class WideRtDifferencesForIds_gt4Min_(models.Model):
+
+
+    class Meta:
+        verbose_name = "Wide RT Differences for IDs (> 4 min)"
+
+
+    peptides = models.IntegerField("Peptides", null=True, blank=True)
+
+    spectra = models.IntegerField("Spectra", null=True, blank=True)
+
+
+
+
+
+class FractionOfRepeatPeptideIdsWithDivergentRt_RtVsRt_(models.Model):
+
+
+    class Meta:
+        verbose_name = "Fraction of Repeat Peptide IDs with Divergent RT (RT vs RT-best ID) - Chromatographic 'Bleed'"
+
+
+    _4_min = models.FloatField("- 4 min", null=True, blank=True)
+
+    plus_4_min = models.FloatField("+ 4 min", null=True, blank=True)
+
+
+
+
+
+class EarlyAndLateRtOversampling_SpectrumIdsUniquePepti(models.Model):
+
+
+    class Meta:
+        verbose_name = "Early and Late RT Oversampling (Spectrum IDs/Unique Peptide IDs) - Chromatographic: Flow Through/Bleed"
+
+
+    first_decile = models.FloatField("First Decile", null=True, blank=True)
+
+    last_decile = models.FloatField("Last Decile", null=True, blank=True)
+
+
+
+
+
+class PeptideIonIdsBygt3Spectra_Hi_Vs1_3Spectra_Lo_Extr(models.Model):
+
+
+    class Meta:
+        verbose_name = "Peptide Ion IDs by > 3 Spectra (Hi) vs  1-3 Spectra (Lo) - Extreme Oversampling"
+
+
+    pep_ions_hi = models.IntegerField("Pep Ions (Hi)", null=True, blank=True)
+
+    ratio_hi_lo = models.FloatField("Ratio Hi/Lo", null=True, blank=True)
+
+    spec_cnts_hi = models.IntegerField("Spec Cnts (Hi)", null=True, blank=True)
+
+    ratio_hi_lo = models.FloatField("Ratio Hi/Lo", null=True, blank=True)
+
+    spec_pep_hi = models.FloatField("Spec/Pep (Hi)", null=True, blank=True)
+
+    spec_cnt_excess = models.FloatField("Spec Cnt Excess", null=True, blank=True)
+
+
+
+
+
+class RatiosOfPeptideIonsIdedByDifferentNumbersOfSpectr(models.Model):
+
+
+    class Meta:
+        verbose_name = "Ratios of Peptide Ions IDed by Different Numbers of Spectra - Oversampling Measure"
+
+
+    once_twice = models.FloatField("Once/Twice", null=True, blank=True)
+
+    twice_thrice = models.FloatField("Twice/Thrice", null=True, blank=True)
+
+
+
+
+
+class SingleSpectrumPeptideIonIdentifications_Oversampl(models.Model):
+
+
+    class Meta:
+        verbose_name = "Single Spectrum Peptide Ion Identifications - Oversampling Measure"
+
+
+    peptide_ions = models.IntegerField("Peptide Ions", null=True, blank=True)
+
+    fract_gt1_ions = models.FloatField("Fract >1 Ions", null=True, blank=True)
+
+    n1_vs_gt1_pepion = models.FloatField("1 vs >1 PepIon", null=True, blank=True)
+
+    n1_vs_gt1_spec = models.FloatField("1 vs >1 Spec", null=True, blank=True)
+
+
+
+
+
+class Ms1MaxMs1SampledAbundanceRatioIds_InefficientSamp(models.Model):
+
+
+    class Meta:
+        verbose_name = "MS1max/MS1sampled Abundance Ratio IDs - Inefficient Sampling"
+
+
+    median_all_ids = models.FloatField("Median All IDs", null=True, blank=True)
+
+    n3q_all_ids = models.FloatField("3Q All IDs", null=True, blank=True)
+
+    n9dec_all_ids = models.FloatField("9Dec All IDs", null=True, blank=True)
+
+    med_top_100 = models.FloatField("Med Top 100", null=True, blank=True)
+
+    med_top_dec = models.FloatField("Med Top Dec", null=True, blank=True)
+
+    med_top_quart = models.FloatField("Med Top Quart", null=True, blank=True)
+
+    med_bottom_1_2 = models.FloatField("Med Bottom 1/2", null=True, blank=True)
+
+
+
+
+
+class Rt_Ms1Max_Rt_Ms2_ForIds_Sec_(models.Model):
+
+
+    class Meta:
+        verbose_name = "RT(MS1max)-RT(MS2) for IDs (sec)"
+
+
+    med_diff_abs = models.IntegerField("Med Diff Abs", null=True, blank=True)
+
+    median_diff = models.IntegerField("Median Diff", null=True, blank=True)
+
+    first_quart = models.IntegerField("First Quart", null=True, blank=True)
+
+    third_quart = models.IntegerField("Third Quart", null=True, blank=True)
+
+
+
+
+
+class IonInjectionTimesForIds_Ms_(models.Model):
+
+
+    class Meta:
+        verbose_name = "Ion Injection Times for IDs (ms)"
+
+
+    ms1_median = models.IntegerField("MS1 Median", null=True, blank=True)
+
+    ms1_maximum = models.IntegerField("MS1 Maximum", null=True, blank=True)
+
+    ms2_median = models.FloatField("MS2 Median", null=True, blank=True)
+
+    ms2_maximun = models.FloatField("MS2 Maximun", null=True, blank=True)
+
+    ms2_fract_max = models.FloatField("MS2 Fract Max", null=True, blank=True)
+
+
+
+
+
+class TopIonAbundanceMeasure(models.Model):
+
+
+    class Meta:
+        verbose_name = "Top Ion Abundance Measure"
+
+
+    top_10percent_abund = models.IntegerField("Top 10% Abund", null=True, blank=True)
+
+    top_25percent_abund = models.IntegerField("Top 25% Abund", null=True, blank=True)
+
+    top_50percent_abund = models.IntegerField("Top 50% Abund", null=True, blank=True)
+
+    fractab_top = models.FloatField("Fractab Top", null=True, blank=True)
+
+    fractab_top_10 = models.FloatField("Fractab Top 10", null=True, blank=True)
+
+    fractab_top_100 = models.FloatField("Fractab Top 100", null=True, blank=True)
+
+
+
+
+
+class IsotopicAbundanceVariation(models.Model):
+
+
+    class Meta:
+        verbose_name = "Isotopic Abundance Variation"
+
+
+    number_of_ions = models.IntegerField("Number of Ions", null=True, blank=True)
+
+    median_dev = models.FloatField("Median Dev", null=True, blank=True)
+
+    interquart = models.FloatField("Interquart", null=True, blank=True)
+
+
+
+
+
+class IonPeakClusterCountDistribution(models.Model):
+
+
+    class Meta:
+        verbose_name = "Ion 'Peak Cluster' Count Distribution"
+
+
+    total_found = models.IntegerField("Total Found", null=True, blank=True)
+
+    id_fraction = models.FloatField("ID Fraction", null=True, blank=True)
+
+    noid_fraction = models.FloatField("noID Fraction", null=True, blank=True)
+
+    nosamp_fraction = models.FloatField("noSamp Fraction", null=True, blank=True)
+
+
+
+
+
+class IonClusterAbundanceDistribution(models.Model):
+
+
+    class Meta:
+        verbose_name = "Ion Cluster Abundance Distribution"
+
+
+    id_fraction = models.FloatField("ID Fraction", null=True, blank=True)
+
+    noid_fraction = models.FloatField("noID Fraction", null=True, blank=True)
+
+    nosamp_fraction = models.FloatField("noSamp Fraction", null=True, blank=True)
+
+    noid_med_rel = models.FloatField("noID Med Rel", null=True, blank=True)
+
+    unsamp_med_rel = models.FloatField("Unsamp Med Rel", null=True, blank=True)
+
+
+
+
+
+class AbundanceDistributionTotal(models.Model):
+
+
+    class Meta:
+        verbose_name = "Abundance Distribution: Total"
+
+
+    total_fraction = models.FloatField("Total Fraction", null=True, blank=True)
+
+    peptides = models.FloatField("Peptides", null=True, blank=True)
+
+    samplednoid = models.FloatField("Sampled-NoID", null=True, blank=True)
+
+    not_sampled_percent = models.FloatField("Not Sampled %", null=True, blank=True)
+
+    noise = models.FloatField("Noise", null=True, blank=True)
+
+
+
+
+
+class AbundanceDistribution1RtQuartile(models.Model):
+
+
+    class Meta:
+        verbose_name = "Abundance Distribution: 1 RT Quartile"
+
+
+    rt_segment_end = models.FloatField("RT Segment End", null=True, blank=True)
+
+    total_fraction = models.FloatField("Total Fraction", null=True, blank=True)
+
+    peptides = models.FloatField("Peptides", null=True, blank=True)
+
+    samplednoid = models.FloatField("Sampled-NoID", null=True, blank=True)
+
+    not_sampled_percent = models.FloatField("Not Sampled %", null=True, blank=True)
+
+    noise = models.FloatField("Noise", null=True, blank=True)
+
+
+
+
+
+class AbundanceDistribution2RtQuartile(models.Model):
+
+
+    class Meta:
+        verbose_name = "Abundance Distribution: 2 RT Quartile"
+
+
+    rt_segment_end = models.FloatField("RT Segment End", null=True, blank=True)
+
+    total_fraction = models.FloatField("Total Fraction", null=True, blank=True)
+
+    peptides = models.FloatField("Peptides", null=True, blank=True)
+
+    samplednoid = models.FloatField("Sampled-NoID", null=True, blank=True)
+
+    not_sampled_percent = models.FloatField("Not Sampled %", null=True, blank=True)
+
+    noise = models.FloatField("Noise", null=True, blank=True)
+
+
+
+
+
+class AbundanceDistribution3RtQuartile(models.Model):
+
+
+    class Meta:
+        verbose_name = "Abundance Distribution: 3 RT Quartile"
+
+
+    rt_segment_end = models.FloatField("RT Segment End", null=True, blank=True)
+
+    total_fraction = models.FloatField("Total Fraction", null=True, blank=True)
+
+    peptides = models.FloatField("Peptides", null=True, blank=True)
+
+    samplednoid = models.FloatField("Sampled-NoID", null=True, blank=True)
+
+    not_sampled_percent = models.FloatField("Not Sampled %", null=True, blank=True)
+
+    noise = models.FloatField("Noise", null=True, blank=True)
+
+
+
+
+
+class AbundanceDistribution4RtQuartile(models.Model):
+
+
+    class Meta:
+        verbose_name = "Abundance Distribution: 4 RT Quartile"
+
+
+    rt_segment_end = models.FloatField("RT Segment End", null=True, blank=True)
+
+    total_fraction = models.FloatField("Total Fraction", null=True, blank=True)
+
+    peptides = models.FloatField("Peptides", null=True, blank=True)
+
+    samplednoid = models.FloatField("Sampled-NoID", null=True, blank=True)
+
+    not_sampled_percent = models.FloatField("Not Sampled %", null=True, blank=True)
+
+    noise = models.FloatField("Noise", null=True, blank=True)
+
+
+
+
+
+class AbundanceDistributionLastSegment(models.Model):
+
+
+    class Meta:
+        verbose_name = "Abundance Distribution: Last Segment"
+
+
+    rt_segment_end = models.FloatField("RT Segment End", null=True, blank=True)
+
+    total_fraction = models.FloatField("Total Fraction", null=True, blank=True)
+
+    peptides = models.FloatField("Peptides", null=True, blank=True)
+
+    samplednoid = models.FloatField("Sampled-NoID", null=True, blank=True)
+
+    not_sampled_percent = models.FloatField("Not Sampled %", null=True, blank=True)
+
+    noise = models.FloatField("Noise", null=True, blank=True)
+
+
+
+
+
+class MZMediansForClustersAtRtQuartiles_AllCharges_(models.Model):
+
+
+    class Meta:
+        verbose_name = "m/z Medians for Clusters at RT Quartiles (all charges)"
+
+
+    first_quart = models.FloatField("First Quart", null=True, blank=True)
+
+    second_quart = models.FloatField("Second Quart", null=True, blank=True)
+
+    third_quart = models.FloatField("Third Quart", null=True, blank=True)
+
+    fourth_quart = models.FloatField("Fourth Quart", null=True, blank=True)
+
+
+
+
+
+class MZMediansForClustersAtRtQuartiles_plus2Only_(models.Model):
+
+
+    class Meta:
+        verbose_name = "m/z Medians for Clusters at RT Quartiles (+2 only)"
+
+
+    first_quart = models.FloatField("First Quart", null=True, blank=True)
+
+    second_quart = models.FloatField("Second Quart", null=True, blank=True)
+
+    third_quart = models.FloatField("Third Quart", null=True, blank=True)
+
+    fourth_quart = models.FloatField("Fourth Quart", null=True, blank=True)
+
+
+
+
+
+class MZMediansForClustersAtDifferentCharge(models.Model):
+
+
+    class Meta:
+        verbose_name = "m/z Medians for Clusters at Different Charge"
+
+
+    charge_plus1 = models.FloatField("Charge +1", null=True, blank=True)
+
+    charge_plus2 = models.FloatField("Charge +2", null=True, blank=True)
+
+    charge_plus3 = models.FloatField("Charge +3", null=True, blank=True)
+
+    no_charge = models.FloatField("No Charge", null=True, blank=True)
+
+
+
+
+
+class NumbersOfClustersOfDifferentCharge(models.Model):
+
+
+    class Meta:
+        verbose_name = "Numbers of Clusters of Different Charge"
+
+
+    charge_plus2 = models.IntegerField("Charge +2", null=True, blank=True)
+
+    no_charge_plus2 = models.FloatField("No Charge/+2", null=True, blank=True)
+
+    charge_plus1_plus2 = models.FloatField("Charge +1/+2", null=True, blank=True)
+
+    charge_plus3_plus2 = models.FloatField("Charge +3/+2", null=True, blank=True)
+
+
+
+
+
+class NumbersOfClustersAtplus1plus2ChargesAtRtQuartile(models.Model):
+
+
+    class Meta:
+        verbose_name = "Numbers of Clusters at +1/+2 Charges at RT Quartile"
+
+
+    plus2_clusters = models.IntegerField("+2 Clusters", null=True, blank=True)
+
+    rt_quart_1 = models.FloatField("RT Quart 1", null=True, blank=True)
+
+    rt_quart_2 = models.FloatField("RT Quart 2", null=True, blank=True)
+
+    rt_quart_3 = models.FloatField("RT Quart 3", null=True, blank=True)
+
+    rt_quart_4 = models.FloatField("RT Quart 4", null=True, blank=True)
+
+
+
+
+
+class NumbersOfClustersAtplus3plus2ChargesAtRtQuartile(models.Model):
+
+
+    class Meta:
+        verbose_name = "Numbers of Clusters at +3/+2 Charges at RT Quartile"
+
+
+    plus2_clusters = models.IntegerField("+2 Clusters", null=True, blank=True)
+
+    rt_quart_1 = models.FloatField("RT Quart 1", null=True, blank=True)
+
+    rt_quart_2 = models.FloatField("RT Quart 2", null=True, blank=True)
+
+    rt_quart_3 = models.FloatField("RT Quart 3", null=True, blank=True)
+
+    rt_quart_4 = models.FloatField("RT Quart 4", null=True, blank=True)
+
+
+
+
+
+class FractOfClusterAbundanceAt50And90OfAllAbundance(models.Model):
+
+
+    class Meta:
+        verbose_name = "Fract of Cluster Abundance at 50% and 90% of All Abundance"
+
+
+    n50percent_ions = models.IntegerField("50% Ions", null=True, blank=True)
+
+    n50percent_id = models.FloatField("50% ID", null=True, blank=True)
+
+    n50percent_noidsamp = models.FloatField("50% noIDSamp", null=True, blank=True)
+
+    n50percent_noidnosamp = models.FloatField("50% noIDnoSamp", null=True, blank=True)
+
+    n90percent_ions = models.IntegerField("90% Ions", null=True, blank=True)
+
+    n90percent_id = models.FloatField("90% ID", null=True, blank=True)
+
+    n90percent_noidsamp = models.FloatField("90% noIDSamp", null=True, blank=True)
+
+    n90percent_noidnosamp = models.FloatField("90% noIDnoSamp", null=True, blank=True)
+
+
+
+
+
+class Top10NoidIon(models.Model):
+
+
+    class Meta:
+        verbose_name = "Top 10 NoID Ion"
+
+
+    noid_1_rank = models.IntegerField("NoID 1 Rank", null=True, blank=True)
+
+    noid_1_relab = models.FloatField("NoID 1 RelAb", null=True, blank=True)
+
+    noid_1_rt = models.FloatField("NoID 1 RT", null=True, blank=True)
+
+    noid_1_m_z = models.FloatField("NoID 1 m/z", null=True, blank=True)
+
+    noid_2_rank = models.IntegerField("NoID 2 Rank", null=True, blank=True)
+
+    noid_2_relab = models.FloatField("NoID 2 RelAb", null=True, blank=True)
+
+    noid_2_rt = models.FloatField("NoID 2 RT", null=True, blank=True)
+
+    noid_2_m_z = models.FloatField("NoID 2 m/z", null=True, blank=True)
+
+    noid_3_rank = models.IntegerField("NoID 3 Rank", null=True, blank=True)
+
+    noid_3_relab = models.FloatField("NoID 3 RelAb", null=True, blank=True)
+
+    noid_3_rt = models.FloatField("NoID 3 RT", null=True, blank=True)
+
+    noid_3_m_z = models.FloatField("NoID 3 m/z", null=True, blank=True)
+
+    noid_4_rank = models.IntegerField("NoID 4 Rank", null=True, blank=True)
+
+    noid_4_relab = models.FloatField("NoID 4 RelAb", null=True, blank=True)
+
+    noid_4_rt = models.FloatField("NoID 4 RT", null=True, blank=True)
+
+    noid_4_m_z = models.FloatField("NoID 4 m/z", null=True, blank=True)
+
+    noid_5_rank = models.IntegerField("NoID 5 Rank", null=True, blank=True)
+
+    noid_5_relab = models.FloatField("NoID 5 RelAb", null=True, blank=True)
+
+    noid_5_rt = models.FloatField("NoID 5 RT", null=True, blank=True)
+
+    noid_5_m_z = models.FloatField("NoID 5 m/z", null=True, blank=True)
+
+    noid_6_rank = models.IntegerField("NoID 6 Rank", null=True, blank=True)
+
+    noid_6_relab = models.FloatField("NoID 6 RelAb", null=True, blank=True)
+
+    noid_6_rt = models.FloatField("NoID 6 RT", null=True, blank=True)
+
+    noid_6_m_z = models.FloatField("NoID 6 m/z", null=True, blank=True)
+
+    noid_7_rank = models.IntegerField("NoID 7 Rank", null=True, blank=True)
+
+    noid_7_relab = models.FloatField("NoID 7 RelAb", null=True, blank=True)
+
+    noid_7_rt = models.FloatField("NoID 7 RT", null=True, blank=True)
+
+    noid_7_m_z = models.FloatField("NoID 7 m/z", null=True, blank=True)
+
+    noid_8_rank = models.IntegerField("NoID 8 Rank", null=True, blank=True)
+
+    noid_8_relab = models.FloatField("NoID 8 RelAb", null=True, blank=True)
+
+    noid_8_rt = models.FloatField("NoID 8 RT", null=True, blank=True)
+
+    noid_8_m_z = models.FloatField("NoID 8 m/z", null=True, blank=True)
+
+    noid_9_rank = models.IntegerField("NoID 9 Rank", null=True, blank=True)
+
+    noid_9_relab = models.FloatField("NoID 9 RelAb", null=True, blank=True)
+
+    noid_9_rt = models.FloatField("NoID 9 RT", null=True, blank=True)
+
+    noid_9_m_z = models.FloatField("NoID 9 m/z", null=True, blank=True)
+
+    noid_10_rank = models.IntegerField("NoID 10 Rank", null=True, blank=True)
+
+    noid_10_relab = models.FloatField("NoID 10 RelAb", null=True, blank=True)
+
+    noid_10_rt = models.FloatField("NoID 10 RT", null=True, blank=True)
+
+    noid_10_m_z = models.FloatField("NoID 10 m/z", null=True, blank=True)
+
+
+
+
+
+class NewMetric(models.Model):
+
+
+    class Meta:
+        verbose_name = "New Metric"
+
+
+    peak_wid_alt = models.FloatField("Peak Wid Alt", null=True, blank=True)
+
+    unexpect_int = models.IntegerField("Unexpect Int", null=True, blank=True)
+
+
+
+
+
+class OtherIonClusterStatistic(models.Model):
+
+
+    class Meta:
+        verbose_name = "Other Ion Cluster Statistic"
+
+
+    rt_begin = models.FloatField("RT Begin", null=True, blank=True)
+
+    rt_end = models.FloatField("RT End", null=True, blank=True)
+
+    idpep_not_found = models.IntegerField("IDPep Not Found", null=True, blank=True)
+
+    ids_too_early = models.IntegerField("IDs too Early", null=True, blank=True)
+
+    ids_too_late = models.IntegerField("IDs too Late", null=True, blank=True)
+
+    ids_no_abund = models.IntegerField("IDs no Abund", null=True, blank=True)
+
+    noids_no_abund = models.IntegerField("noIDs no Abund", null=True, blank=True)
+
+    nids_found = models.IntegerField("nIDs Found", null=True, blank=True)
+
+    missed_rt = models.FloatField("Missed RT", null=True, blank=True)
+
+    missed_clust = models.FloatField("Missed Clust", null=True, blank=True)
+
+    low_qpercent_lteq61 = models.FloatField("Low Q% <=61", null=True, blank=True)
+
+    qual_percent_0_0 = models.FloatField("Qual % 0:0", null=True, blank=True)
+
+    qual_percent_10_19 = models.FloatField("Qual % 10:19", null=True, blank=True)
+
+    qual_percent_20_29 = models.FloatField("Qual % 20:29", null=True, blank=True)
+
+    qual_percent_30_39 = models.FloatField("Qual % 30:39", null=True, blank=True)
+
+    qual_percent_40_49 = models.FloatField("Qual % 40:49", null=True, blank=True)
+
+    qual_percent_50_59 = models.FloatField("Qual % 50:59", null=True, blank=True)
+
+    qual_percent_60_69 = models.FloatField("Qual % 60:69", null=True, blank=True)
+
+    qual_percent_70_79 = models.FloatField("Qual % 70:79", null=True, blank=True)
+
+    qual_percent_80_89 = models.FloatField("Qual % 80:89", null=True, blank=True)
+
+    qual_percent_90_99 = models.FloatField("Qual % 90:99", null=True, blank=True)
+
+    qual_percent_100_100 = models.FloatField("Qual % 100:100", null=True, blank=True)
 

@@ -22,33 +22,33 @@ import re
 dateTimePattern = re.compile('^(?P<section>\d+-\d+-\d+ \d+:\d+)')
 intPattern = re.compile('^(?P<floatValue>[-]*\d+$)')
 floatPattern = re.compile('^(?P<floatValue>[-]*\d+\.\d+$)')
-floatPattern2 = re.compile('^(?P<floatValue>[-]*\d+\.\d+E-\d+$)')
+floatPattern2 = re.compile('^(?P<floatValue>[-]*\d+\.\d+[eE][-+]\d+$)')
 
 
 
-def fieldType(s):
+def fieldType(s, text):
         
     match = floatPattern.search(s)
     if hasattr(match, 'group'):
-        return 'FloatField(null=True, blank=True)'
+        return 'FloatField("%s", null=True, blank=True)' % (text)
     
     match = floatPattern2.search(s)
     if hasattr(match, 'group'):
-        return 'FloatField(null=True, blank=True)'
+        return 'FloatField("%s", null=True, blank=True)' % (text)
         
     match = intPattern.search(s)
     if hasattr(match, 'group'):
-        return "IntegerField(null=True, blank=True)"
+        return 'IntegerField("%s", null=True, blank=True)' % (text)
         
 
     match = dateTimePattern.search(s)
     if hasattr(match, 'group'):
-        return "DateTimeField(null=True, blank=True)"
+        return 'DateTimeField("%s", null=True, blank=True)' % (text)
 
     if len(s) > 50:
-        return "CharField(max_length=100, null=True, blank=True)"
+        return 'CharField("%s", max_length=100, null=True, blank=True)' % (text)
             
-    return "CharField(max_length=50, null=True, blank=True)"
+    return 'CharField("%s", max_length=50, null=True, blank=True)' % (text)
 
 
 
