@@ -72,5 +72,6 @@ admin.site.register(MetadataOverview, MetadataOverviewAdmin)
 #admin.site.register(MetadataOverviewCalibrationFileValueFtCal)
 
 admin.site.register(EventLog, EventLogAdmin)
-admin.site.register(Ms1MaxMs1SampledAbundanceRatioIds_InefficientSamp)
+admin.site.register(Sample)
+admin.site.register(ReportSpectrumCount)
 

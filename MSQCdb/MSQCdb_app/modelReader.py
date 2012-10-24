@@ -111,3 +111,33 @@ def readModel(fileName):
 
 
 
+def sanitizeName(tmp_str):
+    
+    tmp_str = tmp_str.replace (" ", "")
+    tmp_str = tmp_str.replace('/','')
+    tmp_str = tmp_str.replace('(','_')
+    tmp_str = tmp_str.replace(')','_')
+    tmp_str = tmp_str.replace ("[", "_")
+    tmp_str = tmp_str.replace ("]", "_")
+    tmp_str = tmp_str.replace('-','')
+    tmp_str = tmp_str.replace(':','')
+    tmp_str = tmp_str.replace('>','Gt')
+    tmp_str = tmp_str.replace('<','Lt')
+    tmp_str = tmp_str.replace('+','Plus')
+    tmp_str = tmp_str.replace ("=", "eq")
+    tmp_str = tmp_str.replace(',','')
+    tmp_str = tmp_str.replace('.','Dot')
+    tmp_str = tmp_str.replace('\'','')
+    tmp_str = tmp_str.replace('%','Percent')
+    tmp_str = tmp_str.replace('__','_')
+    tmp_str = tmp_str.replace ("@", "at")
+    tmp_str = tmp_str.replace ("__", "_")
+    tmp_str = tmp_str.rstrip("_")
+
+    
+    
+    if len(tmp_str) > 45:
+        tmp_str = tmp_str[0:44]
+
+
+    return tmp_str
