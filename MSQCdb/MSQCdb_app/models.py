@@ -1,3 +1,18 @@
+## This file is part of the MSQCdb project
+## MSQCdb is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as
+## published by the Free Software Foundation, either version 3 of the
+## License, or (at your option) any later version.
+
+## MSQCdb is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU Affero General Public License for more details.
+
+## You should have received a copy of the GNU Affero General Public
+## License along with MSQCdb. If not, see <http://www.gnu.org/licenses/>.
+
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -8,13 +23,12 @@ class Sample(models.Model):
     
     raw_file = models.CharField(max_length=1000)
     
+    raw_file_fullPath = models.CharField(max_length=1000, unique=True)
+    
     instrument_name = models.CharField(max_length=50)
 
     description = models.TextField( 'Detailed description', blank=True)
     
-    
-    class Meta:
-        unique_together = ('raw_file', 'instrument_name')
         
         
 
@@ -162,7 +176,7 @@ class MetaPositivePolarity(models.Model):
 
     source_current_ua = models.IntegerField("Source Current (uA)", null=True, blank=True)
 
-    capillary_voltage_v = models.IntegerField("Capillary Voltage (V)", null=True, blank=True)
+    capillary_voltage_v = models.FloatField("Capillary Voltage (V)", null=True, blank=True)
 
     tube_lens_v = models.IntegerField("Tube Lens (V)", null=True, blank=True)
 
@@ -182,7 +196,7 @@ class MetaPositivePolarity(models.Model):
 
     multipole_1_offset_v = models.FloatField("Multipole 1 Offset (V)", null=True, blank=True)
 
-    front_lens_v = models.IntegerField("Front Lens (V)", null=True, blank=True)
+    front_lens_v = models.FloatField("Front Lens (V)", null=True, blank=True)
 
     ion_trap_zoom_micro_scans = models.IntegerField("Ion Trap Zoom Micro Scans", null=True, blank=True)
 
@@ -241,7 +255,7 @@ class MetaNegativePolarity(models.Model):
 
     source_current_ua = models.IntegerField("Source Current (uA)", null=True, blank=True)
 
-    capillary_voltage_v = models.IntegerField("Capillary Voltage (V)", null=True, blank=True)
+    capillary_voltage_v = models.FloatField("Capillary Voltage (V)", null=True, blank=True)
 
     tube_lens_v = models.IntegerField("Tube Lens (V)", null=True, blank=True)
 
@@ -261,7 +275,7 @@ class MetaNegativePolarity(models.Model):
 
     multipole_1_offset_v = models.FloatField("Multipole 1 Offset (V)", null=True, blank=True)
 
-    front_lens_v = models.IntegerField("Front Lens (V)", null=True, blank=True)
+    front_lens_v = models.FloatField("Front Lens (V)", null=True, blank=True)
 
     ion_trap_zoom_micro_scans = models.IntegerField("Ion Trap Zoom Micro Scans", null=True, blank=True)
 

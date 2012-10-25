@@ -50,7 +50,7 @@ class MetadataOverviewAdmin(admin.ModelAdmin):
 
     date_hierarchy = 'experimentdate'
     
-    list_display   = ('thermo_raw_file', 'instrument_name', 'instrumentmethod', 'instrument_software_version', 'experimentdate')
+    list_display   = ('sample', 'thermo_raw_file', 'instrument_name', 'instrumentmethod', 'instrument_software_version', 'experimentdate')
     
     list_filter = ('instrument_name', 'instrument_software_version')
     

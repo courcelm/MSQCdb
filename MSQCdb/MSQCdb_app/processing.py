@@ -44,11 +44,11 @@ def getFileName():
         return fileName
     
 
-def runNISTMSQC():
+def runNISTMSQC(logFile_fh):
     param = '--in_dir %s --out_dir %s --library Promix --instrument_type ORBI --search_engine OMSSA --overwrite_searches --pro_ms --log_file --verbose --mode full' % (config['IN_DIR'], config['OUT_DIR'])
     cmd = r'%s\perl.exe run_NISTMSQC_pipeline.pl %s' % (config['PERL_PATH'], param)
     
-    subprocess.call(cmd, cwd=config['NISTMSQC_PATH'])
+    subprocess.call(cmd, cwd=config['NISTMSQC_PATH'], stdout = logFile_fh, stderr= logFile_fh)
     
     
     
@@ -58,18 +58,28 @@ def runNISTMSQC():
 
 
 #### Main ######
-
-rawFile = getFileName()
-
-
-print 'Running NISTMSQC...'    
-#runNISTMSQC()
-print 'Done\n'
-
-print 'Storing metadata and report to database...'    
-parseAndStore.parseAndStore(rawFile)
-print 'Done\n'
-
-print 'Archiving and Cleaning IN and OUT...'    
-#archiveAndCleanOut(rawFile)
-print 'Done\n'
+def process(raw_file_fullPath, logFile_fh):
+    
+    
+    print "Processing %s ...\n" % (raw_file_fullPath)
+    
+    # Copy raw file to IN_DIR
+    shutil.copy(r'%s' % (raw_file_fullPath), r'%s' % (config['IN_DIR']) )
+    
+    
+    rawFile = getFileName()
+    
+    
+    print 'Running NISTMSQC...'    
+    runNISTMSQC(logFile_fh)
+    print 'Done\n'
+    
+    print 'Storing metadata and report to database...'    
+    parseAndStore.parseAndStore(rawFile, raw_file_fullPath)
+    print 'Done\n'
+    
+    print 'Archiving and Cleaning IN and OUT...'    
+    archiveAndCleanOut(rawFile)
+    print 'Done\n'
+    
+    print "Processing of %s is completed.\n" % (raw_file_fullPath)

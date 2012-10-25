@@ -30,8 +30,8 @@ currentModelFile = r"%s\models.py" % (config['MODEL_DIR'])
 
 
 
-def createSample(rawFile, instrumentName):
-    sample_obj = Sample(raw_file=rawFile, instrument_name=instrumentName)
+def createSample(rawFile, raw_file_fullPath, instrumentName):
+    sample_obj = Sample(raw_file=rawFile, raw_file_fullPath=raw_file_fullPath, instrument_name=instrumentName)
     sample_obj.save()
     return sample_obj
 
@@ -236,7 +236,7 @@ def storeInDB(values, sample_obj):
             
     
 
-def parseAndStore(rawFile):
+def parseAndStore(rawFile, raw_file_fullPath):
 
 
     ### Read current model
@@ -262,7 +262,7 @@ def parseAndStore(rawFile):
     ## Store objects in db
     if storeCheck(reportValues) and storeCheck(metaValues):
         instrumentName = metaValues['MetadataOverview']['instrument_name']
-        sample_obj = createSample(rawFile, instrumentName)
+        sample_obj = createSample(rawFile, raw_file_fullPath, instrumentName)
         storeInDB(reportValues, sample_obj)
         storeInDB(metaValues, sample_obj)
     
