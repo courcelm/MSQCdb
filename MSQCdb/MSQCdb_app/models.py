@@ -21,6 +21,8 @@ class Sample(models.Model):
     
     creation_date = models.DateTimeField(auto_now_add=True)
     
+    experimentdate = models.DateTimeField("ExperimentDate", null=True, blank=True)
+    
     raw_file = models.CharField(max_length=1000)
     
     raw_file_fullPath = models.CharField(max_length=1000, unique=True)
@@ -29,6 +31,15 @@ class Sample(models.Model):
 
     description = models.TextField( 'Detailed description', blank=True)
     
+    
+    def __unicode__(self):
+        return str(self.pk)
+    
+
+    
+    
+    class Meta:
+        ordering = ['experimentdate']
         
         
 
@@ -67,6 +78,8 @@ class MetadataOverview(models.Model):
 
     class Meta:
         verbose_name = "Meta: Metadata Overview"
+        
+        ordering = ['experimentdate']
 
 
     sample = models.ForeignKey(Sample, related_name='%(class)s_Meta')
@@ -1801,9 +1814,9 @@ class ReportMs2IdAbundReported(models.Model):
 
     sample = models.ForeignKey(Sample, related_name='%(class)s_Report')
 
-    median = models.IntegerField("Median", null=True, blank=True)
+    median = models.FloatField("Median", null=True, blank=True)
 
-    half_width = models.IntegerField("Half Width", null=True, blank=True)
+    half_width = models.FloatField("Half Width", null=True, blank=True)
 
     n7525_pctile = models.FloatField("75/25 Pctile", null=True, blank=True)
 

@@ -30,8 +30,11 @@ currentModelFile = r"%s\models.py" % (config['MODEL_DIR'])
 
 
 
-def createSample(rawFile, raw_file_fullPath, instrumentName):
-    sample_obj = Sample(raw_file=rawFile, raw_file_fullPath=raw_file_fullPath, instrument_name=instrumentName)
+def createSample(rawFile, raw_file_fullPath, instrumentName, experimentdate):
+    mtl = pytz.timezone(MSQCdb.settings.TIME_ZONE)    
+    naive = parse_datetime(experimentdate)
+    
+    sample_obj = Sample(raw_file=rawFile, raw_file_fullPath=raw_file_fullPath, instrument_name=instrumentName, experimentdate=mtl.localize(naive))
     sample_obj.save()
     return sample_obj
 
@@ -262,7 +265,8 @@ def parseAndStore(rawFile, raw_file_fullPath):
     ## Store objects in db
     if storeCheck(reportValues) and storeCheck(metaValues):
         instrumentName = metaValues['MetadataOverview']['instrument_name']
-        sample_obj = createSample(rawFile, raw_file_fullPath, instrumentName)
+        experimentdate = metaValues['MetadataOverview']['experimentdate']
+        sample_obj = createSample(rawFile, raw_file_fullPath, instrumentName, experimentdate)
         storeInDB(reportValues, sample_obj)
         storeInDB(metaValues, sample_obj)
     

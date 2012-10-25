@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from MSQCdb.MSQCdb_app.models import *
-
+from django.utils.safestring import mark_safe
 
 
 
@@ -55,23 +55,33 @@ class MetadataOverviewAdmin(admin.ModelAdmin):
     list_filter = ('instrument_name', 'instrument_software_version')
     
     search_fields = ('thermo_raw_file', 'instrument_name', 'instrumentmethod',)
+    
+
+class SampleAdmin(admin.ModelAdmin):
+
+    date_hierarchy = 'experimentdate'
+    
+    list_display   = ('raw_file', 'fileURI', 'instrument_name', 'experimentdate')
+    
+    list_filter = ('instrument_name',)
+    
+    search_fields = ('raw_file_fullPath', 'instrument_name',)
+
+
+    def fileURI(self, obj):
+        return mark_safe('<a href="%s">%s</a>' % (obj.raw_file_fullPath, obj.raw_file_fullPath))
+    # In Chrome use LocalLinks to download the file
+    
+    
+    fileURI.allow_tags = True
+    
+    fileURI.short_description = 'Raw file full path'
 
 
 
 
 ## Register admin panels
 admin.site.register(MetadataOverview, MetadataOverviewAdmin)
-#admin.site.register(MetadataOverviewTuneFileValue)
-#admin.site.register(MetadataOverviewPositivePolarity)
-#admin.site.register(MetadataOverviewNegativePolarity)
-#admin.site.register(MetadataOverviewAdditionalFtTuneFileValue)
-#admin.site.register(MetadataOverviewReagentIonSourceTuneFileValue)
-#admin.site.register(MetadataOverviewCalibrationFileValue)
-#admin.site.register(MetadataOverviewCalibrationFileValueResEject)
-#admin.site.register(MetadataOverviewCalibrationFileValueMass)
-#admin.site.register(MetadataOverviewCalibrationFileValueFtCal)
-
 admin.site.register(EventLog, EventLogAdmin)
-admin.site.register(Sample)
-admin.site.register(ReportSpectrumCount)
+admin.site.register(Sample, SampleAdmin)
 

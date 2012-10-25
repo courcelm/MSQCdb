@@ -27,11 +27,13 @@ import sys
 
 
 
-def archiveAndCleanOut(rawFile):
+def archive(rawFile):
     shutil.copy(r'%s\out_report.msqc' % (config['OUT_DIR']), r'%s\%s.msqc' % (config['ARCHIVE_DIR'], rawFile) )
     shutil.copy(r'%s\out_report.msqc.LOG' % (config['OUT_DIR']), r'%s\%s.msqc.LOG' % (config['ARCHIVE_DIR'], rawFile) )
     shutil.copy(r'%s\%s.metadata' % (config['OUT_DIR'], rawFile), r'%s' % (config['ARCHIVE_DIR']) )
-    
+
+
+def cleanInOut():    
     for fileName in os.listdir(config['OUT_DIR']):
         os.remove(config['OUT_DIR'] + "/" + fileName)
         
@@ -53,6 +55,14 @@ def runNISTMSQC(logFile_fh):
     
     
 
+def testIntegrity(raw_file_fullPath):
+    cmd = r'%s\msconvert.exe %s --filter "msLevel 5"' % (config['PROTEOWIZARD_DIR'], raw_file_fullPath)
+
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    out, err = proc.communicate()
+    
+    return not out.__contains__('Error')
+
 
 
 
@@ -63,23 +73,40 @@ def process(raw_file_fullPath, logFile_fh):
     
     print "Processing %s ...\n" % (raw_file_fullPath)
     
+    cleanInOut()
+    
     # Copy raw file to IN_DIR
     shutil.copy(r'%s' % (raw_file_fullPath), r'%s' % (config['IN_DIR']) )
     
     
-    rawFile = getFileName()
-    
-    
-    print 'Running NISTMSQC...'    
-    runNISTMSQC(logFile_fh)
-    print 'Done\n'
-    
-    print 'Storing metadata and report to database...'    
-    parseAndStore.parseAndStore(rawFile, raw_file_fullPath)
-    print 'Done\n'
-    
-    print 'Archiving and Cleaning IN and OUT...'    
-    archiveAndCleanOut(rawFile)
-    print 'Done\n'
-    
-    print "Processing of %s is completed.\n" % (raw_file_fullPath)
+    # Test file integrity
+    if testIntegrity(raw_file_fullPath):
+
+        rawFile = getFileName()
+        
+        
+        print 'Running NISTMSQC...' 
+        logFile_fh.flush()   
+        runNISTMSQC(logFile_fh)
+        print 'Done\n'
+        
+        print 'Storing metadata and report to database...'
+        logFile_fh.flush()    
+        parseAndStore.parseAndStore(rawFile, raw_file_fullPath)
+        print 'Done\n'
+        
+        print 'Archiving and Cleaning IN and OUT...'    
+        archive(rawFile)
+        cleanInOut()
+        print 'Done\n'
+        
+        print "Processing of %s is completed.\n" % (raw_file_fullPath)
+        logFile_fh.flush()
+    else:
+        # Add file to ignore list
+        fh_out = open(config['ARCHIVE_DIR'] + r"\ignoreFiles.txt", 'a')
+        fh_out.write('%s*\n' % (raw_file_fullPath))
+        fh_out.close()
+        
+        print '%s failed file integrity test. File was added to ignore list\n' % (raw_file_fullPath)
+        logFile_fh.flush() 

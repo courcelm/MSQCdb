@@ -16,12 +16,28 @@ import os, sys, time
 from config import *
 from MSQCdb.MSQCdb_app.models import Sample
 import processing
+from time import  localtime, strftime
+
 
 
 
 def diff(a, b):
     b = set(b)
     return [aa for aa in a if aa not in b]
+
+
+def getIgnoreFiles():
+    fh_in = open(config['ARCHIVE_DIR'] + r"\ignoreFiles.txt", 'r')
+    
+    ignoreFiles = []
+    
+    for line in fh_in:
+        ignoreFiles.append(line.rstrip('\n').rstrip('*'))
+    
+    fh_in.close()
+    
+    return ignoreFiles
+
 
 
 
@@ -39,26 +55,34 @@ samples = list(Sample.objects.all().values_list('raw_file_fullPath', flat=True))
 #print samples
 
 
+# Read ignore files
+ignoreFiles = getIgnoreFiles()
+
 
 # Daemon infinite loop
 while True:
     
-    
+    from datetime import datetime
+    print datetime.now()
     # Inspect folder for Promix files
     rawFiles = [os.path.join(root, name)
                  for root, dirs, files in os.walk(config['SEARCH_DIR'])
                  for name in files
-                 if name.endswith((".RAW", ".raw")) and name.startswith("Promix")]
+                 if name.startswith("Promix") and name.endswith(".RAW")]
+    print datetime.now()
     #print rawFiles
 
     
     
     # Compute list difference with files in db
-    print len(rawFiles)
+    #print len(rawFiles)
     rawFiles = diff(rawFiles, samples)
-    print len(rawFiles)
-    print len(samples)
+    rawFiles = diff(rawFiles, ignoreFiles)
+    #print len(rawFiles)
+    #print len(samples)
     
+    print strftime("%Y-%m-%d %H:%M:%S",  localtime()) + ' --  ' + str(len(rawFiles)) + " files to process: " + str(rawFiles) + '\n'
+    logFile_fh.flush() 
     # Should consider to add a datetime filter to be more efficient when the db is upto date
     
     
