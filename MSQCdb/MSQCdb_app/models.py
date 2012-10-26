@@ -199,7 +199,7 @@ class MetaPositivePolarity(models.Model):
 
     multipole_00_offset_v = models.FloatField("Multipole 00 Offset (V)", null=True, blank=True)
 
-    lens_0_voltage_v = models.IntegerField("Lens 0 Voltage (V)", null=True, blank=True)
+    lens_0_voltage_v = models.FloatField("Lens 0 Voltage (V)", null=True, blank=True)
 
     multipole_0_offset_v = models.FloatField("Multipole 0 Offset (V)", null=True, blank=True)
 
@@ -278,7 +278,7 @@ class MetaNegativePolarity(models.Model):
 
     multipole_00_offset_v = models.FloatField("Multipole 00 Offset (V)", null=True, blank=True)
 
-    lens_0_voltage_v = models.IntegerField("Lens 0 Voltage (V)", null=True, blank=True)
+    lens_0_voltage_v = models.FloatField("Lens 0 Voltage (V)", null=True, blank=True)
 
     multipole_0_offset_v = models.FloatField("Multipole 0 Offset (V)", null=True, blank=True)
 
@@ -429,6 +429,14 @@ class MetaCalibrationFileValue(models.Model):
     tickle_ampdot_slope3 = models.FloatField("Tickle Amp. Slope3", null=True, blank=True)
 
     tickle_ampdot_int3 = models.FloatField("Tickle Amp. Int3", null=True, blank=True)
+    
+    multiplier_1_normal_gain = models.IntegerField("Multiplier 1 Normal Gain", null=True, blank=True)
+
+    multiplier_1_high_gain = models.IntegerField("Multiplier 1 High Gain", null=True, blank=True)
+
+    multiplier_2_normal_gain = models.IntegerField("Multiplier 2 Normal Gain", null=True, blank=True)
+
+    multiplier_2_high_gain = models.IntegerField("Multiplier 2 High Gain", null=True, blank=True)
 
     multiplier_1_normal_gain_pos = models.IntegerField("Multiplier 1 Normal Gain (pos)", null=True, blank=True)
 
