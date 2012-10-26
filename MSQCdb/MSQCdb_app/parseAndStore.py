@@ -30,11 +30,27 @@ currentModelFile = r"%s\models.py" % (config['MODEL_DIR'])
 
 
 
+def getInstrumentObject(instrumentName):
+    try:
+        return Instrument.objects.get(instrument_name=instrumentName)
+    except Instrument.DoesNotExist:
+        return None
+
+def createInstrumentObject(instrumentName):
+    instrumentObject = Instrument(instrument_name=instrumentName)
+    instrumentObject.save()
+    return instrumentObject
+
+
 def createSample(rawFile, raw_file_fullPath, instrumentName, experimentdate):
     mtl = pytz.timezone(MSQCdb.settings.TIME_ZONE)    
     naive = parse_datetime(experimentdate)
     
-    sample_obj = Sample(raw_file=rawFile, raw_file_fullPath=raw_file_fullPath, instrument_name=instrumentName, experimentdate=mtl.localize(naive))
+    instrumentObject = getInstrumentObject(instrumentName)
+    if instrumentObject == None:
+        instrumentObject = createInstrumentObject(instrumentName)
+    
+    sample_obj = Sample(raw_file=rawFile, raw_file_fullPath=raw_file_fullPath, instrument_name=instrumentObject, experimentdate=mtl.localize(naive))
     sample_obj.save()
     return sample_obj
 

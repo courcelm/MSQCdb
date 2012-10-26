@@ -27,6 +27,9 @@ import sys
 
 
 
+
+
+
 def archive(rawFile):
     shutil.copy(r'%s\out_report.msqc' % (config['OUT_DIR']), r'%s\%s.msqc' % (config['ARCHIVE_DIR'], rawFile) )
     shutil.copy(r'%s\out_report.msqc.LOG' % (config['OUT_DIR']), r'%s\%s.msqc.LOG' % (config['ARCHIVE_DIR'], rawFile) )
@@ -56,7 +59,7 @@ def runNISTMSQC(logFile_fh):
     
 
 def testIntegrity(raw_file_fullPath):
-    cmd = r'%s\msconvert.exe %s --filter "msLevel 5"' % (config['PROTEOWIZARD_DIR'], raw_file_fullPath)
+    cmd = r'%s\msconvert.exe %s --filter "msLevel 5" -o %s' % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
 
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     out, err = proc.communicate()

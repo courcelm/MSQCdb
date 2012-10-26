@@ -17,6 +17,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
+
+class Instrument(models.Model):
+    
+    instrument_name = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        ordering = ['instrument_name']
+        
+
+
+
 class Sample(models.Model):
     
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -27,7 +39,7 @@ class Sample(models.Model):
     
     raw_file_fullPath = models.CharField(max_length=1000, unique=True)
     
-    instrument_name = models.CharField(max_length=50)
+    instrument_name = models.ForeignKey(Instrument)
 
     description = models.TextField( 'Detailed description', blank=True)
     
@@ -40,8 +52,13 @@ class Sample(models.Model):
     
     class Meta:
         ordering = ['experimentdate']
+
+
         
+
         
+
+
 
 
 class EventLog(models.Model):
@@ -172,6 +189,13 @@ class MetaTuneFileValue(models.Model):
 
     supplemental_activation_energy = models.IntegerField("Supplemental Activation Energy", null=True, blank=True)
 
+    faims_total_gas_flow_lmin = models.FloatField("FAIMS Total Gas Flow (L/min)", null=True, blank=True)
+
+    faims_helium_composition_percent = models.IntegerField("FAIMS Helium Composition (%)", null=True, blank=True)
+
+    faims_inner_electrode_temp_c = models.IntegerField("FAIMS Inner Electrode Temp (C)", null=True, blank=True)
+
+    faims_outer_electrode_temp_c = models.IntegerField("FAIMS Outer Electrode Temp (C)", null=True, blank=True)
 
 
 
@@ -251,6 +275,11 @@ class MetaPositivePolarity(models.Model):
 
     reagent_ion_back_multipole_offset_v = models.IntegerField("Reagent Ion Back Multipole Offset (V)", null=True, blank=True)
 
+    faims_obv_v = models.IntegerField("FAIMS OBV (V)", null=True, blank=True)
+
+    faims_dv_v = models.IntegerField("FAIMS DV (V)", null=True, blank=True)
+
+    faims_epv_v = models.IntegerField("FAIMS EPV (V)", null=True, blank=True)
 
 
 
@@ -330,6 +359,11 @@ class MetaNegativePolarity(models.Model):
 
     reagent_ion_back_multipole_offset_v = models.IntegerField("Reagent Ion Back Multipole Offset (V)", null=True, blank=True)
 
+    faims_obv_v = models.IntegerField("FAIMS OBV (V)", null=True, blank=True)
+
+    faims_dv_v = models.IntegerField("FAIMS DV (V)", null=True, blank=True)
+
+    faims_epv_v = models.IntegerField("FAIMS EPV (V)", null=True, blank=True)
 
 
 

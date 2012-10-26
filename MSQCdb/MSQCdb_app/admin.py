@@ -9,7 +9,7 @@ class EventLogForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(EventLogForm, self).__init__(*args, **kwargs)
-        instrumentsChoice = [(metadataOverviewObject.instrument_name, metadataOverviewObject.instrument_name) for metadataOverviewObject in MetadataOverview.objects.all().distinct().order_by('instrument_name')]
+        instrumentsChoice = [(instrumentObject.instrument_name, instrumentObject.instrument_name) for instrumentObject in Instrument.objects.all()]
         instrumentsChoice.insert(0, (u'', u'---------'))
         
         self.fields['instrument_name'] = forms.ChoiceField(choices=instrumentsChoice)

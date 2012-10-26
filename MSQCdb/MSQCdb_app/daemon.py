@@ -17,6 +17,45 @@ from config import *
 from MSQCdb.MSQCdb_app.models import Sample
 import processing
 from time import  localtime, strftime
+from datetime import datetime
+
+
+
+def getRawFiles():
+    # Inspect folder for Promix files
+    rawFiles = [os.path.join(root, name)
+                 for root, dirs, files in os.walk(config['SEARCH_DIR'])
+                 for name in files
+                 if name.startswith("Promix") and name.endswith(".RAW")]
+    return  rawFiles
+
+
+
+def getRecentRawFiles():
+
+    # Inspect folder for recent Promix files
+
+    deltaTimeLimit = config['SEARCH_MAXDAY'] * 24 * 60 * 60
+    
+    dirs = []
+    for name in os.listdir(config['SEARCH_DIR']):
+        path = os.path.join(config['SEARCH_DIR'], name)
+        if os.path.isdir(path):
+            
+            deltaTime = time.mktime(localtime()) - os.stat(path).st_mtime
+            if(deltaTime < deltaTimeLimit):
+                dirs.append(path)
+
+    rawFiles = []
+    for directory in dirs:
+        files = [os.path.join(root, name)
+                     for root, dirs, files in os.walk(directory)
+                     for name in files
+                     if name.startswith("Promix") and name.endswith(".RAW")]
+        rawFiles.extend(files)
+
+    
+    return rawFiles
 
 
 
@@ -24,6 +63,8 @@ from time import  localtime, strftime
 def diff(a, b):
     b = set(b)
     return [aa for aa in a if aa not in b]
+
+
 
 
 def getIgnoreFiles():
@@ -62,17 +103,8 @@ ignoreFiles = getIgnoreFiles()
 # Daemon infinite loop
 while True:
     
-    from datetime import datetime
-    print datetime.now()
     # Inspect folder for Promix files
-    rawFiles = [os.path.join(root, name)
-                 for root, dirs, files in os.walk(config['SEARCH_DIR'])
-                 for name in files
-                 if name.startswith("Promix") and name.endswith(".RAW")]
-    print datetime.now()
-    #print rawFiles
-
-    
+    rawFiles = getRawFiles()
     
     # Compute list difference with files in db
     #print len(rawFiles)
