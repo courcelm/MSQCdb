@@ -12,11 +12,12 @@ $(function() {
 		// Create the chart
 		window.chart = new Highcharts.StockChart({
 		    chart: {
-		        renderTo: 'container'
+		        renderTo: 'container',
+		        zoomType: 'x'
 		    },
 
 		    rangeSelector: {
-		        selected: 1
+		        selected: 5
 		    },
 
 		    title: {
@@ -32,7 +33,11 @@ $(function() {
 			series: [{
 		        name: 'to SET',
 		        data: data,
-				id: 'dataseries',
+		        marker : {
+					enabled : true,
+					radius : 3
+				},
+		        id: 'dataseries',
 				tooltip: {
 					valueDecimals: 2
 				}

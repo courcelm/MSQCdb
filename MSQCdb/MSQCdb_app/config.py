@@ -24,8 +24,8 @@ config['OUT_DIR'] = r'C:\NISTMSQC_TMP\\out'     #For best performance use local 
 config['ARCHIVE_DIR'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\archive'
 config['TMPMODEL_DIR'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\tmpmodel'
 config['MODEL_DIR'] = r'C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb\MSQCdb_app'
-config['SEARCH_DIR'] = r'F:\ProhitsStorage'
-#config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP'
+#config['SEARCH_DIR'] = r'F:\ProhitsStorage'
+config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP'
 config['SEARCH_INTERVAL'] = 300
 config['SEARCH_MAXDAY'] = 7
 config['PROTEOWIZARD_DIR'] = r'C:\Proteowizard'

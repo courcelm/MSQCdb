@@ -150,6 +150,9 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict, fieldsIgnor
                 key = 'n' + key
             
             value = value.lstrip()
+            
+            if value == '1.#J':
+                value = 0
 
 
             if tablePrefix == 'Meta':
@@ -255,7 +258,7 @@ def storeInDB(values, sample_obj):
             
     
 
-def parseAndStore(rawFile, raw_file_fullPath):
+def parseAndStore(rawFile, raw_file_fullPath, logFile_fh):
 
 
     ### Read current model
@@ -278,11 +281,23 @@ def parseAndStore(rawFile, raw_file_fullPath):
     reportValues = parse(fh_out, reportFile, 'Report', '\t', fieldsModelDict, fieldsIgnoreDict)
     fh_out.close()
     
-    ## Store objects in db
-    if storeCheck(reportValues) and storeCheck(metaValues):
-        instrumentName = metaValues['MetadataOverview']['instrument_name']
-        experimentdate = metaValues['MetadataOverview']['experimentdate']
-        sample_obj = createSample(rawFile, raw_file_fullPath, instrumentName, experimentdate)
-        storeInDB(reportValues, sample_obj)
-        storeInDB(metaValues, sample_obj)
+    
+    ## Check MS1 is not to 0
+    ms1 = reportValues['ReportSpectrumCount']['ms1_scansfull']
+    if ms1 == '0':
+        # Add file to ignore list
+        fh_out = open(config['ARCHIVE_DIR'] + r"\ignoreFiles.txt", 'a')
+        fh_out.write('%s***\n' % (raw_file_fullPath))
+        fh_out.close()
+            
+        print '%s has no MS1 (NISTMSQC). File was added to ignore list\n' % (raw_file_fullPath)
+        logFile_fh.flush()
+    else:
+        ## Store objects in db
+        if storeCheck(reportValues) and storeCheck(metaValues):
+            instrumentName = metaValues['MetadataOverview']['instrument_name']
+            experimentdate = metaValues['MetadataOverview']['experimentdate']
+            sample_obj = createSample(rawFile, raw_file_fullPath, instrumentName, experimentdate)
+            storeInDB(reportValues, sample_obj)
+            storeInDB(metaValues, sample_obj)
     

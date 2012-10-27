@@ -23,6 +23,9 @@ class Instrument(models.Model):
     
     instrument_name = models.CharField(max_length=50, unique=True)
 
+    def __unicode__(self):
+        return str(self.instrument_name)
+
     class Meta:
         ordering = ['instrument_name']
         
@@ -434,7 +437,7 @@ class MetaCalibrationFileValue(models.Model):
 
     qmint4 = models.IntegerField("QMInt4", null=True, blank=True)
 
-    end_section_slope = models.IntegerField("End Section Slope", null=True, blank=True)
+    end_section_slope = models.FloatField("End Section Slope", null=True, blank=True)
 
     end_section_int = models.IntegerField("End Section Int", null=True, blank=True)
 
@@ -530,11 +533,11 @@ class MetaCalibrationFileValue(models.Model):
 
     vernier_fine_mass_slope = models.FloatField("Vernier Fine Mass Slope", null=True, blank=True)
 
-    vernier_fine_mass_intercept = models.IntegerField("Vernier Fine Mass Intercept", null=True, blank=True)
+    vernier_fine_mass_intercept = models.FloatField("Vernier Fine Mass Intercept", null=True, blank=True)
 
-    vernier_coarse_mass_slope = models.IntegerField("Vernier Coarse Mass Slope", null=True, blank=True)
+    vernier_coarse_mass_slope = models.FloatField("Vernier Coarse Mass Slope", null=True, blank=True)
 
-    vernier_coarse_mass_intercept = models.IntegerField("Vernier Coarse Mass Intercept", null=True, blank=True)
+    vernier_coarse_mass_intercept = models.FloatField("Vernier Coarse Mass Intercept", null=True, blank=True)
 
     capdot_device_min_v = models.FloatField("Cap. Device Min (V)", null=True, blank=True)
 

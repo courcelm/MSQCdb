@@ -31,11 +31,11 @@ def chartView(request):
 def chartDataJSON(request):
     
     strTmp = '[\n'    
-    objects = MetadataOverviewPositivePolarity.objects.all().order_by('metadata__experimentdate')
+    objects = ReportSpectrumCount.objects.all().order_by('sample__experimentdate')
     
     for obj in objects:
-        epoch = int(time.mktime(obj.metadata.experimentdate.timetuple())*1000)
-        strTmp += '[%s,%s],\n' % (epoch, obj.multipole_0_offset_v)
+        epoch = int(time.mktime(obj.sample.experimentdate.timetuple())*1000)
+        strTmp += '[%s,%s],\n' % (epoch, obj.ms1_scansfull)
     
     strTmp = strTmp.rstrip('\n')
     strTmp = strTmp.rstrip(',')

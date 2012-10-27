@@ -63,9 +63,9 @@ class SampleAdmin(admin.ModelAdmin):
     
     list_display   = ('raw_file', 'fileURI', 'instrument_name', 'experimentdate')
     
-    list_filter = ('instrument_name',)
+    list_filter = ('instrument_name__instrument_name',)
     
-    search_fields = ('raw_file_fullPath', 'instrument_name',)
+    search_fields = ('raw_file_fullPath', 'instrument_name__instrument_name',)
 
 
     def fileURI(self, obj):

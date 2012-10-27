@@ -67,6 +67,18 @@ def testIntegrity(raw_file_fullPath):
     return not out.__contains__('Error')
 
 
+def testMSMS(raw_file_fullPath):
+    cmd = r'%s\msconvert.exe %s --filter "msLevel 2" --mgf -o %s --outfile testMSMS.mgf' % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
+
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    out, err = proc.communicate()
+    
+    b = os.path.getsize(r'%s\testMSMS.mgf' % (config['OUT_DIR']))
+    
+    if b == 0:
+        return False
+    else:
+        return True
 
 
 
@@ -84,27 +96,39 @@ def process(raw_file_fullPath, logFile_fh):
     
     # Test file integrity
     if testIntegrity(raw_file_fullPath):
+        
+        # Test file for MSMS
+        if testMSMS(raw_file_fullPath):
 
-        rawFile = getFileName()
+            rawFile = getFileName()
+            
+            
+            print 'Running NISTMSQC...' 
+            logFile_fh.flush()   
+            runNISTMSQC(logFile_fh)
+            print 'Done\n'
+            
+            print 'Storing metadata and report to database...'
+            logFile_fh.flush()    
+            parseAndStore.parseAndStore(rawFile, raw_file_fullPath, logFile_fh)
+            print 'Done\n'
+            
+            print 'Archiving and Cleaning IN and OUT...'    
+            archive(rawFile)
+            cleanInOut()
+            print 'Done\n'
+            
+            print "Processing of %s is completed.\n" % (raw_file_fullPath)
+            logFile_fh.flush()
         
-        
-        print 'Running NISTMSQC...' 
-        logFile_fh.flush()   
-        runNISTMSQC(logFile_fh)
-        print 'Done\n'
-        
-        print 'Storing metadata and report to database...'
-        logFile_fh.flush()    
-        parseAndStore.parseAndStore(rawFile, raw_file_fullPath)
-        print 'Done\n'
-        
-        print 'Archiving and Cleaning IN and OUT...'    
-        archive(rawFile)
-        cleanInOut()
-        print 'Done\n'
-        
-        print "Processing of %s is completed.\n" % (raw_file_fullPath)
-        logFile_fh.flush()
+        else:
+            # Add file to ignore list
+            fh_out = open(config['ARCHIVE_DIR'] + r"\ignoreFiles.txt", 'a')
+            fh_out.write('%s**\n' % (raw_file_fullPath))
+            fh_out.close()
+            
+            print '%s has no MSMS. File was added to ignore list\n' % (raw_file_fullPath)
+            logFile_fh.flush()
     else:
         # Add file to ignore list
         fh_out = open(config['ARCHIVE_DIR'] + r"\ignoreFiles.txt", 'a')
