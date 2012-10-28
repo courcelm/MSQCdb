@@ -22,7 +22,8 @@ import re
 dateTimePattern = re.compile('^(?P<section>\d+-\d+-\d+ \d+:\d+)')
 intPattern = re.compile('^(?P<floatValue>[-]*\d+$)')
 floatPattern = re.compile('^(?P<floatValue>[-]*\d+\.\d+$)')
-floatPattern2 = re.compile('^(?P<floatValue>[-]*\d+\.\d+[eE][-+]\d+$)')
+floatPattern2 = re.compile('^(?P<floatValue>[-]*\d+\.*\d*[eE][-+]\d+$)')
+
 
 
 

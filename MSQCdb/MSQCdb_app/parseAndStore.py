@@ -12,47 +12,96 @@
 ## You should have received a copy of the GNU Affero General Public
 ## License along with MSQCdb. If not, see <http://www.gnu.org/licenses/>.
 
-from config import *
-import modelReader
+
+"""
+This module parses and stores metadata and report results from the NISTMSQC
+processing pipeline.
+"""
+
+
+# Import standard libraries
+import pytz
 import re
 import sys
+
+# Import Django related libraries
 from django.db.utils import IntegrityError
+from django.utils.dateparse import parse_datetime
 from MSQCdb.MSQCdb_app.models import *
 import MSQCdb.settings
-from django.utils.dateparse import parse_datetime
-import pytz
+
+# Import project libraries
+from config import *
+import modelReader
 
 
-## Input/Output Files
-modelFile = r"%s\tmpModels.py" % (config['TMPMODEL_DIR'])
-modelDiscrepencyFile = r"%s\modelDiscrepency.ignore" % (config['TMPMODEL_DIR'])
-currentModelFile = r"%s\models.py" % (config['MODEL_DIR'])
+
+
+# Function definitions  ######################################################
+
+def convert2LocalDateTime(datetime):
+    """
+    Converts a naive datetime to a localized datetime and returns it.
+    """
+    
+    local = pytz.timezone(MSQCdb.settings.TIME_ZONE)    
+    naive = parse_datetime(datetime)
+    
+    return local.localize(naive)
+
+
+
+
+def createInstrumentObject(instrumentName):
+    """
+    Creates and returns an Instrument object.
+    """
+    
+    instrumentObject = Instrument(instrument_name=instrumentName)
+    instrumentObject.save()
+    
+    return instrumentObject
+
+
+
+
+def createSample(rawFile, raw_file_fullPath, instrumentName, experimentdate):
+    """
+    Creates and returns a Sample object using the supplied parameters.
+    """
+    
+    # Get the Instrument object
+    instrumentObject = getInstrumentObject(instrumentName)
+    
+    if instrumentObject is None:
+        instrumentObject = createInstrumentObject(instrumentName)
+    
+    # Create the Sample object
+    sample_obj = Sample(raw_file=rawFile, raw_file_fullPath=raw_file_fullPath,
+                        instrument_name=instrumentObject,
+                        experimentdate=convert2LocalDateTime(experimentdate))
+    sample_obj.save()
+    
+    return sample_obj
+
 
 
 
 def getInstrumentObject(instrumentName):
+    """
+    Get and returns the Instrument object with the supplied name. 
+    """
+    
     try:
         return Instrument.objects.get(instrument_name=instrumentName)
+    
     except Instrument.DoesNotExist:
         return None
 
-def createInstrumentObject(instrumentName):
-    instrumentObject = Instrument(instrument_name=instrumentName)
-    instrumentObject.save()
-    return instrumentObject
 
 
-def createSample(rawFile, raw_file_fullPath, instrumentName, experimentdate):
-    mtl = pytz.timezone(MSQCdb.settings.TIME_ZONE)    
-    naive = parse_datetime(experimentdate)
-    
-    instrumentObject = getInstrumentObject(instrumentName)
-    if instrumentObject == None:
-        instrumentObject = createInstrumentObject(instrumentName)
-    
-    sample_obj = Sample(raw_file=rawFile, raw_file_fullPath=raw_file_fullPath, instrument_name=instrumentObject, experimentdate=mtl.localize(naive))
-    sample_obj.save()
-    return sample_obj
+
+
 
 
 def writeClassHeader(fh_out, section, vname, tablePrefix):
@@ -262,15 +311,15 @@ def parseAndStore(rawFile, raw_file_fullPath, logFile_fh):
 
 
     ### Read current model
-    fieldsModelDict = modelReader.readModel(currentModelFile)
+    fieldsModelDict = modelReader.readModel(r"%s\models.py" % (config['MODEL_DIR']))
 
 
     ### Read modelDiscrepencyFile
-    fieldsIgnoreDict = modelReader.readIgnoreList(modelDiscrepencyFile)
+    fieldsIgnoreDict = modelReader.readIgnoreList(r"%s\modelDiscrepency.ignore" % (config['TMPMODEL_DIR']))
     
     
     # Prepare file handle and header for tmp model
-    fh_out = open(modelFile, "w")
+    fh_out = open(r"%s\tmpModels.py" % (config['TMPMODEL_DIR']), "w")
     fh_out.write('from django.db import models\n\n\n\n\n')
 
     # Read report

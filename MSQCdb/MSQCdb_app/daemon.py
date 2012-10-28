@@ -29,7 +29,6 @@ import sys
 import time
 from time import  localtime, strftime
 
-
 # Import Django related libraries
 from MSQCdb.MSQCdb_app.models import Sample
 
@@ -44,7 +43,7 @@ import processing
 
 def diff(a, b):
     """
-    This function computes the difference between two lists. 
+    This function computes and returns the difference between two lists. 
     """
     
     b = set(b)
@@ -57,7 +56,7 @@ def diff(a, b):
 def getIgnoreFiles():
     """
     This function reads the list of files that the daemon should ignore
-    for processing. 
+    for processing and returns the list. 
     """
     
     fh_in = open(config['ARCHIVE_DIR'] + r'\ignoreFiles.txt', 'r')
@@ -95,7 +94,7 @@ def getRecentRawFiles():
     """
     This function inspects the folder defined by config['SEARCH_DIR'],
     extract the list of recently modified folders as specified by 
-    config['SEARCH_MAXDAY']     searches for Promix raw files and return a
+    config['SEARCH_MAXDAY'] searches for Promix raw files and returns a
     list of files.
     """
     

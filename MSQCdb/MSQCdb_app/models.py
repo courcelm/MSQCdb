@@ -230,7 +230,7 @@ class MetaPositivePolarity(models.Model):
 
     multipole_0_offset_v = models.FloatField("Multipole 0 Offset (V)", null=True, blank=True)
 
-    lens_1_voltage_v = models.IntegerField("Lens 1 Voltage (V)", null=True, blank=True)
+    lens_1_voltage_v = models.FloatField("Lens 1 Voltage (V)", null=True, blank=True)
 
     gate_lens_offset_v = models.IntegerField("Gate Lens Offset (V)", null=True, blank=True)
 
@@ -284,7 +284,7 @@ class MetaPositivePolarity(models.Model):
 
     faims_epv_v = models.IntegerField("FAIMS EPV (V)", null=True, blank=True)
 
-    slens_rf_level_percent = models.IntegerField("S-Lens RF Level (%)", null=True, blank=True)
+    slens_rf_level_percent = models.FloatField("S-Lens RF Level (%)", null=True, blank=True)
     
     back_lens_reagent_injection_v = models.FloatField("Back Lens Reagent Injection (V)", null=True, blank=True)
 
@@ -326,7 +326,7 @@ class MetaNegativePolarity(models.Model):
 
     multipole_0_offset_v = models.FloatField("Multipole 0 Offset (V)", null=True, blank=True)
 
-    lens_1_voltage_v = models.IntegerField("Lens 1 Voltage (V)", null=True, blank=True)
+    lens_1_voltage_v = models.FloatField("Lens 1 Voltage (V)", null=True, blank=True)
 
     gate_lens_offset_v = models.IntegerField("Gate Lens Offset (V)", null=True, blank=True)
 
@@ -380,7 +380,7 @@ class MetaNegativePolarity(models.Model):
 
     faims_epv_v = models.IntegerField("FAIMS EPV (V)", null=True, blank=True)
     
-    slens_rf_level_percent = models.IntegerField("S-Lens RF Level (%)", null=True, blank=True)
+    slens_rf_level_percent = models.FloatField("S-Lens RF Level (%)", null=True, blank=True)
 
     back_lens_reagent_injection_v = models.FloatField("Back Lens Reagent Injection (V)", null=True, blank=True)
 
@@ -423,6 +423,37 @@ class MetaAdditionalFtTuneFileValue(models.Model):
 
     ft_tune_item_10 = models.IntegerField("FT Tune Item 10", null=True, blank=True)
 
+
+
+
+class MetaReagentIonSourceTuneFileValue(models.Model):
+
+
+    class Meta:
+        verbose_name = "Meta: Reagent Ion Source Tune File Value"
+
+
+    sample = models.ForeignKey(Sample, related_name='%(class)s_Meta')
+
+    reagent_ion_source_polarity = models.CharField("Reagent Ion Source Polarity", max_length=50, null=True, blank=True)
+
+    reagent_ion_source_temp_c = models.IntegerField("Reagent Ion Source Temp (C)", null=True, blank=True)
+
+    reagent_ion_source_emission_current_ua = models.IntegerField("Reagent Ion Source Emission Current (uA)", null=True, blank=True)
+
+    reagent_ion_source_electron_energy_v = models.IntegerField("Reagent Ion Source Electron Energy (V)", null=True, blank=True)
+
+    reagent_ion_source_ci_pressure_psi = models.IntegerField("Reagent Ion Source CI Pressure (psi)", null=True, blank=True)
+
+    reagent_vial_1_ion_time = models.IntegerField("Reagent Vial 1 Ion Time", null=True, blank=True)
+
+    reagent_vial_1_agc_target = models.IntegerField("Reagent Vial 1 AGC Target", null=True, blank=True)
+
+    reagent_vial_2_ion_time = models.IntegerField("Reagent Vial 2 Ion Time", null=True, blank=True)
+
+    reagent_vial_2_agc_target = models.IntegerField("Reagent Vial 2 AGC Target", null=True, blank=True)
+
+    supplemental_activation_energy = models.IntegerField("Supplemental Activation Energy", null=True, blank=True)
 
 
 
@@ -681,6 +712,8 @@ class MetaCalibrationFileValue(models.Model):
     scan_phase_10 = models.FloatField("Scan Phase 10", null=True, blank=True)
 
     scan_phase_11 = models.FloatField("Scan Phase 11", null=True, blank=True)
+    
+    scan_phase_12 = models.IntegerField("Scan Phase 12", null=True, blank=True)
     
     multiplier_1_res_ej_phase_pos = models.FloatField("Multiplier 1 Res Ej Phase (pos)", null=True, blank=True)
 

@@ -26,7 +26,8 @@ config['TMPMODEL_DIR'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\tmpmodel'
 config['MODEL_DIR'] = r'C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb\MSQCdb_app'
 #config['SEARCH_DIR'] = r'F:\ProhitsStorage'
 #config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP'
-config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS'
+#config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS'
+config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE'
 config['SEARCH_INTERVAL'] = 300
 config['SEARCH_MAXDAY'] = 7
 config['PROTEOWIZARD_DIR'] = r'C:\Proteowizard'
