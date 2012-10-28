@@ -44,7 +44,7 @@ class Sample(models.Model):
     
     instrument_name = models.ForeignKey(Instrument)
 
-    description = models.TextField( 'Detailed description', blank=True)
+    description = models.TextField('Detailed description', blank=True)
     
     
     def __unicode__(self):
@@ -66,8 +66,8 @@ class Sample(models.Model):
 
 class EventLog(models.Model):
     
-    created_by = models.ForeignKey(User, null=True, blank=True, 
-                                   related_name='%(class)s_created_by', editable = False)
+    created_by = models.ForeignKey(User, null=True, blank=True,
+                                   related_name='%(class)s_created_by', editable=False)
     
     creation_date = models.DateTimeField(auto_now_add=True)
     
@@ -80,15 +80,15 @@ class EventLog(models.Model):
                    ('Maintenance', 'Maintenance'),
                    )
     
-    event_type = models.CharField('Event type', max_length=30, 
-                                     choices=EVENT_TYPES )
+    event_type = models.CharField('Event type', max_length=30,
+                                     choices=EVENT_TYPES)
     
     instrument_name = models.CharField(max_length=50)
     
-    name = models.CharField('Name', max_length=200, 
+    name = models.CharField('Name', max_length=200,
                             help_text='Short description of the event')
     
-    description = models.TextField( 'Detailed description (what was replaced, how it was fixed)', blank=True)
+    description = models.TextField('Detailed description (what was replaced, how it was fixed)', blank=True)
 
 
 
@@ -284,6 +284,18 @@ class MetaPositivePolarity(models.Model):
 
     faims_epv_v = models.IntegerField("FAIMS EPV (V)", null=True, blank=True)
 
+    slens_rf_level_percent = models.IntegerField("S-Lens RF Level (%)", null=True, blank=True)
+    
+    back_lens_reagent_injection_v = models.FloatField("Back Lens Reagent Injection (V)", null=True, blank=True)
+
+    back_section_lpt_reagent_injection_v = models.FloatField("Back Section LPT Reagent Injection (V)", null=True, blank=True)
+
+    center_lens_reagent_injection_v = models.FloatField("Center Lens Reagent Injection (V)", null=True, blank=True)
+
+    front_lens_reagent_injection_v = models.FloatField("Front Lens Reagent Injection (V)", null=True, blank=True)
+
+    center_lens_2_v = models.FloatField("Center Lens 2 (V)", null=True, blank=True)
+
 
 
 
@@ -367,7 +379,18 @@ class MetaNegativePolarity(models.Model):
     faims_dv_v = models.IntegerField("FAIMS DV (V)", null=True, blank=True)
 
     faims_epv_v = models.IntegerField("FAIMS EPV (V)", null=True, blank=True)
+    
+    slens_rf_level_percent = models.IntegerField("S-Lens RF Level (%)", null=True, blank=True)
 
+    back_lens_reagent_injection_v = models.FloatField("Back Lens Reagent Injection (V)", null=True, blank=True)
+
+    back_section_lpt_reagent_injection_v = models.FloatField("Back Section LPT Reagent Injection (V)", null=True, blank=True)
+
+    center_lens_reagent_injection_v = models.FloatField("Center Lens Reagent Injection (V)", null=True, blank=True)
+
+    front_lens_reagent_injection_v = models.FloatField("Front Lens Reagent Injection (V)", null=True, blank=True)
+
+    center_lens_2_v = models.FloatField("Center Lens 2 (V)", null=True, blank=True)
 
 
 
@@ -423,19 +446,19 @@ class MetaCalibrationFileValue(models.Model):
 
     qmslope2 = models.FloatField("QMSlope2", null=True, blank=True)
 
-    qmslope3 = models.IntegerField("QMSlope3", null=True, blank=True)
+    qmslope3 = models.FloatField("QMSlope3", null=True, blank=True)
 
-    qmslope4 = models.IntegerField("QMSlope4", null=True, blank=True)
+    qmslope4 = models.FloatField("QMSlope4", null=True, blank=True)
 
     qmint0 = models.FloatField("QMInt0", null=True, blank=True)
 
-    qmint1 = models.IntegerField("QMInt1", null=True, blank=True)
+    qmint1 = models.FloatField("QMInt1", null=True, blank=True)
 
     qmint2 = models.FloatField("QMInt2", null=True, blank=True)
 
-    qmint3 = models.IntegerField("QMInt3", null=True, blank=True)
+    qmint3 = models.FloatField("QMInt3", null=True, blank=True)
 
-    qmint4 = models.IntegerField("QMInt4", null=True, blank=True)
+    qmint4 = models.FloatField("QMInt4", null=True, blank=True)
 
     end_section_slope = models.FloatField("End Section Slope", null=True, blank=True)
 
@@ -467,29 +490,29 @@ class MetaCalibrationFileValue(models.Model):
 
     tickle_ampdot_int3 = models.FloatField("Tickle Amp. Int3", null=True, blank=True)
     
-    multiplier_1_normal_gain = models.IntegerField("Multiplier 1 Normal Gain", null=True, blank=True)
+    multiplier_1_normal_gain = models.FloatField("Multiplier 1 Normal Gain", null=True, blank=True)
 
-    multiplier_1_high_gain = models.IntegerField("Multiplier 1 High Gain", null=True, blank=True)
+    multiplier_1_high_gain = models.FloatField("Multiplier 1 High Gain", null=True, blank=True)
 
-    multiplier_2_normal_gain = models.IntegerField("Multiplier 2 Normal Gain", null=True, blank=True)
+    multiplier_2_normal_gain = models.FloatField("Multiplier 2 Normal Gain", null=True, blank=True)
 
-    multiplier_2_high_gain = models.IntegerField("Multiplier 2 High Gain", null=True, blank=True)
+    multiplier_2_high_gain = models.FloatField("Multiplier 2 High Gain", null=True, blank=True)
 
-    multiplier_1_normal_gain_pos = models.IntegerField("Multiplier 1 Normal Gain (pos)", null=True, blank=True)
+    multiplier_1_normal_gain_pos = models.FloatField("Multiplier 1 Normal Gain (pos)", null=True, blank=True)
 
-    multiplier_1_high_gain_pos = models.IntegerField("Multiplier 1 High Gain (pos)", null=True, blank=True)
+    multiplier_1_high_gain_pos = models.FloatField("Multiplier 1 High Gain (pos)", null=True, blank=True)
 
-    multiplier_2_normal_gain_pos = models.IntegerField("Multiplier 2 Normal Gain (pos)", null=True, blank=True)
+    multiplier_2_normal_gain_pos = models.FloatField("Multiplier 2 Normal Gain (pos)", null=True, blank=True)
 
-    multiplier_2_high_gain_pos = models.IntegerField("Multiplier 2 High Gain (pos)", null=True, blank=True)
+    multiplier_2_high_gain_pos = models.FloatField("Multiplier 2 High Gain (pos)", null=True, blank=True)
 
-    multiplier_1_normal_gain_neg = models.IntegerField("Multiplier 1 Normal Gain (neg)", null=True, blank=True)
+    multiplier_1_normal_gain_neg = models.FloatField("Multiplier 1 Normal Gain (neg)", null=True, blank=True)
 
-    multiplier_1_high_gain_neg = models.IntegerField("Multiplier 1 High Gain (neg)", null=True, blank=True)
+    multiplier_1_high_gain_neg = models.FloatField("Multiplier 1 High Gain (neg)", null=True, blank=True)
 
-    multiplier_2_normal_gain_neg = models.IntegerField("Multiplier 2 Normal Gain (neg)", null=True, blank=True)
+    multiplier_2_normal_gain_neg = models.FloatField("Multiplier 2 Normal Gain (neg)", null=True, blank=True)
 
-    multiplier_2_high_gain_neg = models.IntegerField("Multiplier 2 High Gain (neg)", null=True, blank=True)
+    multiplier_2_high_gain_neg = models.FloatField("Multiplier 2 High Gain (neg)", null=True, blank=True)
 
     normal_resdot_eject_slope = models.FloatField("Normal Res. Eject Slope", null=True, blank=True)
 
@@ -618,6 +641,2176 @@ class MetaCalibrationFileValue(models.Model):
     reagent_electron_lens_device_min_v = models.FloatField("Reagent Electron Lens Device Min (V)", null=True, blank=True)
 
     reagent_electron_lens_device_max_v = models.FloatField("Reagent Electron Lens Device Max (V)", null=True, blank=True)
+
+    center_lens_highlow_transfer_pos_v = models.FloatField("Center Lens High-Low Transfer (pos) (V)", null=True, blank=True)
+
+    back_section_highlow_transfer_pos_v = models.FloatField("Back Section High-Low Transfer (pos) (V)", null=True, blank=True)
+
+    center_lens_highlow_transfer_neg_v = models.FloatField("Center Lens High-Low Transfer (neg) (V)", null=True, blank=True)
+
+    back_section_highlow_transfer_neg_v = models.FloatField("Back Section High-Low Transfer (neg) (V)", null=True, blank=True)
+
+    center_lens_lowhigh_transfer_pos_v = models.FloatField("Center Lens Low-High Transfer (pos) (V)", null=True, blank=True)
+
+    front_section_lowhigh_transfer_pos_v = models.FloatField("Front Section Low-High Transfer (pos) (V)", null=True, blank=True)
+
+    center_lens_lowhigh_transfer_neg_v = models.FloatField("Center Lens Low-High Transfer (neg) (V)", null=True, blank=True)
+
+    front_section_lowhigh_transfer_neg_v = models.FloatField("Front Section Low-High Transfer (neg) (V)", null=True, blank=True)
+
+    scan_phase_0 = models.FloatField("Scan Phase 0", null=True, blank=True)
+
+    scan_phase_1 = models.FloatField("Scan Phase 1", null=True, blank=True)
+
+    scan_phase_2 = models.FloatField("Scan Phase 2", null=True, blank=True)
+
+    scan_phase_3 = models.FloatField("Scan Phase 3", null=True, blank=True)
+
+    scan_phase_4 = models.FloatField("Scan Phase 4", null=True, blank=True)
+
+    scan_phase_5 = models.FloatField("Scan Phase 5", null=True, blank=True)
+
+    scan_phase_6 = models.FloatField("Scan Phase 6", null=True, blank=True)
+
+    scan_phase_7 = models.FloatField("Scan Phase 7", null=True, blank=True)
+
+    scan_phase_8 = models.FloatField("Scan Phase 8", null=True, blank=True)
+
+    scan_phase_9 = models.FloatField("Scan Phase 9", null=True, blank=True)
+
+    scan_phase_10 = models.FloatField("Scan Phase 10", null=True, blank=True)
+
+    scan_phase_11 = models.FloatField("Scan Phase 11", null=True, blank=True)
+    
+    multiplier_1_res_ej_phase_pos = models.FloatField("Multiplier 1 Res Ej Phase (pos)", null=True, blank=True)
+
+    multiplier_2_res_ej_phase_pos = models.FloatField("Multiplier 2 Res Ej Phase (pos)", null=True, blank=True)
+
+    multiplier_1_res_ej_phase_neg = models.FloatField("Multiplier 1 Res Ej Phase (neg)", null=True, blank=True)
+
+    multiplier_2_res_ej_phase_neg = models.FloatField("Multiplier 2 Res Ej Phase (neg)", null=True, blank=True)
+
+    center_lens_lpt_device_min_v = models.FloatField("Center Lens LPT Device Min (V)", null=True, blank=True)
+
+    center_lens_lpt_device_max_v = models.FloatField("Center Lens LPT Device Max (V)", null=True, blank=True)
+
+    front_section_lpt_device_min_v = models.FloatField("Front Section LPT Device Min (V)", null=True, blank=True)
+
+    front_section_lpt_device_max_v = models.FloatField("Front Section LPT Device Max (V)", null=True, blank=True)
+
+    center_section_lpt_device_min_v = models.FloatField("Center Section LPT Device Min (V)", null=True, blank=True)
+
+    center_section_lpt_device_max_v = models.FloatField("Center Section LPT Device Max (V)", null=True, blank=True)
+
+    back_section_lpt_device_min_v = models.FloatField("Back Section LPT Device Min (V)", null=True, blank=True)
+
+    back_section_lpt_device_max_v = models.FloatField("Back Section LPT Device Max (V)", null=True, blank=True)
+
+
+
+
+class MetaCalibrationFileValueResEject(models.Model):
+
+
+    class Meta:
+        verbose_name = "Meta: Calibration File Value"
+
+
+    sample = models.ForeignKey(Sample, related_name='%(class)s_Meta')
+
+    resdot_eject_slope_0_0 = models.FloatField("Res. Eject Slope[0][0]", null=True, blank=True)
+
+    resdot_eject_intercept_0_0 = models.FloatField("Res. Eject Intercept[0][0]", null=True, blank=True)
+
+    resdot_eject_slope_0_1 = models.FloatField("Res. Eject Slope[0][1]", null=True, blank=True)
+
+    resdot_eject_intercept_0_1 = models.FloatField("Res. Eject Intercept[0][1]", null=True, blank=True)
+
+    resdot_eject_slope_0_2 = models.FloatField("Res. Eject Slope[0][2]", null=True, blank=True)
+
+    resdot_eject_intercept_0_2 = models.FloatField("Res. Eject Intercept[0][2]", null=True, blank=True)
+
+    resdot_eject_slope_0_3 = models.FloatField("Res. Eject Slope[0][3]", null=True, blank=True)
+
+    resdot_eject_intercept_0_3 = models.FloatField("Res. Eject Intercept[0][3]", null=True, blank=True)
+
+    resdot_eject_slope_0_4 = models.FloatField("Res. Eject Slope[0][4]", null=True, blank=True)
+
+    resdot_eject_intercept_0_4 = models.FloatField("Res. Eject Intercept[0][4]", null=True, blank=True)
+
+    resdot_eject_slope_0_5 = models.FloatField("Res. Eject Slope[0][5]", null=True, blank=True)
+
+    resdot_eject_intercept_0_5 = models.FloatField("Res. Eject Intercept[0][5]", null=True, blank=True)
+
+    resdot_eject_slope_0_6 = models.FloatField("Res. Eject Slope[0][6]", null=True, blank=True)
+
+    resdot_eject_intercept_0_6 = models.FloatField("Res. Eject Intercept[0][6]", null=True, blank=True)
+
+    resdot_eject_slope_0_7 = models.FloatField("Res. Eject Slope[0][7]", null=True, blank=True)
+
+    resdot_eject_intercept_0_7 = models.FloatField("Res. Eject Intercept[0][7]", null=True, blank=True)
+
+    resdot_eject_slope_0_8 = models.FloatField("Res. Eject Slope[0][8]", null=True, blank=True)
+
+    resdot_eject_intercept_0_8 = models.FloatField("Res. Eject Intercept[0][8]", null=True, blank=True)
+
+    resdot_eject_slope_0_9 = models.FloatField("Res. Eject Slope[0][9]", null=True, blank=True)
+
+    resdot_eject_intercept_0_9 = models.FloatField("Res. Eject Intercept[0][9]", null=True, blank=True)
+
+    resdot_eject_slope_0_10 = models.FloatField("Res. Eject Slope[0][10]", null=True, blank=True)
+
+    resdot_eject_intercept_0_10 = models.FloatField("Res. Eject Intercept[0][10]", null=True, blank=True)
+
+    resdot_eject_slope_0_11 = models.FloatField("Res. Eject Slope[0][11]", null=True, blank=True)
+
+    resdot_eject_intercept_0_11 = models.FloatField("Res. Eject Intercept[0][11]", null=True, blank=True)
+
+    resdot_eject_slope_0_12 = models.FloatField("Res. Eject Slope[0][12]", null=True, blank=True)
+
+    resdot_eject_intercept_0_12 = models.FloatField("Res. Eject Intercept[0][12]", null=True, blank=True)
+
+    resdot_eject_slope_0_13 = models.FloatField("Res. Eject Slope[0][13]", null=True, blank=True)
+
+    resdot_eject_intercept_0_13 = models.FloatField("Res. Eject Intercept[0][13]", null=True, blank=True)
+
+    resdot_eject_slope_0_14 = models.FloatField("Res. Eject Slope[0][14]", null=True, blank=True)
+
+    resdot_eject_intercept_0_14 = models.FloatField("Res. Eject Intercept[0][14]", null=True, blank=True)
+
+    resdot_eject_slope_0_15 = models.FloatField("Res. Eject Slope[0][15]", null=True, blank=True)
+
+    resdot_eject_intercept_0_15 = models.FloatField("Res. Eject Intercept[0][15]", null=True, blank=True)
+
+    resdot_eject_slope_0_16 = models.FloatField("Res. Eject Slope[0][16]", null=True, blank=True)
+
+    resdot_eject_intercept_0_16 = models.FloatField("Res. Eject Intercept[0][16]", null=True, blank=True)
+
+    resdot_eject_slope_0_17 = models.FloatField("Res. Eject Slope[0][17]", null=True, blank=True)
+
+    resdot_eject_intercept_0_17 = models.FloatField("Res. Eject Intercept[0][17]", null=True, blank=True)
+
+    resdot_eject_slope_0_18 = models.FloatField("Res. Eject Slope[0][18]", null=True, blank=True)
+
+    resdot_eject_intercept_0_18 = models.FloatField("Res. Eject Intercept[0][18]", null=True, blank=True)
+
+    resdot_eject_slope_0_19 = models.FloatField("Res. Eject Slope[0][19]", null=True, blank=True)
+
+    resdot_eject_intercept_0_19 = models.FloatField("Res. Eject Intercept[0][19]", null=True, blank=True)
+
+    resdot_eject_slope_1_0 = models.FloatField("Res. Eject Slope[1][0]", null=True, blank=True)
+
+    resdot_eject_intercept_1_0 = models.FloatField("Res. Eject Intercept[1][0]", null=True, blank=True)
+
+    resdot_eject_slope_1_1 = models.FloatField("Res. Eject Slope[1][1]", null=True, blank=True)
+
+    resdot_eject_intercept_1_1 = models.FloatField("Res. Eject Intercept[1][1]", null=True, blank=True)
+
+    resdot_eject_slope_1_2 = models.FloatField("Res. Eject Slope[1][2]", null=True, blank=True)
+
+    resdot_eject_intercept_1_2 = models.FloatField("Res. Eject Intercept[1][2]", null=True, blank=True)
+
+    resdot_eject_slope_1_3 = models.FloatField("Res. Eject Slope[1][3]", null=True, blank=True)
+
+    resdot_eject_intercept_1_3 = models.FloatField("Res. Eject Intercept[1][3]", null=True, blank=True)
+
+    resdot_eject_slope_1_4 = models.FloatField("Res. Eject Slope[1][4]", null=True, blank=True)
+
+    resdot_eject_intercept_1_4 = models.FloatField("Res. Eject Intercept[1][4]", null=True, blank=True)
+
+    resdot_eject_slope_1_5 = models.FloatField("Res. Eject Slope[1][5]", null=True, blank=True)
+
+    resdot_eject_intercept_1_5 = models.FloatField("Res. Eject Intercept[1][5]", null=True, blank=True)
+
+    resdot_eject_slope_1_6 = models.FloatField("Res. Eject Slope[1][6]", null=True, blank=True)
+
+    resdot_eject_intercept_1_6 = models.FloatField("Res. Eject Intercept[1][6]", null=True, blank=True)
+
+    resdot_eject_slope_1_7 = models.FloatField("Res. Eject Slope[1][7]", null=True, blank=True)
+
+    resdot_eject_intercept_1_7 = models.FloatField("Res. Eject Intercept[1][7]", null=True, blank=True)
+
+    resdot_eject_slope_1_8 = models.FloatField("Res. Eject Slope[1][8]", null=True, blank=True)
+
+    resdot_eject_intercept_1_8 = models.FloatField("Res. Eject Intercept[1][8]", null=True, blank=True)
+
+    resdot_eject_slope_1_9 = models.FloatField("Res. Eject Slope[1][9]", null=True, blank=True)
+
+    resdot_eject_intercept_1_9 = models.FloatField("Res. Eject Intercept[1][9]", null=True, blank=True)
+
+    resdot_eject_slope_1_10 = models.FloatField("Res. Eject Slope[1][10]", null=True, blank=True)
+
+    resdot_eject_intercept_1_10 = models.FloatField("Res. Eject Intercept[1][10]", null=True, blank=True)
+
+    resdot_eject_slope_1_11 = models.FloatField("Res. Eject Slope[1][11]", null=True, blank=True)
+
+    resdot_eject_intercept_1_11 = models.FloatField("Res. Eject Intercept[1][11]", null=True, blank=True)
+
+    resdot_eject_slope_1_12 = models.FloatField("Res. Eject Slope[1][12]", null=True, blank=True)
+
+    resdot_eject_intercept_1_12 = models.FloatField("Res. Eject Intercept[1][12]", null=True, blank=True)
+
+    resdot_eject_slope_1_13 = models.FloatField("Res. Eject Slope[1][13]", null=True, blank=True)
+
+    resdot_eject_intercept_1_13 = models.FloatField("Res. Eject Intercept[1][13]", null=True, blank=True)
+
+    resdot_eject_slope_1_14 = models.FloatField("Res. Eject Slope[1][14]", null=True, blank=True)
+
+    resdot_eject_intercept_1_14 = models.FloatField("Res. Eject Intercept[1][14]", null=True, blank=True)
+
+    resdot_eject_slope_1_15 = models.FloatField("Res. Eject Slope[1][15]", null=True, blank=True)
+
+    resdot_eject_intercept_1_15 = models.FloatField("Res. Eject Intercept[1][15]", null=True, blank=True)
+
+    resdot_eject_slope_1_16 = models.FloatField("Res. Eject Slope[1][16]", null=True, blank=True)
+
+    resdot_eject_intercept_1_16 = models.FloatField("Res. Eject Intercept[1][16]", null=True, blank=True)
+
+    resdot_eject_slope_1_17 = models.FloatField("Res. Eject Slope[1][17]", null=True, blank=True)
+
+    resdot_eject_intercept_1_17 = models.FloatField("Res. Eject Intercept[1][17]", null=True, blank=True)
+
+    resdot_eject_slope_1_18 = models.FloatField("Res. Eject Slope[1][18]", null=True, blank=True)
+
+    resdot_eject_intercept_1_18 = models.FloatField("Res. Eject Intercept[1][18]", null=True, blank=True)
+
+    resdot_eject_slope_1_19 = models.FloatField("Res. Eject Slope[1][19]", null=True, blank=True)
+
+    resdot_eject_intercept_1_19 = models.FloatField("Res. Eject Intercept[1][19]", null=True, blank=True)
+
+    resdot_eject_slope_2_0 = models.FloatField("Res. Eject Slope[2][0]", null=True, blank=True)
+
+    resdot_eject_intercept_2_0 = models.FloatField("Res. Eject Intercept[2][0]", null=True, blank=True)
+
+    resdot_eject_slope_2_1 = models.FloatField("Res. Eject Slope[2][1]", null=True, blank=True)
+
+    resdot_eject_intercept_2_1 = models.FloatField("Res. Eject Intercept[2][1]", null=True, blank=True)
+
+    resdot_eject_slope_2_2 = models.FloatField("Res. Eject Slope[2][2]", null=True, blank=True)
+
+    resdot_eject_intercept_2_2 = models.FloatField("Res. Eject Intercept[2][2]", null=True, blank=True)
+
+    resdot_eject_slope_2_3 = models.FloatField("Res. Eject Slope[2][3]", null=True, blank=True)
+
+    resdot_eject_intercept_2_3 = models.FloatField("Res. Eject Intercept[2][3]", null=True, blank=True)
+
+    resdot_eject_slope_2_4 = models.FloatField("Res. Eject Slope[2][4]", null=True, blank=True)
+
+    resdot_eject_intercept_2_4 = models.FloatField("Res. Eject Intercept[2][4]", null=True, blank=True)
+
+    resdot_eject_slope_2_5 = models.FloatField("Res. Eject Slope[2][5]", null=True, blank=True)
+
+    resdot_eject_intercept_2_5 = models.FloatField("Res. Eject Intercept[2][5]", null=True, blank=True)
+
+    resdot_eject_slope_2_6 = models.FloatField("Res. Eject Slope[2][6]", null=True, blank=True)
+
+    resdot_eject_intercept_2_6 = models.FloatField("Res. Eject Intercept[2][6]", null=True, blank=True)
+
+    resdot_eject_slope_2_7 = models.FloatField("Res. Eject Slope[2][7]", null=True, blank=True)
+
+    resdot_eject_intercept_2_7 = models.FloatField("Res. Eject Intercept[2][7]", null=True, blank=True)
+
+    resdot_eject_slope_2_8 = models.FloatField("Res. Eject Slope[2][8]", null=True, blank=True)
+
+    resdot_eject_intercept_2_8 = models.FloatField("Res. Eject Intercept[2][8]", null=True, blank=True)
+
+    resdot_eject_slope_2_9 = models.FloatField("Res. Eject Slope[2][9]", null=True, blank=True)
+
+    resdot_eject_intercept_2_9 = models.FloatField("Res. Eject Intercept[2][9]", null=True, blank=True)
+
+    resdot_eject_slope_2_10 = models.FloatField("Res. Eject Slope[2][10]", null=True, blank=True)
+
+    resdot_eject_intercept_2_10 = models.FloatField("Res. Eject Intercept[2][10]", null=True, blank=True)
+
+    resdot_eject_slope_2_11 = models.FloatField("Res. Eject Slope[2][11]", null=True, blank=True)
+
+    resdot_eject_intercept_2_11 = models.FloatField("Res. Eject Intercept[2][11]", null=True, blank=True)
+
+    resdot_eject_slope_2_12 = models.FloatField("Res. Eject Slope[2][12]", null=True, blank=True)
+
+    resdot_eject_intercept_2_12 = models.FloatField("Res. Eject Intercept[2][12]", null=True, blank=True)
+
+    resdot_eject_slope_2_13 = models.FloatField("Res. Eject Slope[2][13]", null=True, blank=True)
+
+    resdot_eject_intercept_2_13 = models.FloatField("Res. Eject Intercept[2][13]", null=True, blank=True)
+
+    resdot_eject_slope_2_14 = models.FloatField("Res. Eject Slope[2][14]", null=True, blank=True)
+
+    resdot_eject_intercept_2_14 = models.FloatField("Res. Eject Intercept[2][14]", null=True, blank=True)
+
+    resdot_eject_slope_2_15 = models.FloatField("Res. Eject Slope[2][15]", null=True, blank=True)
+
+    resdot_eject_intercept_2_15 = models.FloatField("Res. Eject Intercept[2][15]", null=True, blank=True)
+
+    resdot_eject_slope_2_16 = models.FloatField("Res. Eject Slope[2][16]", null=True, blank=True)
+
+    resdot_eject_intercept_2_16 = models.FloatField("Res. Eject Intercept[2][16]", null=True, blank=True)
+
+    resdot_eject_slope_2_17 = models.FloatField("Res. Eject Slope[2][17]", null=True, blank=True)
+
+    resdot_eject_intercept_2_17 = models.FloatField("Res. Eject Intercept[2][17]", null=True, blank=True)
+
+    resdot_eject_slope_2_18 = models.FloatField("Res. Eject Slope[2][18]", null=True, blank=True)
+
+    resdot_eject_intercept_2_18 = models.FloatField("Res. Eject Intercept[2][18]", null=True, blank=True)
+
+    resdot_eject_slope_2_19 = models.FloatField("Res. Eject Slope[2][19]", null=True, blank=True)
+
+    resdot_eject_intercept_2_19 = models.FloatField("Res. Eject Intercept[2][19]", null=True, blank=True)
+
+    resdot_eject_slope_3_0 = models.FloatField("Res. Eject Slope[3][0]", null=True, blank=True)
+
+    resdot_eject_intercept_3_0 = models.FloatField("Res. Eject Intercept[3][0]", null=True, blank=True)
+
+    resdot_eject_slope_3_1 = models.FloatField("Res. Eject Slope[3][1]", null=True, blank=True)
+
+    resdot_eject_intercept_3_1 = models.FloatField("Res. Eject Intercept[3][1]", null=True, blank=True)
+
+    resdot_eject_slope_3_2 = models.FloatField("Res. Eject Slope[3][2]", null=True, blank=True)
+
+    resdot_eject_intercept_3_2 = models.FloatField("Res. Eject Intercept[3][2]", null=True, blank=True)
+
+    resdot_eject_slope_3_3 = models.FloatField("Res. Eject Slope[3][3]", null=True, blank=True)
+
+    resdot_eject_intercept_3_3 = models.FloatField("Res. Eject Intercept[3][3]", null=True, blank=True)
+
+    resdot_eject_slope_3_4 = models.FloatField("Res. Eject Slope[3][4]", null=True, blank=True)
+
+    resdot_eject_intercept_3_4 = models.FloatField("Res. Eject Intercept[3][4]", null=True, blank=True)
+
+    resdot_eject_slope_3_5 = models.FloatField("Res. Eject Slope[3][5]", null=True, blank=True)
+
+    resdot_eject_intercept_3_5 = models.FloatField("Res. Eject Intercept[3][5]", null=True, blank=True)
+
+    resdot_eject_slope_3_6 = models.FloatField("Res. Eject Slope[3][6]", null=True, blank=True)
+
+    resdot_eject_intercept_3_6 = models.FloatField("Res. Eject Intercept[3][6]", null=True, blank=True)
+
+    resdot_eject_slope_3_7 = models.FloatField("Res. Eject Slope[3][7]", null=True, blank=True)
+
+    resdot_eject_intercept_3_7 = models.FloatField("Res. Eject Intercept[3][7]", null=True, blank=True)
+
+    resdot_eject_slope_3_8 = models.FloatField("Res. Eject Slope[3][8]", null=True, blank=True)
+
+    resdot_eject_intercept_3_8 = models.FloatField("Res. Eject Intercept[3][8]", null=True, blank=True)
+
+    resdot_eject_slope_3_9 = models.FloatField("Res. Eject Slope[3][9]", null=True, blank=True)
+
+    resdot_eject_intercept_3_9 = models.FloatField("Res. Eject Intercept[3][9]", null=True, blank=True)
+
+    resdot_eject_slope_3_10 = models.FloatField("Res. Eject Slope[3][10]", null=True, blank=True)
+
+    resdot_eject_intercept_3_10 = models.FloatField("Res. Eject Intercept[3][10]", null=True, blank=True)
+
+    resdot_eject_slope_3_11 = models.FloatField("Res. Eject Slope[3][11]", null=True, blank=True)
+
+    resdot_eject_intercept_3_11 = models.FloatField("Res. Eject Intercept[3][11]", null=True, blank=True)
+
+    resdot_eject_slope_3_12 = models.FloatField("Res. Eject Slope[3][12]", null=True, blank=True)
+
+    resdot_eject_intercept_3_12 = models.FloatField("Res. Eject Intercept[3][12]", null=True, blank=True)
+
+    resdot_eject_slope_3_13 = models.FloatField("Res. Eject Slope[3][13]", null=True, blank=True)
+
+    resdot_eject_intercept_3_13 = models.FloatField("Res. Eject Intercept[3][13]", null=True, blank=True)
+
+    resdot_eject_slope_3_14 = models.FloatField("Res. Eject Slope[3][14]", null=True, blank=True)
+
+    resdot_eject_intercept_3_14 = models.FloatField("Res. Eject Intercept[3][14]", null=True, blank=True)
+
+    resdot_eject_slope_3_15 = models.FloatField("Res. Eject Slope[3][15]", null=True, blank=True)
+
+    resdot_eject_intercept_3_15 = models.FloatField("Res. Eject Intercept[3][15]", null=True, blank=True)
+
+    resdot_eject_slope_3_16 = models.FloatField("Res. Eject Slope[3][16]", null=True, blank=True)
+
+    resdot_eject_intercept_3_16 = models.FloatField("Res. Eject Intercept[3][16]", null=True, blank=True)
+
+    resdot_eject_slope_3_17 = models.FloatField("Res. Eject Slope[3][17]", null=True, blank=True)
+
+    resdot_eject_intercept_3_17 = models.FloatField("Res. Eject Intercept[3][17]", null=True, blank=True)
+
+    resdot_eject_slope_3_18 = models.FloatField("Res. Eject Slope[3][18]", null=True, blank=True)
+
+    resdot_eject_intercept_3_18 = models.FloatField("Res. Eject Intercept[3][18]", null=True, blank=True)
+
+    resdot_eject_slope_3_19 = models.FloatField("Res. Eject Slope[3][19]", null=True, blank=True)
+
+    resdot_eject_intercept_3_19 = models.FloatField("Res. Eject Intercept[3][19]", null=True, blank=True)
+
+    resdot_eject_slope_4_0 = models.FloatField("Res. Eject Slope[4][0]", null=True, blank=True)
+
+    resdot_eject_intercept_4_0 = models.FloatField("Res. Eject Intercept[4][0]", null=True, blank=True)
+
+    resdot_eject_slope_4_1 = models.FloatField("Res. Eject Slope[4][1]", null=True, blank=True)
+
+    resdot_eject_intercept_4_1 = models.FloatField("Res. Eject Intercept[4][1]", null=True, blank=True)
+
+    resdot_eject_slope_4_2 = models.FloatField("Res. Eject Slope[4][2]", null=True, blank=True)
+
+    resdot_eject_intercept_4_2 = models.FloatField("Res. Eject Intercept[4][2]", null=True, blank=True)
+
+    resdot_eject_slope_4_3 = models.FloatField("Res. Eject Slope[4][3]", null=True, blank=True)
+
+    resdot_eject_intercept_4_3 = models.FloatField("Res. Eject Intercept[4][3]", null=True, blank=True)
+
+    resdot_eject_slope_4_4 = models.FloatField("Res. Eject Slope[4][4]", null=True, blank=True)
+
+    resdot_eject_intercept_4_4 = models.FloatField("Res. Eject Intercept[4][4]", null=True, blank=True)
+
+    resdot_eject_slope_4_5 = models.FloatField("Res. Eject Slope[4][5]", null=True, blank=True)
+
+    resdot_eject_intercept_4_5 = models.FloatField("Res. Eject Intercept[4][5]", null=True, blank=True)
+
+    resdot_eject_slope_4_6 = models.FloatField("Res. Eject Slope[4][6]", null=True, blank=True)
+
+    resdot_eject_intercept_4_6 = models.FloatField("Res. Eject Intercept[4][6]", null=True, blank=True)
+
+    resdot_eject_slope_4_7 = models.FloatField("Res. Eject Slope[4][7]", null=True, blank=True)
+
+    resdot_eject_intercept_4_7 = models.FloatField("Res. Eject Intercept[4][7]", null=True, blank=True)
+
+    resdot_eject_slope_4_8 = models.FloatField("Res. Eject Slope[4][8]", null=True, blank=True)
+
+    resdot_eject_intercept_4_8 = models.FloatField("Res. Eject Intercept[4][8]", null=True, blank=True)
+
+    resdot_eject_slope_4_9 = models.FloatField("Res. Eject Slope[4][9]", null=True, blank=True)
+
+    resdot_eject_intercept_4_9 = models.FloatField("Res. Eject Intercept[4][9]", null=True, blank=True)
+
+    resdot_eject_slope_4_10 = models.FloatField("Res. Eject Slope[4][10]", null=True, blank=True)
+
+    resdot_eject_intercept_4_10 = models.FloatField("Res. Eject Intercept[4][10]", null=True, blank=True)
+
+    resdot_eject_slope_4_11 = models.FloatField("Res. Eject Slope[4][11]", null=True, blank=True)
+
+    resdot_eject_intercept_4_11 = models.FloatField("Res. Eject Intercept[4][11]", null=True, blank=True)
+
+    resdot_eject_slope_4_12 = models.FloatField("Res. Eject Slope[4][12]", null=True, blank=True)
+
+    resdot_eject_intercept_4_12 = models.FloatField("Res. Eject Intercept[4][12]", null=True, blank=True)
+
+    resdot_eject_slope_4_13 = models.FloatField("Res. Eject Slope[4][13]", null=True, blank=True)
+
+    resdot_eject_intercept_4_13 = models.FloatField("Res. Eject Intercept[4][13]", null=True, blank=True)
+
+    resdot_eject_slope_4_14 = models.FloatField("Res. Eject Slope[4][14]", null=True, blank=True)
+
+    resdot_eject_intercept_4_14 = models.FloatField("Res. Eject Intercept[4][14]", null=True, blank=True)
+
+    resdot_eject_slope_4_15 = models.FloatField("Res. Eject Slope[4][15]", null=True, blank=True)
+
+    resdot_eject_intercept_4_15 = models.FloatField("Res. Eject Intercept[4][15]", null=True, blank=True)
+
+    resdot_eject_slope_4_16 = models.FloatField("Res. Eject Slope[4][16]", null=True, blank=True)
+
+    resdot_eject_intercept_4_16 = models.FloatField("Res. Eject Intercept[4][16]", null=True, blank=True)
+
+    resdot_eject_slope_4_17 = models.FloatField("Res. Eject Slope[4][17]", null=True, blank=True)
+
+    resdot_eject_intercept_4_17 = models.FloatField("Res. Eject Intercept[4][17]", null=True, blank=True)
+
+    resdot_eject_slope_4_18 = models.FloatField("Res. Eject Slope[4][18]", null=True, blank=True)
+
+    resdot_eject_intercept_4_18 = models.FloatField("Res. Eject Intercept[4][18]", null=True, blank=True)
+
+    resdot_eject_slope_4_19 = models.FloatField("Res. Eject Slope[4][19]", null=True, blank=True)
+
+    resdot_eject_intercept_4_19 = models.FloatField("Res. Eject Intercept[4][19]", null=True, blank=True)
+
+    resdot_eject_slope_5_0 = models.FloatField("Res. Eject Slope[5][0]", null=True, blank=True)
+
+    resdot_eject_intercept_5_0 = models.FloatField("Res. Eject Intercept[5][0]", null=True, blank=True)
+
+    resdot_eject_slope_5_1 = models.FloatField("Res. Eject Slope[5][1]", null=True, blank=True)
+
+    resdot_eject_intercept_5_1 = models.FloatField("Res. Eject Intercept[5][1]", null=True, blank=True)
+
+    resdot_eject_slope_5_2 = models.FloatField("Res. Eject Slope[5][2]", null=True, blank=True)
+
+    resdot_eject_intercept_5_2 = models.FloatField("Res. Eject Intercept[5][2]", null=True, blank=True)
+
+    resdot_eject_slope_5_3 = models.FloatField("Res. Eject Slope[5][3]", null=True, blank=True)
+
+    resdot_eject_intercept_5_3 = models.FloatField("Res. Eject Intercept[5][3]", null=True, blank=True)
+
+    resdot_eject_slope_5_4 = models.FloatField("Res. Eject Slope[5][4]", null=True, blank=True)
+
+    resdot_eject_intercept_5_4 = models.FloatField("Res. Eject Intercept[5][4]", null=True, blank=True)
+
+    resdot_eject_slope_5_5 = models.FloatField("Res. Eject Slope[5][5]", null=True, blank=True)
+
+    resdot_eject_intercept_5_5 = models.FloatField("Res. Eject Intercept[5][5]", null=True, blank=True)
+
+    resdot_eject_slope_5_6 = models.FloatField("Res. Eject Slope[5][6]", null=True, blank=True)
+
+    resdot_eject_intercept_5_6 = models.FloatField("Res. Eject Intercept[5][6]", null=True, blank=True)
+
+    resdot_eject_slope_5_7 = models.FloatField("Res. Eject Slope[5][7]", null=True, blank=True)
+
+    resdot_eject_intercept_5_7 = models.FloatField("Res. Eject Intercept[5][7]", null=True, blank=True)
+
+    resdot_eject_slope_5_8 = models.FloatField("Res. Eject Slope[5][8]", null=True, blank=True)
+
+    resdot_eject_intercept_5_8 = models.FloatField("Res. Eject Intercept[5][8]", null=True, blank=True)
+
+    resdot_eject_slope_5_9 = models.FloatField("Res. Eject Slope[5][9]", null=True, blank=True)
+
+    resdot_eject_intercept_5_9 = models.FloatField("Res. Eject Intercept[5][9]", null=True, blank=True)
+
+    resdot_eject_slope_5_10 = models.FloatField("Res. Eject Slope[5][10]", null=True, blank=True)
+
+    resdot_eject_intercept_5_10 = models.FloatField("Res. Eject Intercept[5][10]", null=True, blank=True)
+
+    resdot_eject_slope_5_11 = models.FloatField("Res. Eject Slope[5][11]", null=True, blank=True)
+
+    resdot_eject_intercept_5_11 = models.FloatField("Res. Eject Intercept[5][11]", null=True, blank=True)
+
+    resdot_eject_slope_5_12 = models.FloatField("Res. Eject Slope[5][12]", null=True, blank=True)
+
+    resdot_eject_intercept_5_12 = models.FloatField("Res. Eject Intercept[5][12]", null=True, blank=True)
+
+    resdot_eject_slope_5_13 = models.FloatField("Res. Eject Slope[5][13]", null=True, blank=True)
+
+    resdot_eject_intercept_5_13 = models.FloatField("Res. Eject Intercept[5][13]", null=True, blank=True)
+
+    resdot_eject_slope_5_14 = models.FloatField("Res. Eject Slope[5][14]", null=True, blank=True)
+
+    resdot_eject_intercept_5_14 = models.FloatField("Res. Eject Intercept[5][14]", null=True, blank=True)
+
+    resdot_eject_slope_5_15 = models.FloatField("Res. Eject Slope[5][15]", null=True, blank=True)
+
+    resdot_eject_intercept_5_15 = models.FloatField("Res. Eject Intercept[5][15]", null=True, blank=True)
+
+    resdot_eject_slope_5_16 = models.FloatField("Res. Eject Slope[5][16]", null=True, blank=True)
+
+    resdot_eject_intercept_5_16 = models.FloatField("Res. Eject Intercept[5][16]", null=True, blank=True)
+
+    resdot_eject_slope_5_17 = models.FloatField("Res. Eject Slope[5][17]", null=True, blank=True)
+
+    resdot_eject_intercept_5_17 = models.FloatField("Res. Eject Intercept[5][17]", null=True, blank=True)
+
+    resdot_eject_slope_5_18 = models.FloatField("Res. Eject Slope[5][18]", null=True, blank=True)
+
+    resdot_eject_intercept_5_18 = models.FloatField("Res. Eject Intercept[5][18]", null=True, blank=True)
+
+    resdot_eject_slope_5_19 = models.FloatField("Res. Eject Slope[5][19]", null=True, blank=True)
+
+    resdot_eject_intercept_5_19 = models.FloatField("Res. Eject Intercept[5][19]", null=True, blank=True)
+
+    resdot_eject_slope_6_0 = models.FloatField("Res. Eject Slope[6][0]", null=True, blank=True)
+
+    resdot_eject_intercept_6_0 = models.FloatField("Res. Eject Intercept[6][0]", null=True, blank=True)
+
+    resdot_eject_slope_6_1 = models.FloatField("Res. Eject Slope[6][1]", null=True, blank=True)
+
+    resdot_eject_intercept_6_1 = models.FloatField("Res. Eject Intercept[6][1]", null=True, blank=True)
+
+    resdot_eject_slope_6_2 = models.FloatField("Res. Eject Slope[6][2]", null=True, blank=True)
+
+    resdot_eject_intercept_6_2 = models.FloatField("Res. Eject Intercept[6][2]", null=True, blank=True)
+
+    resdot_eject_slope_6_3 = models.FloatField("Res. Eject Slope[6][3]", null=True, blank=True)
+
+    resdot_eject_intercept_6_3 = models.FloatField("Res. Eject Intercept[6][3]", null=True, blank=True)
+
+    resdot_eject_slope_6_4 = models.FloatField("Res. Eject Slope[6][4]", null=True, blank=True)
+
+    resdot_eject_intercept_6_4 = models.FloatField("Res. Eject Intercept[6][4]", null=True, blank=True)
+
+    resdot_eject_slope_6_5 = models.FloatField("Res. Eject Slope[6][5]", null=True, blank=True)
+
+    resdot_eject_intercept_6_5 = models.FloatField("Res. Eject Intercept[6][5]", null=True, blank=True)
+
+    resdot_eject_slope_6_6 = models.FloatField("Res. Eject Slope[6][6]", null=True, blank=True)
+
+    resdot_eject_intercept_6_6 = models.FloatField("Res. Eject Intercept[6][6]", null=True, blank=True)
+
+    resdot_eject_slope_6_7 = models.FloatField("Res. Eject Slope[6][7]", null=True, blank=True)
+
+    resdot_eject_intercept_6_7 = models.FloatField("Res. Eject Intercept[6][7]", null=True, blank=True)
+
+    resdot_eject_slope_6_8 = models.FloatField("Res. Eject Slope[6][8]", null=True, blank=True)
+
+    resdot_eject_intercept_6_8 = models.FloatField("Res. Eject Intercept[6][8]", null=True, blank=True)
+
+    resdot_eject_slope_6_9 = models.FloatField("Res. Eject Slope[6][9]", null=True, blank=True)
+
+    resdot_eject_intercept_6_9 = models.FloatField("Res. Eject Intercept[6][9]", null=True, blank=True)
+
+    resdot_eject_slope_6_10 = models.FloatField("Res. Eject Slope[6][10]", null=True, blank=True)
+
+    resdot_eject_intercept_6_10 = models.FloatField("Res. Eject Intercept[6][10]", null=True, blank=True)
+
+    resdot_eject_slope_6_11 = models.FloatField("Res. Eject Slope[6][11]", null=True, blank=True)
+
+    resdot_eject_intercept_6_11 = models.FloatField("Res. Eject Intercept[6][11]", null=True, blank=True)
+
+    resdot_eject_slope_6_12 = models.FloatField("Res. Eject Slope[6][12]", null=True, blank=True)
+
+    resdot_eject_intercept_6_12 = models.FloatField("Res. Eject Intercept[6][12]", null=True, blank=True)
+
+    resdot_eject_slope_6_13 = models.FloatField("Res. Eject Slope[6][13]", null=True, blank=True)
+
+    resdot_eject_intercept_6_13 = models.FloatField("Res. Eject Intercept[6][13]", null=True, blank=True)
+
+    resdot_eject_slope_6_14 = models.FloatField("Res. Eject Slope[6][14]", null=True, blank=True)
+
+    resdot_eject_intercept_6_14 = models.FloatField("Res. Eject Intercept[6][14]", null=True, blank=True)
+
+    resdot_eject_slope_6_15 = models.FloatField("Res. Eject Slope[6][15]", null=True, blank=True)
+
+    resdot_eject_intercept_6_15 = models.FloatField("Res. Eject Intercept[6][15]", null=True, blank=True)
+
+    resdot_eject_slope_6_16 = models.FloatField("Res. Eject Slope[6][16]", null=True, blank=True)
+
+    resdot_eject_intercept_6_16 = models.FloatField("Res. Eject Intercept[6][16]", null=True, blank=True)
+
+    resdot_eject_slope_6_17 = models.FloatField("Res. Eject Slope[6][17]", null=True, blank=True)
+
+    resdot_eject_intercept_6_17 = models.FloatField("Res. Eject Intercept[6][17]", null=True, blank=True)
+
+    resdot_eject_slope_6_18 = models.FloatField("Res. Eject Slope[6][18]", null=True, blank=True)
+
+    resdot_eject_intercept_6_18 = models.FloatField("Res. Eject Intercept[6][18]", null=True, blank=True)
+
+    resdot_eject_slope_6_19 = models.FloatField("Res. Eject Slope[6][19]", null=True, blank=True)
+
+    resdot_eject_intercept_6_19 = models.FloatField("Res. Eject Intercept[6][19]", null=True, blank=True)
+
+    resdot_eject_slope_7_0 = models.FloatField("Res. Eject Slope[7][0]", null=True, blank=True)
+
+    resdot_eject_intercept_7_0 = models.FloatField("Res. Eject Intercept[7][0]", null=True, blank=True)
+
+    resdot_eject_slope_7_1 = models.FloatField("Res. Eject Slope[7][1]", null=True, blank=True)
+
+    resdot_eject_intercept_7_1 = models.FloatField("Res. Eject Intercept[7][1]", null=True, blank=True)
+
+    resdot_eject_slope_7_2 = models.FloatField("Res. Eject Slope[7][2]", null=True, blank=True)
+
+    resdot_eject_intercept_7_2 = models.FloatField("Res. Eject Intercept[7][2]", null=True, blank=True)
+
+    resdot_eject_slope_7_3 = models.FloatField("Res. Eject Slope[7][3]", null=True, blank=True)
+
+    resdot_eject_intercept_7_3 = models.FloatField("Res. Eject Intercept[7][3]", null=True, blank=True)
+
+    resdot_eject_slope_7_4 = models.FloatField("Res. Eject Slope[7][4]", null=True, blank=True)
+
+    resdot_eject_intercept_7_4 = models.FloatField("Res. Eject Intercept[7][4]", null=True, blank=True)
+
+    resdot_eject_slope_7_5 = models.FloatField("Res. Eject Slope[7][5]", null=True, blank=True)
+
+    resdot_eject_intercept_7_5 = models.FloatField("Res. Eject Intercept[7][5]", null=True, blank=True)
+
+    resdot_eject_slope_7_6 = models.FloatField("Res. Eject Slope[7][6]", null=True, blank=True)
+
+    resdot_eject_intercept_7_6 = models.FloatField("Res. Eject Intercept[7][6]", null=True, blank=True)
+
+    resdot_eject_slope_7_7 = models.FloatField("Res. Eject Slope[7][7]", null=True, blank=True)
+
+    resdot_eject_intercept_7_7 = models.FloatField("Res. Eject Intercept[7][7]", null=True, blank=True)
+
+    resdot_eject_slope_7_8 = models.FloatField("Res. Eject Slope[7][8]", null=True, blank=True)
+
+    resdot_eject_intercept_7_8 = models.FloatField("Res. Eject Intercept[7][8]", null=True, blank=True)
+
+    resdot_eject_slope_7_9 = models.FloatField("Res. Eject Slope[7][9]", null=True, blank=True)
+
+    resdot_eject_intercept_7_9 = models.FloatField("Res. Eject Intercept[7][9]", null=True, blank=True)
+
+    resdot_eject_slope_7_10 = models.FloatField("Res. Eject Slope[7][10]", null=True, blank=True)
+
+    resdot_eject_intercept_7_10 = models.FloatField("Res. Eject Intercept[7][10]", null=True, blank=True)
+
+    resdot_eject_slope_7_11 = models.FloatField("Res. Eject Slope[7][11]", null=True, blank=True)
+
+    resdot_eject_intercept_7_11 = models.FloatField("Res. Eject Intercept[7][11]", null=True, blank=True)
+
+    resdot_eject_slope_7_12 = models.FloatField("Res. Eject Slope[7][12]", null=True, blank=True)
+
+    resdot_eject_intercept_7_12 = models.FloatField("Res. Eject Intercept[7][12]", null=True, blank=True)
+
+    resdot_eject_slope_7_13 = models.FloatField("Res. Eject Slope[7][13]", null=True, blank=True)
+
+    resdot_eject_intercept_7_13 = models.FloatField("Res. Eject Intercept[7][13]", null=True, blank=True)
+
+    resdot_eject_slope_7_14 = models.FloatField("Res. Eject Slope[7][14]", null=True, blank=True)
+
+    resdot_eject_intercept_7_14 = models.FloatField("Res. Eject Intercept[7][14]", null=True, blank=True)
+
+    resdot_eject_slope_7_15 = models.FloatField("Res. Eject Slope[7][15]", null=True, blank=True)
+
+    resdot_eject_intercept_7_15 = models.FloatField("Res. Eject Intercept[7][15]", null=True, blank=True)
+
+    resdot_eject_slope_7_16 = models.FloatField("Res. Eject Slope[7][16]", null=True, blank=True)
+
+    resdot_eject_intercept_7_16 = models.FloatField("Res. Eject Intercept[7][16]", null=True, blank=True)
+
+    resdot_eject_slope_7_17 = models.FloatField("Res. Eject Slope[7][17]", null=True, blank=True)
+
+    resdot_eject_intercept_7_17 = models.FloatField("Res. Eject Intercept[7][17]", null=True, blank=True)
+
+    resdot_eject_slope_7_18 = models.FloatField("Res. Eject Slope[7][18]", null=True, blank=True)
+
+    resdot_eject_intercept_7_18 = models.FloatField("Res. Eject Intercept[7][18]", null=True, blank=True)
+
+    resdot_eject_slope_7_19 = models.FloatField("Res. Eject Slope[7][19]", null=True, blank=True)
+
+    resdot_eject_intercept_7_19 = models.FloatField("Res. Eject Intercept[7][19]", null=True, blank=True)
+
+    resdot_eject_slope_8_0 = models.FloatField("Res. Eject Slope[8][0]", null=True, blank=True)
+
+    resdot_eject_intercept_8_0 = models.FloatField("Res. Eject Intercept[8][0]", null=True, blank=True)
+
+    resdot_eject_slope_8_1 = models.FloatField("Res. Eject Slope[8][1]", null=True, blank=True)
+
+    resdot_eject_intercept_8_1 = models.FloatField("Res. Eject Intercept[8][1]", null=True, blank=True)
+
+    resdot_eject_slope_8_2 = models.FloatField("Res. Eject Slope[8][2]", null=True, blank=True)
+
+    resdot_eject_intercept_8_2 = models.FloatField("Res. Eject Intercept[8][2]", null=True, blank=True)
+
+    resdot_eject_slope_8_3 = models.FloatField("Res. Eject Slope[8][3]", null=True, blank=True)
+
+    resdot_eject_intercept_8_3 = models.FloatField("Res. Eject Intercept[8][3]", null=True, blank=True)
+
+    resdot_eject_slope_8_4 = models.FloatField("Res. Eject Slope[8][4]", null=True, blank=True)
+
+    resdot_eject_intercept_8_4 = models.FloatField("Res. Eject Intercept[8][4]", null=True, blank=True)
+
+    resdot_eject_slope_8_5 = models.FloatField("Res. Eject Slope[8][5]", null=True, blank=True)
+
+    resdot_eject_intercept_8_5 = models.FloatField("Res. Eject Intercept[8][5]", null=True, blank=True)
+
+    resdot_eject_slope_8_6 = models.FloatField("Res. Eject Slope[8][6]", null=True, blank=True)
+
+    resdot_eject_intercept_8_6 = models.FloatField("Res. Eject Intercept[8][6]", null=True, blank=True)
+
+    resdot_eject_slope_8_7 = models.FloatField("Res. Eject Slope[8][7]", null=True, blank=True)
+
+    resdot_eject_intercept_8_7 = models.FloatField("Res. Eject Intercept[8][7]", null=True, blank=True)
+
+    resdot_eject_slope_8_8 = models.FloatField("Res. Eject Slope[8][8]", null=True, blank=True)
+
+    resdot_eject_intercept_8_8 = models.FloatField("Res. Eject Intercept[8][8]", null=True, blank=True)
+
+    resdot_eject_slope_8_9 = models.FloatField("Res. Eject Slope[8][9]", null=True, blank=True)
+
+    resdot_eject_intercept_8_9 = models.FloatField("Res. Eject Intercept[8][9]", null=True, blank=True)
+
+    resdot_eject_slope_8_10 = models.FloatField("Res. Eject Slope[8][10]", null=True, blank=True)
+
+    resdot_eject_intercept_8_10 = models.FloatField("Res. Eject Intercept[8][10]", null=True, blank=True)
+
+    resdot_eject_slope_8_11 = models.FloatField("Res. Eject Slope[8][11]", null=True, blank=True)
+
+    resdot_eject_intercept_8_11 = models.FloatField("Res. Eject Intercept[8][11]", null=True, blank=True)
+
+    resdot_eject_slope_8_12 = models.FloatField("Res. Eject Slope[8][12]", null=True, blank=True)
+
+    resdot_eject_intercept_8_12 = models.FloatField("Res. Eject Intercept[8][12]", null=True, blank=True)
+
+    resdot_eject_slope_8_13 = models.FloatField("Res. Eject Slope[8][13]", null=True, blank=True)
+
+    resdot_eject_intercept_8_13 = models.FloatField("Res. Eject Intercept[8][13]", null=True, blank=True)
+
+    resdot_eject_slope_8_14 = models.FloatField("Res. Eject Slope[8][14]", null=True, blank=True)
+
+    resdot_eject_intercept_8_14 = models.FloatField("Res. Eject Intercept[8][14]", null=True, blank=True)
+
+    resdot_eject_slope_8_15 = models.FloatField("Res. Eject Slope[8][15]", null=True, blank=True)
+
+    resdot_eject_intercept_8_15 = models.FloatField("Res. Eject Intercept[8][15]", null=True, blank=True)
+
+    resdot_eject_slope_8_16 = models.FloatField("Res. Eject Slope[8][16]", null=True, blank=True)
+
+    resdot_eject_intercept_8_16 = models.FloatField("Res. Eject Intercept[8][16]", null=True, blank=True)
+
+    resdot_eject_slope_8_17 = models.FloatField("Res. Eject Slope[8][17]", null=True, blank=True)
+
+    resdot_eject_intercept_8_17 = models.FloatField("Res. Eject Intercept[8][17]", null=True, blank=True)
+
+    resdot_eject_slope_8_18 = models.FloatField("Res. Eject Slope[8][18]", null=True, blank=True)
+
+    resdot_eject_intercept_8_18 = models.FloatField("Res. Eject Intercept[8][18]", null=True, blank=True)
+
+    resdot_eject_slope_8_19 = models.FloatField("Res. Eject Slope[8][19]", null=True, blank=True)
+
+    resdot_eject_intercept_8_19 = models.FloatField("Res. Eject Intercept[8][19]", null=True, blank=True)
+
+    resdot_eject_slope_9_0 = models.FloatField("Res. Eject Slope[9][0]", null=True, blank=True)
+
+    resdot_eject_intercept_9_0 = models.FloatField("Res. Eject Intercept[9][0]", null=True, blank=True)
+
+    resdot_eject_slope_9_1 = models.FloatField("Res. Eject Slope[9][1]", null=True, blank=True)
+
+    resdot_eject_intercept_9_1 = models.FloatField("Res. Eject Intercept[9][1]", null=True, blank=True)
+
+    resdot_eject_slope_9_2 = models.FloatField("Res. Eject Slope[9][2]", null=True, blank=True)
+
+    resdot_eject_intercept_9_2 = models.FloatField("Res. Eject Intercept[9][2]", null=True, blank=True)
+
+    resdot_eject_slope_9_3 = models.FloatField("Res. Eject Slope[9][3]", null=True, blank=True)
+
+    resdot_eject_intercept_9_3 = models.FloatField("Res. Eject Intercept[9][3]", null=True, blank=True)
+
+    resdot_eject_slope_9_4 = models.FloatField("Res. Eject Slope[9][4]", null=True, blank=True)
+
+    resdot_eject_intercept_9_4 = models.FloatField("Res. Eject Intercept[9][4]", null=True, blank=True)
+
+    resdot_eject_slope_9_5 = models.FloatField("Res. Eject Slope[9][5]", null=True, blank=True)
+
+    resdot_eject_intercept_9_5 = models.FloatField("Res. Eject Intercept[9][5]", null=True, blank=True)
+
+    resdot_eject_slope_9_6 = models.FloatField("Res. Eject Slope[9][6]", null=True, blank=True)
+
+    resdot_eject_intercept_9_6 = models.FloatField("Res. Eject Intercept[9][6]", null=True, blank=True)
+
+    resdot_eject_slope_9_7 = models.FloatField("Res. Eject Slope[9][7]", null=True, blank=True)
+
+    resdot_eject_intercept_9_7 = models.FloatField("Res. Eject Intercept[9][7]", null=True, blank=True)
+
+    resdot_eject_slope_9_8 = models.FloatField("Res. Eject Slope[9][8]", null=True, blank=True)
+
+    resdot_eject_intercept_9_8 = models.FloatField("Res. Eject Intercept[9][8]", null=True, blank=True)
+
+    resdot_eject_slope_9_9 = models.FloatField("Res. Eject Slope[9][9]", null=True, blank=True)
+
+    resdot_eject_intercept_9_9 = models.FloatField("Res. Eject Intercept[9][9]", null=True, blank=True)
+
+    resdot_eject_slope_9_10 = models.FloatField("Res. Eject Slope[9][10]", null=True, blank=True)
+
+    resdot_eject_intercept_9_10 = models.FloatField("Res. Eject Intercept[9][10]", null=True, blank=True)
+
+    resdot_eject_slope_9_11 = models.FloatField("Res. Eject Slope[9][11]", null=True, blank=True)
+
+    resdot_eject_intercept_9_11 = models.FloatField("Res. Eject Intercept[9][11]", null=True, blank=True)
+
+    resdot_eject_slope_9_12 = models.FloatField("Res. Eject Slope[9][12]", null=True, blank=True)
+
+    resdot_eject_intercept_9_12 = models.FloatField("Res. Eject Intercept[9][12]", null=True, blank=True)
+
+    resdot_eject_slope_9_13 = models.FloatField("Res. Eject Slope[9][13]", null=True, blank=True)
+
+    resdot_eject_intercept_9_13 = models.FloatField("Res. Eject Intercept[9][13]", null=True, blank=True)
+
+    resdot_eject_slope_9_14 = models.FloatField("Res. Eject Slope[9][14]", null=True, blank=True)
+
+    resdot_eject_intercept_9_14 = models.FloatField("Res. Eject Intercept[9][14]", null=True, blank=True)
+
+    resdot_eject_slope_9_15 = models.FloatField("Res. Eject Slope[9][15]", null=True, blank=True)
+
+    resdot_eject_intercept_9_15 = models.FloatField("Res. Eject Intercept[9][15]", null=True, blank=True)
+
+    resdot_eject_slope_9_16 = models.FloatField("Res. Eject Slope[9][16]", null=True, blank=True)
+
+    resdot_eject_intercept_9_16 = models.FloatField("Res. Eject Intercept[9][16]", null=True, blank=True)
+
+    resdot_eject_slope_9_17 = models.FloatField("Res. Eject Slope[9][17]", null=True, blank=True)
+
+    resdot_eject_intercept_9_17 = models.FloatField("Res. Eject Intercept[9][17]", null=True, blank=True)
+
+    resdot_eject_slope_9_18 = models.FloatField("Res. Eject Slope[9][18]", null=True, blank=True)
+
+    resdot_eject_intercept_9_18 = models.FloatField("Res. Eject Intercept[9][18]", null=True, blank=True)
+
+    resdot_eject_slope_9_19 = models.FloatField("Res. Eject Slope[9][19]", null=True, blank=True)
+
+    resdot_eject_intercept_9_19 = models.FloatField("Res. Eject Intercept[9][19]", null=True, blank=True)
+
+    resdot_eject_slope_10_0 = models.FloatField("Res. Eject Slope[10][0]", null=True, blank=True)
+
+    resdot_eject_intercept_10_0 = models.FloatField("Res. Eject Intercept[10][0]", null=True, blank=True)
+
+    resdot_eject_slope_10_1 = models.FloatField("Res. Eject Slope[10][1]", null=True, blank=True)
+
+    resdot_eject_intercept_10_1 = models.FloatField("Res. Eject Intercept[10][1]", null=True, blank=True)
+
+    resdot_eject_slope_10_2 = models.FloatField("Res. Eject Slope[10][2]", null=True, blank=True)
+
+    resdot_eject_intercept_10_2 = models.FloatField("Res. Eject Intercept[10][2]", null=True, blank=True)
+
+    resdot_eject_slope_10_3 = models.FloatField("Res. Eject Slope[10][3]", null=True, blank=True)
+
+    resdot_eject_intercept_10_3 = models.FloatField("Res. Eject Intercept[10][3]", null=True, blank=True)
+
+    resdot_eject_slope_10_4 = models.FloatField("Res. Eject Slope[10][4]", null=True, blank=True)
+
+    resdot_eject_intercept_10_4 = models.FloatField("Res. Eject Intercept[10][4]", null=True, blank=True)
+
+    resdot_eject_slope_10_5 = models.FloatField("Res. Eject Slope[10][5]", null=True, blank=True)
+
+    resdot_eject_intercept_10_5 = models.FloatField("Res. Eject Intercept[10][5]", null=True, blank=True)
+
+    resdot_eject_slope_10_6 = models.FloatField("Res. Eject Slope[10][6]", null=True, blank=True)
+
+    resdot_eject_intercept_10_6 = models.FloatField("Res. Eject Intercept[10][6]", null=True, blank=True)
+
+    resdot_eject_slope_10_7 = models.FloatField("Res. Eject Slope[10][7]", null=True, blank=True)
+
+    resdot_eject_intercept_10_7 = models.FloatField("Res. Eject Intercept[10][7]", null=True, blank=True)
+
+    resdot_eject_slope_10_8 = models.FloatField("Res. Eject Slope[10][8]", null=True, blank=True)
+
+    resdot_eject_intercept_10_8 = models.FloatField("Res. Eject Intercept[10][8]", null=True, blank=True)
+
+    resdot_eject_slope_10_9 = models.FloatField("Res. Eject Slope[10][9]", null=True, blank=True)
+
+    resdot_eject_intercept_10_9 = models.FloatField("Res. Eject Intercept[10][9]", null=True, blank=True)
+
+    resdot_eject_slope_10_10 = models.FloatField("Res. Eject Slope[10][10]", null=True, blank=True)
+
+    resdot_eject_intercept_10_10 = models.FloatField("Res. Eject Intercept[10][10]", null=True, blank=True)
+
+    resdot_eject_slope_10_11 = models.FloatField("Res. Eject Slope[10][11]", null=True, blank=True)
+
+    resdot_eject_intercept_10_11 = models.FloatField("Res. Eject Intercept[10][11]", null=True, blank=True)
+
+    resdot_eject_slope_10_12 = models.FloatField("Res. Eject Slope[10][12]", null=True, blank=True)
+
+    resdot_eject_intercept_10_12 = models.FloatField("Res. Eject Intercept[10][12]", null=True, blank=True)
+
+    resdot_eject_slope_10_13 = models.FloatField("Res. Eject Slope[10][13]", null=True, blank=True)
+
+    resdot_eject_intercept_10_13 = models.FloatField("Res. Eject Intercept[10][13]", null=True, blank=True)
+
+    resdot_eject_slope_10_14 = models.FloatField("Res. Eject Slope[10][14]", null=True, blank=True)
+
+    resdot_eject_intercept_10_14 = models.FloatField("Res. Eject Intercept[10][14]", null=True, blank=True)
+
+    resdot_eject_slope_10_15 = models.FloatField("Res. Eject Slope[10][15]", null=True, blank=True)
+
+    resdot_eject_intercept_10_15 = models.FloatField("Res. Eject Intercept[10][15]", null=True, blank=True)
+
+    resdot_eject_slope_10_16 = models.FloatField("Res. Eject Slope[10][16]", null=True, blank=True)
+
+    resdot_eject_intercept_10_16 = models.FloatField("Res. Eject Intercept[10][16]", null=True, blank=True)
+
+    resdot_eject_slope_10_17 = models.FloatField("Res. Eject Slope[10][17]", null=True, blank=True)
+
+    resdot_eject_intercept_10_17 = models.FloatField("Res. Eject Intercept[10][17]", null=True, blank=True)
+
+    resdot_eject_slope_10_18 = models.FloatField("Res. Eject Slope[10][18]", null=True, blank=True)
+
+    resdot_eject_intercept_10_18 = models.FloatField("Res. Eject Intercept[10][18]", null=True, blank=True)
+
+    resdot_eject_slope_10_19 = models.FloatField("Res. Eject Slope[10][19]", null=True, blank=True)
+
+    resdot_eject_intercept_10_19 = models.FloatField("Res. Eject Intercept[10][19]", null=True, blank=True)
+
+    resdot_eject_slope_11_0 = models.FloatField("Res. Eject Slope[11][0]", null=True, blank=True)
+
+    resdot_eject_intercept_11_0 = models.FloatField("Res. Eject Intercept[11][0]", null=True, blank=True)
+
+    resdot_eject_slope_11_1 = models.FloatField("Res. Eject Slope[11][1]", null=True, blank=True)
+
+    resdot_eject_intercept_11_1 = models.FloatField("Res. Eject Intercept[11][1]", null=True, blank=True)
+
+    resdot_eject_slope_11_2 = models.FloatField("Res. Eject Slope[11][2]", null=True, blank=True)
+
+    resdot_eject_intercept_11_2 = models.FloatField("Res. Eject Intercept[11][2]", null=True, blank=True)
+
+    resdot_eject_slope_11_3 = models.FloatField("Res. Eject Slope[11][3]", null=True, blank=True)
+
+    resdot_eject_intercept_11_3 = models.FloatField("Res. Eject Intercept[11][3]", null=True, blank=True)
+
+    resdot_eject_slope_11_4 = models.FloatField("Res. Eject Slope[11][4]", null=True, blank=True)
+
+    resdot_eject_intercept_11_4 = models.FloatField("Res. Eject Intercept[11][4]", null=True, blank=True)
+
+    resdot_eject_slope_11_5 = models.FloatField("Res. Eject Slope[11][5]", null=True, blank=True)
+
+    resdot_eject_intercept_11_5 = models.FloatField("Res. Eject Intercept[11][5]", null=True, blank=True)
+
+    resdot_eject_slope_11_6 = models.FloatField("Res. Eject Slope[11][6]", null=True, blank=True)
+
+    resdot_eject_intercept_11_6 = models.FloatField("Res. Eject Intercept[11][6]", null=True, blank=True)
+
+    resdot_eject_slope_11_7 = models.FloatField("Res. Eject Slope[11][7]", null=True, blank=True)
+
+    resdot_eject_intercept_11_7 = models.FloatField("Res. Eject Intercept[11][7]", null=True, blank=True)
+
+    resdot_eject_slope_11_8 = models.FloatField("Res. Eject Slope[11][8]", null=True, blank=True)
+
+    resdot_eject_intercept_11_8 = models.FloatField("Res. Eject Intercept[11][8]", null=True, blank=True)
+
+    resdot_eject_slope_11_9 = models.FloatField("Res. Eject Slope[11][9]", null=True, blank=True)
+
+    resdot_eject_intercept_11_9 = models.FloatField("Res. Eject Intercept[11][9]", null=True, blank=True)
+
+    resdot_eject_slope_11_10 = models.FloatField("Res. Eject Slope[11][10]", null=True, blank=True)
+
+    resdot_eject_intercept_11_10 = models.FloatField("Res. Eject Intercept[11][10]", null=True, blank=True)
+
+    resdot_eject_slope_11_11 = models.FloatField("Res. Eject Slope[11][11]", null=True, blank=True)
+
+    resdot_eject_intercept_11_11 = models.FloatField("Res. Eject Intercept[11][11]", null=True, blank=True)
+
+    resdot_eject_slope_11_12 = models.FloatField("Res. Eject Slope[11][12]", null=True, blank=True)
+
+    resdot_eject_intercept_11_12 = models.FloatField("Res. Eject Intercept[11][12]", null=True, blank=True)
+
+    resdot_eject_slope_11_13 = models.FloatField("Res. Eject Slope[11][13]", null=True, blank=True)
+
+    resdot_eject_intercept_11_13 = models.FloatField("Res. Eject Intercept[11][13]", null=True, blank=True)
+
+    resdot_eject_slope_11_14 = models.FloatField("Res. Eject Slope[11][14]", null=True, blank=True)
+
+    resdot_eject_intercept_11_14 = models.FloatField("Res. Eject Intercept[11][14]", null=True, blank=True)
+
+    resdot_eject_slope_11_15 = models.FloatField("Res. Eject Slope[11][15]", null=True, blank=True)
+
+    resdot_eject_intercept_11_15 = models.FloatField("Res. Eject Intercept[11][15]", null=True, blank=True)
+
+    resdot_eject_slope_11_16 = models.FloatField("Res. Eject Slope[11][16]", null=True, blank=True)
+
+    resdot_eject_intercept_11_16 = models.FloatField("Res. Eject Intercept[11][16]", null=True, blank=True)
+
+    resdot_eject_slope_11_17 = models.FloatField("Res. Eject Slope[11][17]", null=True, blank=True)
+
+    resdot_eject_intercept_11_17 = models.FloatField("Res. Eject Intercept[11][17]", null=True, blank=True)
+
+    resdot_eject_slope_11_18 = models.FloatField("Res. Eject Slope[11][18]", null=True, blank=True)
+
+    resdot_eject_intercept_11_18 = models.FloatField("Res. Eject Intercept[11][18]", null=True, blank=True)
+
+    resdot_eject_slope_11_19 = models.FloatField("Res. Eject Slope[11][19]", null=True, blank=True)
+
+    resdot_eject_intercept_11_19 = models.FloatField("Res. Eject Intercept[11][19]", null=True, blank=True)
+
+    resdot_eject_slope_12_0 = models.FloatField("Res. Eject Slope[12][0]", null=True, blank=True)
+
+    resdot_eject_intercept_12_0 = models.FloatField("Res. Eject Intercept[12][0]", null=True, blank=True)
+
+    resdot_eject_slope_12_1 = models.FloatField("Res. Eject Slope[12][1]", null=True, blank=True)
+
+    resdot_eject_intercept_12_1 = models.FloatField("Res. Eject Intercept[12][1]", null=True, blank=True)
+
+    resdot_eject_slope_12_2 = models.FloatField("Res. Eject Slope[12][2]", null=True, blank=True)
+
+    resdot_eject_intercept_12_2 = models.FloatField("Res. Eject Intercept[12][2]", null=True, blank=True)
+
+    resdot_eject_slope_12_3 = models.FloatField("Res. Eject Slope[12][3]", null=True, blank=True)
+
+    resdot_eject_intercept_12_3 = models.FloatField("Res. Eject Intercept[12][3]", null=True, blank=True)
+
+    resdot_eject_slope_12_4 = models.FloatField("Res. Eject Slope[12][4]", null=True, blank=True)
+
+    resdot_eject_intercept_12_4 = models.FloatField("Res. Eject Intercept[12][4]", null=True, blank=True)
+
+    resdot_eject_slope_12_5 = models.FloatField("Res. Eject Slope[12][5]", null=True, blank=True)
+
+    resdot_eject_intercept_12_5 = models.FloatField("Res. Eject Intercept[12][5]", null=True, blank=True)
+
+    resdot_eject_slope_12_6 = models.FloatField("Res. Eject Slope[12][6]", null=True, blank=True)
+
+    resdot_eject_intercept_12_6 = models.FloatField("Res. Eject Intercept[12][6]", null=True, blank=True)
+
+    resdot_eject_slope_12_7 = models.FloatField("Res. Eject Slope[12][7]", null=True, blank=True)
+
+    resdot_eject_intercept_12_7 = models.FloatField("Res. Eject Intercept[12][7]", null=True, blank=True)
+
+    resdot_eject_slope_12_8 = models.FloatField("Res. Eject Slope[12][8]", null=True, blank=True)
+
+    resdot_eject_intercept_12_8 = models.FloatField("Res. Eject Intercept[12][8]", null=True, blank=True)
+
+    resdot_eject_slope_12_9 = models.FloatField("Res. Eject Slope[12][9]", null=True, blank=True)
+
+    resdot_eject_intercept_12_9 = models.FloatField("Res. Eject Intercept[12][9]", null=True, blank=True)
+
+    resdot_eject_slope_12_10 = models.FloatField("Res. Eject Slope[12][10]", null=True, blank=True)
+
+    resdot_eject_intercept_12_10 = models.FloatField("Res. Eject Intercept[12][10]", null=True, blank=True)
+
+    resdot_eject_slope_12_11 = models.FloatField("Res. Eject Slope[12][11]", null=True, blank=True)
+
+    resdot_eject_intercept_12_11 = models.FloatField("Res. Eject Intercept[12][11]", null=True, blank=True)
+
+    resdot_eject_slope_12_12 = models.FloatField("Res. Eject Slope[12][12]", null=True, blank=True)
+
+    resdot_eject_intercept_12_12 = models.FloatField("Res. Eject Intercept[12][12]", null=True, blank=True)
+
+    resdot_eject_slope_12_13 = models.FloatField("Res. Eject Slope[12][13]", null=True, blank=True)
+
+    resdot_eject_intercept_12_13 = models.FloatField("Res. Eject Intercept[12][13]", null=True, blank=True)
+
+    resdot_eject_slope_12_14 = models.FloatField("Res. Eject Slope[12][14]", null=True, blank=True)
+
+    resdot_eject_intercept_12_14 = models.FloatField("Res. Eject Intercept[12][14]", null=True, blank=True)
+
+    resdot_eject_slope_12_15 = models.FloatField("Res. Eject Slope[12][15]", null=True, blank=True)
+
+    resdot_eject_intercept_12_15 = models.FloatField("Res. Eject Intercept[12][15]", null=True, blank=True)
+
+    resdot_eject_slope_12_16 = models.FloatField("Res. Eject Slope[12][16]", null=True, blank=True)
+
+    resdot_eject_intercept_12_16 = models.FloatField("Res. Eject Intercept[12][16]", null=True, blank=True)
+
+    resdot_eject_slope_12_17 = models.FloatField("Res. Eject Slope[12][17]", null=True, blank=True)
+
+    resdot_eject_intercept_12_17 = models.FloatField("Res. Eject Intercept[12][17]", null=True, blank=True)
+
+    resdot_eject_slope_12_18 = models.FloatField("Res. Eject Slope[12][18]", null=True, blank=True)
+
+    resdot_eject_intercept_12_18 = models.FloatField("Res. Eject Intercept[12][18]", null=True, blank=True)
+
+    resdot_eject_slope_12_19 = models.FloatField("Res. Eject Slope[12][19]", null=True, blank=True)
+
+    resdot_eject_intercept_12_19 = models.FloatField("Res. Eject Intercept[12][19]", null=True, blank=True)
+
+
+
+
+
+class MetaCalibrationFileValueMass(models.Model):
+
+
+    class Meta:
+        verbose_name = "Meta: Calibration File Value"
+
+
+    sample = models.ForeignKey(Sample, related_name='%(class)s_Meta')
+
+    mass_slope_0_0 = models.FloatField("Mass Slope[0][0]", null=True, blank=True)
+
+    mass_intercept_0_0 = models.FloatField("Mass Intercept[0][0]", null=True, blank=True)
+
+    mass_slope_0_1 = models.FloatField("Mass Slope[0][1]", null=True, blank=True)
+
+    mass_intercept_0_1 = models.FloatField("Mass Intercept[0][1]", null=True, blank=True)
+
+    mass_slope_0_2 = models.FloatField("Mass Slope[0][2]", null=True, blank=True)
+
+    mass_intercept_0_2 = models.FloatField("Mass Intercept[0][2]", null=True, blank=True)
+
+    mass_slope_0_3 = models.FloatField("Mass Slope[0][3]", null=True, blank=True)
+
+    mass_intercept_0_3 = models.FloatField("Mass Intercept[0][3]", null=True, blank=True)
+
+    mass_slope_0_4 = models.FloatField("Mass Slope[0][4]", null=True, blank=True)
+
+    mass_intercept_0_4 = models.FloatField("Mass Intercept[0][4]", null=True, blank=True)
+
+    mass_slope_0_5 = models.FloatField("Mass Slope[0][5]", null=True, blank=True)
+
+    mass_intercept_0_5 = models.FloatField("Mass Intercept[0][5]", null=True, blank=True)
+
+    mass_slope_0_6 = models.FloatField("Mass Slope[0][6]", null=True, blank=True)
+
+    mass_intercept_0_6 = models.FloatField("Mass Intercept[0][6]", null=True, blank=True)
+
+    mass_slope_0_7 = models.FloatField("Mass Slope[0][7]", null=True, blank=True)
+
+    mass_intercept_0_7 = models.FloatField("Mass Intercept[0][7]", null=True, blank=True)
+
+    mass_slope_0_8 = models.FloatField("Mass Slope[0][8]", null=True, blank=True)
+
+    mass_intercept_0_8 = models.FloatField("Mass Intercept[0][8]", null=True, blank=True)
+
+    mass_slope_0_9 = models.FloatField("Mass Slope[0][9]", null=True, blank=True)
+
+    mass_intercept_0_9 = models.FloatField("Mass Intercept[0][9]", null=True, blank=True)
+
+    mass_slope_0_10 = models.FloatField("Mass Slope[0][10]", null=True, blank=True)
+
+    mass_intercept_0_10 = models.FloatField("Mass Intercept[0][10]", null=True, blank=True)
+
+    mass_slope_0_11 = models.FloatField("Mass Slope[0][11]", null=True, blank=True)
+
+    mass_intercept_0_11 = models.FloatField("Mass Intercept[0][11]", null=True, blank=True)
+
+    mass_slope_0_12 = models.FloatField("Mass Slope[0][12]", null=True, blank=True)
+
+    mass_intercept_0_12 = models.FloatField("Mass Intercept[0][12]", null=True, blank=True)
+
+    mass_slope_0_13 = models.FloatField("Mass Slope[0][13]", null=True, blank=True)
+
+    mass_intercept_0_13 = models.FloatField("Mass Intercept[0][13]", null=True, blank=True)
+
+    mass_slope_0_14 = models.FloatField("Mass Slope[0][14]", null=True, blank=True)
+
+    mass_intercept_0_14 = models.FloatField("Mass Intercept[0][14]", null=True, blank=True)
+
+    mass_slope_0_15 = models.FloatField("Mass Slope[0][15]", null=True, blank=True)
+
+    mass_intercept_0_15 = models.FloatField("Mass Intercept[0][15]", null=True, blank=True)
+
+    mass_slope_0_16 = models.FloatField("Mass Slope[0][16]", null=True, blank=True)
+
+    mass_intercept_0_16 = models.FloatField("Mass Intercept[0][16]", null=True, blank=True)
+
+    mass_slope_0_17 = models.FloatField("Mass Slope[0][17]", null=True, blank=True)
+
+    mass_intercept_0_17 = models.FloatField("Mass Intercept[0][17]", null=True, blank=True)
+
+    mass_slope_0_18 = models.FloatField("Mass Slope[0][18]", null=True, blank=True)
+
+    mass_intercept_0_18 = models.FloatField("Mass Intercept[0][18]", null=True, blank=True)
+
+    mass_slope_0_19 = models.FloatField("Mass Slope[0][19]", null=True, blank=True)
+
+    mass_intercept_0_19 = models.FloatField("Mass Intercept[0][19]", null=True, blank=True)
+
+    mass_slope_1_0 = models.FloatField("Mass Slope[1][0]", null=True, blank=True)
+
+    mass_intercept_1_0 = models.FloatField("Mass Intercept[1][0]", null=True, blank=True)
+
+    mass_slope_1_1 = models.FloatField("Mass Slope[1][1]", null=True, blank=True)
+
+    mass_intercept_1_1 = models.FloatField("Mass Intercept[1][1]", null=True, blank=True)
+
+    mass_slope_1_2 = models.FloatField("Mass Slope[1][2]", null=True, blank=True)
+
+    mass_intercept_1_2 = models.FloatField("Mass Intercept[1][2]", null=True, blank=True)
+
+    mass_slope_1_3 = models.FloatField("Mass Slope[1][3]", null=True, blank=True)
+
+    mass_intercept_1_3 = models.FloatField("Mass Intercept[1][3]", null=True, blank=True)
+
+    mass_slope_1_4 = models.FloatField("Mass Slope[1][4]", null=True, blank=True)
+
+    mass_intercept_1_4 = models.FloatField("Mass Intercept[1][4]", null=True, blank=True)
+
+    mass_slope_1_5 = models.FloatField("Mass Slope[1][5]", null=True, blank=True)
+
+    mass_intercept_1_5 = models.FloatField("Mass Intercept[1][5]", null=True, blank=True)
+
+    mass_slope_1_6 = models.FloatField("Mass Slope[1][6]", null=True, blank=True)
+
+    mass_intercept_1_6 = models.FloatField("Mass Intercept[1][6]", null=True, blank=True)
+
+    mass_slope_1_7 = models.FloatField("Mass Slope[1][7]", null=True, blank=True)
+
+    mass_intercept_1_7 = models.FloatField("Mass Intercept[1][7]", null=True, blank=True)
+
+    mass_slope_1_8 = models.FloatField("Mass Slope[1][8]", null=True, blank=True)
+
+    mass_intercept_1_8 = models.FloatField("Mass Intercept[1][8]", null=True, blank=True)
+
+    mass_slope_1_9 = models.FloatField("Mass Slope[1][9]", null=True, blank=True)
+
+    mass_intercept_1_9 = models.FloatField("Mass Intercept[1][9]", null=True, blank=True)
+
+    mass_slope_1_10 = models.FloatField("Mass Slope[1][10]", null=True, blank=True)
+
+    mass_intercept_1_10 = models.FloatField("Mass Intercept[1][10]", null=True, blank=True)
+
+    mass_slope_1_11 = models.FloatField("Mass Slope[1][11]", null=True, blank=True)
+
+    mass_intercept_1_11 = models.FloatField("Mass Intercept[1][11]", null=True, blank=True)
+
+    mass_slope_1_12 = models.FloatField("Mass Slope[1][12]", null=True, blank=True)
+
+    mass_intercept_1_12 = models.FloatField("Mass Intercept[1][12]", null=True, blank=True)
+
+    mass_slope_1_13 = models.FloatField("Mass Slope[1][13]", null=True, blank=True)
+
+    mass_intercept_1_13 = models.FloatField("Mass Intercept[1][13]", null=True, blank=True)
+
+    mass_slope_1_14 = models.FloatField("Mass Slope[1][14]", null=True, blank=True)
+
+    mass_intercept_1_14 = models.FloatField("Mass Intercept[1][14]", null=True, blank=True)
+
+    mass_slope_1_15 = models.FloatField("Mass Slope[1][15]", null=True, blank=True)
+
+    mass_intercept_1_15 = models.FloatField("Mass Intercept[1][15]", null=True, blank=True)
+
+    mass_slope_1_16 = models.FloatField("Mass Slope[1][16]", null=True, blank=True)
+
+    mass_intercept_1_16 = models.FloatField("Mass Intercept[1][16]", null=True, blank=True)
+
+    mass_slope_1_17 = models.FloatField("Mass Slope[1][17]", null=True, blank=True)
+
+    mass_intercept_1_17 = models.FloatField("Mass Intercept[1][17]", null=True, blank=True)
+
+    mass_slope_1_18 = models.FloatField("Mass Slope[1][18]", null=True, blank=True)
+
+    mass_intercept_1_18 = models.FloatField("Mass Intercept[1][18]", null=True, blank=True)
+
+    mass_slope_1_19 = models.FloatField("Mass Slope[1][19]", null=True, blank=True)
+
+    mass_intercept_1_19 = models.FloatField("Mass Intercept[1][19]", null=True, blank=True)
+
+    mass_slope_2_0 = models.FloatField("Mass Slope[2][0]", null=True, blank=True)
+
+    mass_intercept_2_0 = models.FloatField("Mass Intercept[2][0]", null=True, blank=True)
+
+    mass_slope_2_1 = models.FloatField("Mass Slope[2][1]", null=True, blank=True)
+
+    mass_intercept_2_1 = models.FloatField("Mass Intercept[2][1]", null=True, blank=True)
+
+    mass_slope_2_2 = models.FloatField("Mass Slope[2][2]", null=True, blank=True)
+
+    mass_intercept_2_2 = models.FloatField("Mass Intercept[2][2]", null=True, blank=True)
+
+    mass_slope_2_3 = models.FloatField("Mass Slope[2][3]", null=True, blank=True)
+
+    mass_intercept_2_3 = models.FloatField("Mass Intercept[2][3]", null=True, blank=True)
+
+    mass_slope_2_4 = models.FloatField("Mass Slope[2][4]", null=True, blank=True)
+
+    mass_intercept_2_4 = models.FloatField("Mass Intercept[2][4]", null=True, blank=True)
+
+    mass_slope_2_5 = models.FloatField("Mass Slope[2][5]", null=True, blank=True)
+
+    mass_intercept_2_5 = models.FloatField("Mass Intercept[2][5]", null=True, blank=True)
+
+    mass_slope_2_6 = models.FloatField("Mass Slope[2][6]", null=True, blank=True)
+
+    mass_intercept_2_6 = models.FloatField("Mass Intercept[2][6]", null=True, blank=True)
+
+    mass_slope_2_7 = models.FloatField("Mass Slope[2][7]", null=True, blank=True)
+
+    mass_intercept_2_7 = models.FloatField("Mass Intercept[2][7]", null=True, blank=True)
+
+    mass_slope_2_8 = models.FloatField("Mass Slope[2][8]", null=True, blank=True)
+
+    mass_intercept_2_8 = models.FloatField("Mass Intercept[2][8]", null=True, blank=True)
+
+    mass_slope_2_9 = models.FloatField("Mass Slope[2][9]", null=True, blank=True)
+
+    mass_intercept_2_9 = models.FloatField("Mass Intercept[2][9]", null=True, blank=True)
+
+    mass_slope_2_10 = models.FloatField("Mass Slope[2][10]", null=True, blank=True)
+
+    mass_intercept_2_10 = models.FloatField("Mass Intercept[2][10]", null=True, blank=True)
+
+    mass_slope_2_11 = models.FloatField("Mass Slope[2][11]", null=True, blank=True)
+
+    mass_intercept_2_11 = models.FloatField("Mass Intercept[2][11]", null=True, blank=True)
+
+    mass_slope_2_12 = models.FloatField("Mass Slope[2][12]", null=True, blank=True)
+
+    mass_intercept_2_12 = models.FloatField("Mass Intercept[2][12]", null=True, blank=True)
+
+    mass_slope_2_13 = models.FloatField("Mass Slope[2][13]", null=True, blank=True)
+
+    mass_intercept_2_13 = models.FloatField("Mass Intercept[2][13]", null=True, blank=True)
+
+    mass_slope_2_14 = models.FloatField("Mass Slope[2][14]", null=True, blank=True)
+
+    mass_intercept_2_14 = models.FloatField("Mass Intercept[2][14]", null=True, blank=True)
+
+    mass_slope_2_15 = models.FloatField("Mass Slope[2][15]", null=True, blank=True)
+
+    mass_intercept_2_15 = models.FloatField("Mass Intercept[2][15]", null=True, blank=True)
+
+    mass_slope_2_16 = models.FloatField("Mass Slope[2][16]", null=True, blank=True)
+
+    mass_intercept_2_16 = models.FloatField("Mass Intercept[2][16]", null=True, blank=True)
+
+    mass_slope_2_17 = models.FloatField("Mass Slope[2][17]", null=True, blank=True)
+
+    mass_intercept_2_17 = models.FloatField("Mass Intercept[2][17]", null=True, blank=True)
+
+    mass_slope_2_18 = models.FloatField("Mass Slope[2][18]", null=True, blank=True)
+
+    mass_intercept_2_18 = models.FloatField("Mass Intercept[2][18]", null=True, blank=True)
+
+    mass_slope_2_19 = models.FloatField("Mass Slope[2][19]", null=True, blank=True)
+
+    mass_intercept_2_19 = models.FloatField("Mass Intercept[2][19]", null=True, blank=True)
+
+    mass_slope_3_0 = models.FloatField("Mass Slope[3][0]", null=True, blank=True)
+
+    mass_intercept_3_0 = models.FloatField("Mass Intercept[3][0]", null=True, blank=True)
+
+    mass_slope_3_1 = models.FloatField("Mass Slope[3][1]", null=True, blank=True)
+
+    mass_intercept_3_1 = models.FloatField("Mass Intercept[3][1]", null=True, blank=True)
+
+    mass_slope_3_2 = models.FloatField("Mass Slope[3][2]", null=True, blank=True)
+
+    mass_intercept_3_2 = models.FloatField("Mass Intercept[3][2]", null=True, blank=True)
+
+    mass_slope_3_3 = models.FloatField("Mass Slope[3][3]", null=True, blank=True)
+
+    mass_intercept_3_3 = models.FloatField("Mass Intercept[3][3]", null=True, blank=True)
+
+    mass_slope_3_4 = models.FloatField("Mass Slope[3][4]", null=True, blank=True)
+
+    mass_intercept_3_4 = models.FloatField("Mass Intercept[3][4]", null=True, blank=True)
+
+    mass_slope_3_5 = models.FloatField("Mass Slope[3][5]", null=True, blank=True)
+
+    mass_intercept_3_5 = models.FloatField("Mass Intercept[3][5]", null=True, blank=True)
+
+    mass_slope_3_6 = models.FloatField("Mass Slope[3][6]", null=True, blank=True)
+
+    mass_intercept_3_6 = models.FloatField("Mass Intercept[3][6]", null=True, blank=True)
+
+    mass_slope_3_7 = models.FloatField("Mass Slope[3][7]", null=True, blank=True)
+
+    mass_intercept_3_7 = models.FloatField("Mass Intercept[3][7]", null=True, blank=True)
+
+    mass_slope_3_8 = models.FloatField("Mass Slope[3][8]", null=True, blank=True)
+
+    mass_intercept_3_8 = models.FloatField("Mass Intercept[3][8]", null=True, blank=True)
+
+    mass_slope_3_9 = models.FloatField("Mass Slope[3][9]", null=True, blank=True)
+
+    mass_intercept_3_9 = models.FloatField("Mass Intercept[3][9]", null=True, blank=True)
+
+    mass_slope_3_10 = models.FloatField("Mass Slope[3][10]", null=True, blank=True)
+
+    mass_intercept_3_10 = models.FloatField("Mass Intercept[3][10]", null=True, blank=True)
+
+    mass_slope_3_11 = models.FloatField("Mass Slope[3][11]", null=True, blank=True)
+
+    mass_intercept_3_11 = models.FloatField("Mass Intercept[3][11]", null=True, blank=True)
+
+    mass_slope_3_12 = models.FloatField("Mass Slope[3][12]", null=True, blank=True)
+
+    mass_intercept_3_12 = models.FloatField("Mass Intercept[3][12]", null=True, blank=True)
+
+    mass_slope_3_13 = models.FloatField("Mass Slope[3][13]", null=True, blank=True)
+
+    mass_intercept_3_13 = models.FloatField("Mass Intercept[3][13]", null=True, blank=True)
+
+    mass_slope_3_14 = models.FloatField("Mass Slope[3][14]", null=True, blank=True)
+
+    mass_intercept_3_14 = models.FloatField("Mass Intercept[3][14]", null=True, blank=True)
+
+    mass_slope_3_15 = models.FloatField("Mass Slope[3][15]", null=True, blank=True)
+
+    mass_intercept_3_15 = models.FloatField("Mass Intercept[3][15]", null=True, blank=True)
+
+    mass_slope_3_16 = models.FloatField("Mass Slope[3][16]", null=True, blank=True)
+
+    mass_intercept_3_16 = models.FloatField("Mass Intercept[3][16]", null=True, blank=True)
+
+    mass_slope_3_17 = models.FloatField("Mass Slope[3][17]", null=True, blank=True)
+
+    mass_intercept_3_17 = models.FloatField("Mass Intercept[3][17]", null=True, blank=True)
+
+    mass_slope_3_18 = models.FloatField("Mass Slope[3][18]", null=True, blank=True)
+
+    mass_intercept_3_18 = models.FloatField("Mass Intercept[3][18]", null=True, blank=True)
+
+    mass_slope_3_19 = models.FloatField("Mass Slope[3][19]", null=True, blank=True)
+
+    mass_intercept_3_19 = models.FloatField("Mass Intercept[3][19]", null=True, blank=True)
+
+    mass_slope_4_0 = models.FloatField("Mass Slope[4][0]", null=True, blank=True)
+
+    mass_intercept_4_0 = models.FloatField("Mass Intercept[4][0]", null=True, blank=True)
+
+    mass_slope_4_1 = models.FloatField("Mass Slope[4][1]", null=True, blank=True)
+
+    mass_intercept_4_1 = models.FloatField("Mass Intercept[4][1]", null=True, blank=True)
+
+    mass_slope_4_2 = models.FloatField("Mass Slope[4][2]", null=True, blank=True)
+
+    mass_intercept_4_2 = models.FloatField("Mass Intercept[4][2]", null=True, blank=True)
+
+    mass_slope_4_3 = models.FloatField("Mass Slope[4][3]", null=True, blank=True)
+
+    mass_intercept_4_3 = models.FloatField("Mass Intercept[4][3]", null=True, blank=True)
+
+    mass_slope_4_4 = models.FloatField("Mass Slope[4][4]", null=True, blank=True)
+
+    mass_intercept_4_4 = models.FloatField("Mass Intercept[4][4]", null=True, blank=True)
+
+    mass_slope_4_5 = models.FloatField("Mass Slope[4][5]", null=True, blank=True)
+
+    mass_intercept_4_5 = models.FloatField("Mass Intercept[4][5]", null=True, blank=True)
+
+    mass_slope_4_6 = models.FloatField("Mass Slope[4][6]", null=True, blank=True)
+
+    mass_intercept_4_6 = models.FloatField("Mass Intercept[4][6]", null=True, blank=True)
+
+    mass_slope_4_7 = models.FloatField("Mass Slope[4][7]", null=True, blank=True)
+
+    mass_intercept_4_7 = models.FloatField("Mass Intercept[4][7]", null=True, blank=True)
+
+    mass_slope_4_8 = models.FloatField("Mass Slope[4][8]", null=True, blank=True)
+
+    mass_intercept_4_8 = models.FloatField("Mass Intercept[4][8]", null=True, blank=True)
+
+    mass_slope_4_9 = models.FloatField("Mass Slope[4][9]", null=True, blank=True)
+
+    mass_intercept_4_9 = models.FloatField("Mass Intercept[4][9]", null=True, blank=True)
+
+    mass_slope_4_10 = models.FloatField("Mass Slope[4][10]", null=True, blank=True)
+
+    mass_intercept_4_10 = models.FloatField("Mass Intercept[4][10]", null=True, blank=True)
+
+    mass_slope_4_11 = models.FloatField("Mass Slope[4][11]", null=True, blank=True)
+
+    mass_intercept_4_11 = models.FloatField("Mass Intercept[4][11]", null=True, blank=True)
+
+    mass_slope_4_12 = models.FloatField("Mass Slope[4][12]", null=True, blank=True)
+
+    mass_intercept_4_12 = models.FloatField("Mass Intercept[4][12]", null=True, blank=True)
+
+    mass_slope_4_13 = models.FloatField("Mass Slope[4][13]", null=True, blank=True)
+
+    mass_intercept_4_13 = models.FloatField("Mass Intercept[4][13]", null=True, blank=True)
+
+    mass_slope_4_14 = models.FloatField("Mass Slope[4][14]", null=True, blank=True)
+
+    mass_intercept_4_14 = models.FloatField("Mass Intercept[4][14]", null=True, blank=True)
+
+    mass_slope_4_15 = models.FloatField("Mass Slope[4][15]", null=True, blank=True)
+
+    mass_intercept_4_15 = models.FloatField("Mass Intercept[4][15]", null=True, blank=True)
+
+    mass_slope_4_16 = models.FloatField("Mass Slope[4][16]", null=True, blank=True)
+
+    mass_intercept_4_16 = models.FloatField("Mass Intercept[4][16]", null=True, blank=True)
+
+    mass_slope_4_17 = models.FloatField("Mass Slope[4][17]", null=True, blank=True)
+
+    mass_intercept_4_17 = models.FloatField("Mass Intercept[4][17]", null=True, blank=True)
+
+    mass_slope_4_18 = models.FloatField("Mass Slope[4][18]", null=True, blank=True)
+
+    mass_intercept_4_18 = models.FloatField("Mass Intercept[4][18]", null=True, blank=True)
+
+    mass_slope_4_19 = models.FloatField("Mass Slope[4][19]", null=True, blank=True)
+
+    mass_intercept_4_19 = models.FloatField("Mass Intercept[4][19]", null=True, blank=True)
+
+    mass_slope_5_0 = models.FloatField("Mass Slope[5][0]", null=True, blank=True)
+
+    mass_intercept_5_0 = models.FloatField("Mass Intercept[5][0]", null=True, blank=True)
+
+    mass_slope_5_1 = models.FloatField("Mass Slope[5][1]", null=True, blank=True)
+
+    mass_intercept_5_1 = models.FloatField("Mass Intercept[5][1]", null=True, blank=True)
+
+    mass_slope_5_2 = models.FloatField("Mass Slope[5][2]", null=True, blank=True)
+
+    mass_intercept_5_2 = models.FloatField("Mass Intercept[5][2]", null=True, blank=True)
+
+    mass_slope_5_3 = models.FloatField("Mass Slope[5][3]", null=True, blank=True)
+
+    mass_intercept_5_3 = models.FloatField("Mass Intercept[5][3]", null=True, blank=True)
+
+    mass_slope_5_4 = models.FloatField("Mass Slope[5][4]", null=True, blank=True)
+
+    mass_intercept_5_4 = models.FloatField("Mass Intercept[5][4]", null=True, blank=True)
+
+    mass_slope_5_5 = models.FloatField("Mass Slope[5][5]", null=True, blank=True)
+
+    mass_intercept_5_5 = models.FloatField("Mass Intercept[5][5]", null=True, blank=True)
+
+    mass_slope_5_6 = models.FloatField("Mass Slope[5][6]", null=True, blank=True)
+
+    mass_intercept_5_6 = models.FloatField("Mass Intercept[5][6]", null=True, blank=True)
+
+    mass_slope_5_7 = models.FloatField("Mass Slope[5][7]", null=True, blank=True)
+
+    mass_intercept_5_7 = models.FloatField("Mass Intercept[5][7]", null=True, blank=True)
+
+    mass_slope_5_8 = models.FloatField("Mass Slope[5][8]", null=True, blank=True)
+
+    mass_intercept_5_8 = models.FloatField("Mass Intercept[5][8]", null=True, blank=True)
+
+    mass_slope_5_9 = models.FloatField("Mass Slope[5][9]", null=True, blank=True)
+
+    mass_intercept_5_9 = models.FloatField("Mass Intercept[5][9]", null=True, blank=True)
+
+    mass_slope_5_10 = models.FloatField("Mass Slope[5][10]", null=True, blank=True)
+
+    mass_intercept_5_10 = models.FloatField("Mass Intercept[5][10]", null=True, blank=True)
+
+    mass_slope_5_11 = models.FloatField("Mass Slope[5][11]", null=True, blank=True)
+
+    mass_intercept_5_11 = models.FloatField("Mass Intercept[5][11]", null=True, blank=True)
+
+    mass_slope_5_12 = models.FloatField("Mass Slope[5][12]", null=True, blank=True)
+
+    mass_intercept_5_12 = models.FloatField("Mass Intercept[5][12]", null=True, blank=True)
+
+    mass_slope_5_13 = models.FloatField("Mass Slope[5][13]", null=True, blank=True)
+
+    mass_intercept_5_13 = models.FloatField("Mass Intercept[5][13]", null=True, blank=True)
+
+    mass_slope_5_14 = models.FloatField("Mass Slope[5][14]", null=True, blank=True)
+
+    mass_intercept_5_14 = models.FloatField("Mass Intercept[5][14]", null=True, blank=True)
+
+    mass_slope_5_15 = models.FloatField("Mass Slope[5][15]", null=True, blank=True)
+
+    mass_intercept_5_15 = models.FloatField("Mass Intercept[5][15]", null=True, blank=True)
+
+    mass_slope_5_16 = models.FloatField("Mass Slope[5][16]", null=True, blank=True)
+
+    mass_intercept_5_16 = models.FloatField("Mass Intercept[5][16]", null=True, blank=True)
+
+    mass_slope_5_17 = models.FloatField("Mass Slope[5][17]", null=True, blank=True)
+
+    mass_intercept_5_17 = models.FloatField("Mass Intercept[5][17]", null=True, blank=True)
+
+    mass_slope_5_18 = models.FloatField("Mass Slope[5][18]", null=True, blank=True)
+
+    mass_intercept_5_18 = models.FloatField("Mass Intercept[5][18]", null=True, blank=True)
+
+    mass_slope_5_19 = models.FloatField("Mass Slope[5][19]", null=True, blank=True)
+
+    mass_intercept_5_19 = models.FloatField("Mass Intercept[5][19]", null=True, blank=True)
+
+    mass_slope_6_0 = models.FloatField("Mass Slope[6][0]", null=True, blank=True)
+
+    mass_intercept_6_0 = models.FloatField("Mass Intercept[6][0]", null=True, blank=True)
+
+    mass_slope_6_1 = models.FloatField("Mass Slope[6][1]", null=True, blank=True)
+
+    mass_intercept_6_1 = models.FloatField("Mass Intercept[6][1]", null=True, blank=True)
+
+    mass_slope_6_2 = models.FloatField("Mass Slope[6][2]", null=True, blank=True)
+
+    mass_intercept_6_2 = models.FloatField("Mass Intercept[6][2]", null=True, blank=True)
+
+    mass_slope_6_3 = models.FloatField("Mass Slope[6][3]", null=True, blank=True)
+
+    mass_intercept_6_3 = models.FloatField("Mass Intercept[6][3]", null=True, blank=True)
+
+    mass_slope_6_4 = models.FloatField("Mass Slope[6][4]", null=True, blank=True)
+
+    mass_intercept_6_4 = models.FloatField("Mass Intercept[6][4]", null=True, blank=True)
+
+    mass_slope_6_5 = models.FloatField("Mass Slope[6][5]", null=True, blank=True)
+
+    mass_intercept_6_5 = models.FloatField("Mass Intercept[6][5]", null=True, blank=True)
+
+    mass_slope_6_6 = models.FloatField("Mass Slope[6][6]", null=True, blank=True)
+
+    mass_intercept_6_6 = models.FloatField("Mass Intercept[6][6]", null=True, blank=True)
+
+    mass_slope_6_7 = models.FloatField("Mass Slope[6][7]", null=True, blank=True)
+
+    mass_intercept_6_7 = models.FloatField("Mass Intercept[6][7]", null=True, blank=True)
+
+    mass_slope_6_8 = models.FloatField("Mass Slope[6][8]", null=True, blank=True)
+
+    mass_intercept_6_8 = models.FloatField("Mass Intercept[6][8]", null=True, blank=True)
+
+    mass_slope_6_9 = models.FloatField("Mass Slope[6][9]", null=True, blank=True)
+
+    mass_intercept_6_9 = models.FloatField("Mass Intercept[6][9]", null=True, blank=True)
+
+    mass_slope_6_10 = models.FloatField("Mass Slope[6][10]", null=True, blank=True)
+
+    mass_intercept_6_10 = models.FloatField("Mass Intercept[6][10]", null=True, blank=True)
+
+    mass_slope_6_11 = models.FloatField("Mass Slope[6][11]", null=True, blank=True)
+
+    mass_intercept_6_11 = models.FloatField("Mass Intercept[6][11]", null=True, blank=True)
+
+    mass_slope_6_12 = models.FloatField("Mass Slope[6][12]", null=True, blank=True)
+
+    mass_intercept_6_12 = models.FloatField("Mass Intercept[6][12]", null=True, blank=True)
+
+    mass_slope_6_13 = models.FloatField("Mass Slope[6][13]", null=True, blank=True)
+
+    mass_intercept_6_13 = models.FloatField("Mass Intercept[6][13]", null=True, blank=True)
+
+    mass_slope_6_14 = models.FloatField("Mass Slope[6][14]", null=True, blank=True)
+
+    mass_intercept_6_14 = models.FloatField("Mass Intercept[6][14]", null=True, blank=True)
+
+    mass_slope_6_15 = models.FloatField("Mass Slope[6][15]", null=True, blank=True)
+
+    mass_intercept_6_15 = models.FloatField("Mass Intercept[6][15]", null=True, blank=True)
+
+    mass_slope_6_16 = models.FloatField("Mass Slope[6][16]", null=True, blank=True)
+
+    mass_intercept_6_16 = models.FloatField("Mass Intercept[6][16]", null=True, blank=True)
+
+    mass_slope_6_17 = models.FloatField("Mass Slope[6][17]", null=True, blank=True)
+
+    mass_intercept_6_17 = models.FloatField("Mass Intercept[6][17]", null=True, blank=True)
+
+    mass_slope_6_18 = models.FloatField("Mass Slope[6][18]", null=True, blank=True)
+
+    mass_intercept_6_18 = models.FloatField("Mass Intercept[6][18]", null=True, blank=True)
+
+    mass_slope_6_19 = models.FloatField("Mass Slope[6][19]", null=True, blank=True)
+
+    mass_intercept_6_19 = models.FloatField("Mass Intercept[6][19]", null=True, blank=True)
+
+    mass_slope_7_0 = models.FloatField("Mass Slope[7][0]", null=True, blank=True)
+
+    mass_intercept_7_0 = models.FloatField("Mass Intercept[7][0]", null=True, blank=True)
+
+    mass_slope_7_1 = models.FloatField("Mass Slope[7][1]", null=True, blank=True)
+
+    mass_intercept_7_1 = models.FloatField("Mass Intercept[7][1]", null=True, blank=True)
+
+    mass_slope_7_2 = models.FloatField("Mass Slope[7][2]", null=True, blank=True)
+
+    mass_intercept_7_2 = models.FloatField("Mass Intercept[7][2]", null=True, blank=True)
+
+    mass_slope_7_3 = models.FloatField("Mass Slope[7][3]", null=True, blank=True)
+
+    mass_intercept_7_3 = models.FloatField("Mass Intercept[7][3]", null=True, blank=True)
+
+    mass_slope_7_4 = models.FloatField("Mass Slope[7][4]", null=True, blank=True)
+
+    mass_intercept_7_4 = models.FloatField("Mass Intercept[7][4]", null=True, blank=True)
+
+    mass_slope_7_5 = models.FloatField("Mass Slope[7][5]", null=True, blank=True)
+
+    mass_intercept_7_5 = models.FloatField("Mass Intercept[7][5]", null=True, blank=True)
+
+    mass_slope_7_6 = models.FloatField("Mass Slope[7][6]", null=True, blank=True)
+
+    mass_intercept_7_6 = models.FloatField("Mass Intercept[7][6]", null=True, blank=True)
+
+    mass_slope_7_7 = models.FloatField("Mass Slope[7][7]", null=True, blank=True)
+
+    mass_intercept_7_7 = models.FloatField("Mass Intercept[7][7]", null=True, blank=True)
+
+    mass_slope_7_8 = models.FloatField("Mass Slope[7][8]", null=True, blank=True)
+
+    mass_intercept_7_8 = models.FloatField("Mass Intercept[7][8]", null=True, blank=True)
+
+    mass_slope_7_9 = models.FloatField("Mass Slope[7][9]", null=True, blank=True)
+
+    mass_intercept_7_9 = models.FloatField("Mass Intercept[7][9]", null=True, blank=True)
+
+    mass_slope_7_10 = models.FloatField("Mass Slope[7][10]", null=True, blank=True)
+
+    mass_intercept_7_10 = models.FloatField("Mass Intercept[7][10]", null=True, blank=True)
+
+    mass_slope_7_11 = models.FloatField("Mass Slope[7][11]", null=True, blank=True)
+
+    mass_intercept_7_11 = models.FloatField("Mass Intercept[7][11]", null=True, blank=True)
+
+    mass_slope_7_12 = models.FloatField("Mass Slope[7][12]", null=True, blank=True)
+
+    mass_intercept_7_12 = models.FloatField("Mass Intercept[7][12]", null=True, blank=True)
+
+    mass_slope_7_13 = models.FloatField("Mass Slope[7][13]", null=True, blank=True)
+
+    mass_intercept_7_13 = models.FloatField("Mass Intercept[7][13]", null=True, blank=True)
+
+    mass_slope_7_14 = models.FloatField("Mass Slope[7][14]", null=True, blank=True)
+
+    mass_intercept_7_14 = models.FloatField("Mass Intercept[7][14]", null=True, blank=True)
+
+    mass_slope_7_15 = models.FloatField("Mass Slope[7][15]", null=True, blank=True)
+
+    mass_intercept_7_15 = models.FloatField("Mass Intercept[7][15]", null=True, blank=True)
+
+    mass_slope_7_16 = models.FloatField("Mass Slope[7][16]", null=True, blank=True)
+
+    mass_intercept_7_16 = models.FloatField("Mass Intercept[7][16]", null=True, blank=True)
+
+    mass_slope_7_17 = models.FloatField("Mass Slope[7][17]", null=True, blank=True)
+
+    mass_intercept_7_17 = models.FloatField("Mass Intercept[7][17]", null=True, blank=True)
+
+    mass_slope_7_18 = models.FloatField("Mass Slope[7][18]", null=True, blank=True)
+
+    mass_intercept_7_18 = models.FloatField("Mass Intercept[7][18]", null=True, blank=True)
+
+    mass_slope_7_19 = models.FloatField("Mass Slope[7][19]", null=True, blank=True)
+
+    mass_intercept_7_19 = models.FloatField("Mass Intercept[7][19]", null=True, blank=True)
+
+    mass_slope_8_0 = models.FloatField("Mass Slope[8][0]", null=True, blank=True)
+
+    mass_intercept_8_0 = models.FloatField("Mass Intercept[8][0]", null=True, blank=True)
+
+    mass_slope_8_1 = models.FloatField("Mass Slope[8][1]", null=True, blank=True)
+
+    mass_intercept_8_1 = models.FloatField("Mass Intercept[8][1]", null=True, blank=True)
+
+    mass_slope_8_2 = models.FloatField("Mass Slope[8][2]", null=True, blank=True)
+
+    mass_intercept_8_2 = models.FloatField("Mass Intercept[8][2]", null=True, blank=True)
+
+    mass_slope_8_3 = models.FloatField("Mass Slope[8][3]", null=True, blank=True)
+
+    mass_intercept_8_3 = models.FloatField("Mass Intercept[8][3]", null=True, blank=True)
+
+    mass_slope_8_4 = models.FloatField("Mass Slope[8][4]", null=True, blank=True)
+
+    mass_intercept_8_4 = models.FloatField("Mass Intercept[8][4]", null=True, blank=True)
+
+    mass_slope_8_5 = models.FloatField("Mass Slope[8][5]", null=True, blank=True)
+
+    mass_intercept_8_5 = models.FloatField("Mass Intercept[8][5]", null=True, blank=True)
+
+    mass_slope_8_6 = models.FloatField("Mass Slope[8][6]", null=True, blank=True)
+
+    mass_intercept_8_6 = models.FloatField("Mass Intercept[8][6]", null=True, blank=True)
+
+    mass_slope_8_7 = models.FloatField("Mass Slope[8][7]", null=True, blank=True)
+
+    mass_intercept_8_7 = models.FloatField("Mass Intercept[8][7]", null=True, blank=True)
+
+    mass_slope_8_8 = models.FloatField("Mass Slope[8][8]", null=True, blank=True)
+
+    mass_intercept_8_8 = models.FloatField("Mass Intercept[8][8]", null=True, blank=True)
+
+    mass_slope_8_9 = models.FloatField("Mass Slope[8][9]", null=True, blank=True)
+
+    mass_intercept_8_9 = models.FloatField("Mass Intercept[8][9]", null=True, blank=True)
+
+    mass_slope_8_10 = models.FloatField("Mass Slope[8][10]", null=True, blank=True)
+
+    mass_intercept_8_10 = models.FloatField("Mass Intercept[8][10]", null=True, blank=True)
+
+    mass_slope_8_11 = models.FloatField("Mass Slope[8][11]", null=True, blank=True)
+
+    mass_intercept_8_11 = models.FloatField("Mass Intercept[8][11]", null=True, blank=True)
+
+    mass_slope_8_12 = models.FloatField("Mass Slope[8][12]", null=True, blank=True)
+
+    mass_intercept_8_12 = models.FloatField("Mass Intercept[8][12]", null=True, blank=True)
+
+    mass_slope_8_13 = models.FloatField("Mass Slope[8][13]", null=True, blank=True)
+
+    mass_intercept_8_13 = models.FloatField("Mass Intercept[8][13]", null=True, blank=True)
+
+    mass_slope_8_14 = models.FloatField("Mass Slope[8][14]", null=True, blank=True)
+
+    mass_intercept_8_14 = models.FloatField("Mass Intercept[8][14]", null=True, blank=True)
+
+    mass_slope_8_15 = models.FloatField("Mass Slope[8][15]", null=True, blank=True)
+
+    mass_intercept_8_15 = models.FloatField("Mass Intercept[8][15]", null=True, blank=True)
+
+    mass_slope_8_16 = models.FloatField("Mass Slope[8][16]", null=True, blank=True)
+
+    mass_intercept_8_16 = models.FloatField("Mass Intercept[8][16]", null=True, blank=True)
+
+    mass_slope_8_17 = models.FloatField("Mass Slope[8][17]", null=True, blank=True)
+
+    mass_intercept_8_17 = models.FloatField("Mass Intercept[8][17]", null=True, blank=True)
+
+    mass_slope_8_18 = models.FloatField("Mass Slope[8][18]", null=True, blank=True)
+
+    mass_intercept_8_18 = models.FloatField("Mass Intercept[8][18]", null=True, blank=True)
+
+    mass_slope_8_19 = models.FloatField("Mass Slope[8][19]", null=True, blank=True)
+
+    mass_intercept_8_19 = models.FloatField("Mass Intercept[8][19]", null=True, blank=True)
+
+    mass_slope_9_0 = models.FloatField("Mass Slope[9][0]", null=True, blank=True)
+
+    mass_intercept_9_0 = models.FloatField("Mass Intercept[9][0]", null=True, blank=True)
+
+    mass_slope_9_1 = models.FloatField("Mass Slope[9][1]", null=True, blank=True)
+
+    mass_intercept_9_1 = models.FloatField("Mass Intercept[9][1]", null=True, blank=True)
+
+    mass_slope_9_2 = models.FloatField("Mass Slope[9][2]", null=True, blank=True)
+
+    mass_intercept_9_2 = models.FloatField("Mass Intercept[9][2]", null=True, blank=True)
+
+    mass_slope_9_3 = models.FloatField("Mass Slope[9][3]", null=True, blank=True)
+
+    mass_intercept_9_3 = models.FloatField("Mass Intercept[9][3]", null=True, blank=True)
+
+    mass_slope_9_4 = models.FloatField("Mass Slope[9][4]", null=True, blank=True)
+
+    mass_intercept_9_4 = models.FloatField("Mass Intercept[9][4]", null=True, blank=True)
+
+    mass_slope_9_5 = models.FloatField("Mass Slope[9][5]", null=True, blank=True)
+
+    mass_intercept_9_5 = models.FloatField("Mass Intercept[9][5]", null=True, blank=True)
+
+    mass_slope_9_6 = models.FloatField("Mass Slope[9][6]", null=True, blank=True)
+
+    mass_intercept_9_6 = models.FloatField("Mass Intercept[9][6]", null=True, blank=True)
+
+    mass_slope_9_7 = models.FloatField("Mass Slope[9][7]", null=True, blank=True)
+
+    mass_intercept_9_7 = models.FloatField("Mass Intercept[9][7]", null=True, blank=True)
+
+    mass_slope_9_8 = models.FloatField("Mass Slope[9][8]", null=True, blank=True)
+
+    mass_intercept_9_8 = models.FloatField("Mass Intercept[9][8]", null=True, blank=True)
+
+    mass_slope_9_9 = models.FloatField("Mass Slope[9][9]", null=True, blank=True)
+
+    mass_intercept_9_9 = models.FloatField("Mass Intercept[9][9]", null=True, blank=True)
+
+    mass_slope_9_10 = models.FloatField("Mass Slope[9][10]", null=True, blank=True)
+
+    mass_intercept_9_10 = models.FloatField("Mass Intercept[9][10]", null=True, blank=True)
+
+    mass_slope_9_11 = models.FloatField("Mass Slope[9][11]", null=True, blank=True)
+
+    mass_intercept_9_11 = models.FloatField("Mass Intercept[9][11]", null=True, blank=True)
+
+    mass_slope_9_12 = models.FloatField("Mass Slope[9][12]", null=True, blank=True)
+
+    mass_intercept_9_12 = models.FloatField("Mass Intercept[9][12]", null=True, blank=True)
+
+    mass_slope_9_13 = models.FloatField("Mass Slope[9][13]", null=True, blank=True)
+
+    mass_intercept_9_13 = models.FloatField("Mass Intercept[9][13]", null=True, blank=True)
+
+    mass_slope_9_14 = models.FloatField("Mass Slope[9][14]", null=True, blank=True)
+
+    mass_intercept_9_14 = models.FloatField("Mass Intercept[9][14]", null=True, blank=True)
+
+    mass_slope_9_15 = models.FloatField("Mass Slope[9][15]", null=True, blank=True)
+
+    mass_intercept_9_15 = models.FloatField("Mass Intercept[9][15]", null=True, blank=True)
+
+    mass_slope_9_16 = models.FloatField("Mass Slope[9][16]", null=True, blank=True)
+
+    mass_intercept_9_16 = models.FloatField("Mass Intercept[9][16]", null=True, blank=True)
+
+    mass_slope_9_17 = models.FloatField("Mass Slope[9][17]", null=True, blank=True)
+
+    mass_intercept_9_17 = models.FloatField("Mass Intercept[9][17]", null=True, blank=True)
+
+    mass_slope_9_18 = models.FloatField("Mass Slope[9][18]", null=True, blank=True)
+
+    mass_intercept_9_18 = models.FloatField("Mass Intercept[9][18]", null=True, blank=True)
+
+    mass_slope_9_19 = models.FloatField("Mass Slope[9][19]", null=True, blank=True)
+
+    mass_intercept_9_19 = models.FloatField("Mass Intercept[9][19]", null=True, blank=True)
+
+    mass_slope_10_0 = models.FloatField("Mass Slope[10][0]", null=True, blank=True)
+
+    mass_intercept_10_0 = models.FloatField("Mass Intercept[10][0]", null=True, blank=True)
+
+    mass_slope_10_1 = models.FloatField("Mass Slope[10][1]", null=True, blank=True)
+
+    mass_intercept_10_1 = models.FloatField("Mass Intercept[10][1]", null=True, blank=True)
+
+    mass_slope_10_2 = models.FloatField("Mass Slope[10][2]", null=True, blank=True)
+
+    mass_intercept_10_2 = models.FloatField("Mass Intercept[10][2]", null=True, blank=True)
+
+    mass_slope_10_3 = models.FloatField("Mass Slope[10][3]", null=True, blank=True)
+
+    mass_intercept_10_3 = models.FloatField("Mass Intercept[10][3]", null=True, blank=True)
+
+    mass_slope_10_4 = models.FloatField("Mass Slope[10][4]", null=True, blank=True)
+
+    mass_intercept_10_4 = models.FloatField("Mass Intercept[10][4]", null=True, blank=True)
+
+    mass_slope_10_5 = models.FloatField("Mass Slope[10][5]", null=True, blank=True)
+
+    mass_intercept_10_5 = models.FloatField("Mass Intercept[10][5]", null=True, blank=True)
+
+    mass_slope_10_6 = models.FloatField("Mass Slope[10][6]", null=True, blank=True)
+
+    mass_intercept_10_6 = models.FloatField("Mass Intercept[10][6]", null=True, blank=True)
+
+    mass_slope_10_7 = models.FloatField("Mass Slope[10][7]", null=True, blank=True)
+
+    mass_intercept_10_7 = models.FloatField("Mass Intercept[10][7]", null=True, blank=True)
+
+    mass_slope_10_8 = models.FloatField("Mass Slope[10][8]", null=True, blank=True)
+
+    mass_intercept_10_8 = models.FloatField("Mass Intercept[10][8]", null=True, blank=True)
+
+    mass_slope_10_9 = models.FloatField("Mass Slope[10][9]", null=True, blank=True)
+
+    mass_intercept_10_9 = models.FloatField("Mass Intercept[10][9]", null=True, blank=True)
+
+    mass_slope_10_10 = models.FloatField("Mass Slope[10][10]", null=True, blank=True)
+
+    mass_intercept_10_10 = models.FloatField("Mass Intercept[10][10]", null=True, blank=True)
+
+    mass_slope_10_11 = models.FloatField("Mass Slope[10][11]", null=True, blank=True)
+
+    mass_intercept_10_11 = models.FloatField("Mass Intercept[10][11]", null=True, blank=True)
+
+    mass_slope_10_12 = models.FloatField("Mass Slope[10][12]", null=True, blank=True)
+
+    mass_intercept_10_12 = models.FloatField("Mass Intercept[10][12]", null=True, blank=True)
+
+    mass_slope_10_13 = models.FloatField("Mass Slope[10][13]", null=True, blank=True)
+
+    mass_intercept_10_13 = models.FloatField("Mass Intercept[10][13]", null=True, blank=True)
+
+    mass_slope_10_14 = models.FloatField("Mass Slope[10][14]", null=True, blank=True)
+
+    mass_intercept_10_14 = models.FloatField("Mass Intercept[10][14]", null=True, blank=True)
+
+    mass_slope_10_15 = models.FloatField("Mass Slope[10][15]", null=True, blank=True)
+
+    mass_intercept_10_15 = models.FloatField("Mass Intercept[10][15]", null=True, blank=True)
+
+    mass_slope_10_16 = models.FloatField("Mass Slope[10][16]", null=True, blank=True)
+
+    mass_intercept_10_16 = models.FloatField("Mass Intercept[10][16]", null=True, blank=True)
+
+    mass_slope_10_17 = models.FloatField("Mass Slope[10][17]", null=True, blank=True)
+
+    mass_intercept_10_17 = models.FloatField("Mass Intercept[10][17]", null=True, blank=True)
+
+    mass_slope_10_18 = models.FloatField("Mass Slope[10][18]", null=True, blank=True)
+
+    mass_intercept_10_18 = models.FloatField("Mass Intercept[10][18]", null=True, blank=True)
+
+    mass_slope_10_19 = models.FloatField("Mass Slope[10][19]", null=True, blank=True)
+
+    mass_intercept_10_19 = models.FloatField("Mass Intercept[10][19]", null=True, blank=True)
+
+    mass_slope_11_0 = models.FloatField("Mass Slope[11][0]", null=True, blank=True)
+
+    mass_intercept_11_0 = models.FloatField("Mass Intercept[11][0]", null=True, blank=True)
+
+    mass_slope_11_1 = models.FloatField("Mass Slope[11][1]", null=True, blank=True)
+
+    mass_intercept_11_1 = models.FloatField("Mass Intercept[11][1]", null=True, blank=True)
+
+    mass_slope_11_2 = models.FloatField("Mass Slope[11][2]", null=True, blank=True)
+
+    mass_intercept_11_2 = models.FloatField("Mass Intercept[11][2]", null=True, blank=True)
+
+    mass_slope_11_3 = models.FloatField("Mass Slope[11][3]", null=True, blank=True)
+
+    mass_intercept_11_3 = models.FloatField("Mass Intercept[11][3]", null=True, blank=True)
+
+    mass_slope_11_4 = models.FloatField("Mass Slope[11][4]", null=True, blank=True)
+
+    mass_intercept_11_4 = models.FloatField("Mass Intercept[11][4]", null=True, blank=True)
+
+    mass_slope_11_5 = models.FloatField("Mass Slope[11][5]", null=True, blank=True)
+
+    mass_intercept_11_5 = models.FloatField("Mass Intercept[11][5]", null=True, blank=True)
+
+    mass_slope_11_6 = models.FloatField("Mass Slope[11][6]", null=True, blank=True)
+
+    mass_intercept_11_6 = models.FloatField("Mass Intercept[11][6]", null=True, blank=True)
+
+    mass_slope_11_7 = models.FloatField("Mass Slope[11][7]", null=True, blank=True)
+
+    mass_intercept_11_7 = models.FloatField("Mass Intercept[11][7]", null=True, blank=True)
+
+    mass_slope_11_8 = models.FloatField("Mass Slope[11][8]", null=True, blank=True)
+
+    mass_intercept_11_8 = models.FloatField("Mass Intercept[11][8]", null=True, blank=True)
+
+    mass_slope_11_9 = models.FloatField("Mass Slope[11][9]", null=True, blank=True)
+
+    mass_intercept_11_9 = models.FloatField("Mass Intercept[11][9]", null=True, blank=True)
+
+    mass_slope_11_10 = models.FloatField("Mass Slope[11][10]", null=True, blank=True)
+
+    mass_intercept_11_10 = models.FloatField("Mass Intercept[11][10]", null=True, blank=True)
+
+    mass_slope_11_11 = models.FloatField("Mass Slope[11][11]", null=True, blank=True)
+
+    mass_intercept_11_11 = models.FloatField("Mass Intercept[11][11]", null=True, blank=True)
+
+    mass_slope_11_12 = models.FloatField("Mass Slope[11][12]", null=True, blank=True)
+
+    mass_intercept_11_12 = models.FloatField("Mass Intercept[11][12]", null=True, blank=True)
+
+    mass_slope_11_13 = models.FloatField("Mass Slope[11][13]", null=True, blank=True)
+
+    mass_intercept_11_13 = models.FloatField("Mass Intercept[11][13]", null=True, blank=True)
+
+    mass_slope_11_14 = models.FloatField("Mass Slope[11][14]", null=True, blank=True)
+
+    mass_intercept_11_14 = models.FloatField("Mass Intercept[11][14]", null=True, blank=True)
+
+    mass_slope_11_15 = models.FloatField("Mass Slope[11][15]", null=True, blank=True)
+
+    mass_intercept_11_15 = models.FloatField("Mass Intercept[11][15]", null=True, blank=True)
+
+    mass_slope_11_16 = models.FloatField("Mass Slope[11][16]", null=True, blank=True)
+
+    mass_intercept_11_16 = models.FloatField("Mass Intercept[11][16]", null=True, blank=True)
+
+    mass_slope_11_17 = models.FloatField("Mass Slope[11][17]", null=True, blank=True)
+
+    mass_intercept_11_17 = models.FloatField("Mass Intercept[11][17]", null=True, blank=True)
+
+    mass_slope_11_18 = models.FloatField("Mass Slope[11][18]", null=True, blank=True)
+
+    mass_intercept_11_18 = models.FloatField("Mass Intercept[11][18]", null=True, blank=True)
+
+    mass_slope_11_19 = models.FloatField("Mass Slope[11][19]", null=True, blank=True)
+
+    mass_intercept_11_19 = models.FloatField("Mass Intercept[11][19]", null=True, blank=True)
+
+    mass_slope_12_0 = models.FloatField("Mass Slope[12][0]", null=True, blank=True)
+
+    mass_intercept_12_0 = models.FloatField("Mass Intercept[12][0]", null=True, blank=True)
+
+    mass_slope_12_1 = models.FloatField("Mass Slope[12][1]", null=True, blank=True)
+
+    mass_intercept_12_1 = models.FloatField("Mass Intercept[12][1]", null=True, blank=True)
+
+    mass_slope_12_2 = models.FloatField("Mass Slope[12][2]", null=True, blank=True)
+
+    mass_intercept_12_2 = models.FloatField("Mass Intercept[12][2]", null=True, blank=True)
+
+    mass_slope_12_3 = models.FloatField("Mass Slope[12][3]", null=True, blank=True)
+
+    mass_intercept_12_3 = models.FloatField("Mass Intercept[12][3]", null=True, blank=True)
+
+    mass_slope_12_4 = models.FloatField("Mass Slope[12][4]", null=True, blank=True)
+
+    mass_intercept_12_4 = models.FloatField("Mass Intercept[12][4]", null=True, blank=True)
+
+    mass_slope_12_5 = models.FloatField("Mass Slope[12][5]", null=True, blank=True)
+
+    mass_intercept_12_5 = models.FloatField("Mass Intercept[12][5]", null=True, blank=True)
+
+    mass_slope_12_6 = models.FloatField("Mass Slope[12][6]", null=True, blank=True)
+
+    mass_intercept_12_6 = models.FloatField("Mass Intercept[12][6]", null=True, blank=True)
+
+    mass_slope_12_7 = models.FloatField("Mass Slope[12][7]", null=True, blank=True)
+
+    mass_intercept_12_7 = models.FloatField("Mass Intercept[12][7]", null=True, blank=True)
+
+    mass_slope_12_8 = models.FloatField("Mass Slope[12][8]", null=True, blank=True)
+
+    mass_intercept_12_8 = models.FloatField("Mass Intercept[12][8]", null=True, blank=True)
+
+    mass_slope_12_9 = models.FloatField("Mass Slope[12][9]", null=True, blank=True)
+
+    mass_intercept_12_9 = models.FloatField("Mass Intercept[12][9]", null=True, blank=True)
+
+    mass_slope_12_10 = models.FloatField("Mass Slope[12][10]", null=True, blank=True)
+
+    mass_intercept_12_10 = models.FloatField("Mass Intercept[12][10]", null=True, blank=True)
+
+    mass_slope_12_11 = models.FloatField("Mass Slope[12][11]", null=True, blank=True)
+
+    mass_intercept_12_11 = models.FloatField("Mass Intercept[12][11]", null=True, blank=True)
+
+    mass_slope_12_12 = models.FloatField("Mass Slope[12][12]", null=True, blank=True)
+
+    mass_intercept_12_12 = models.FloatField("Mass Intercept[12][12]", null=True, blank=True)
+
+    mass_slope_12_13 = models.FloatField("Mass Slope[12][13]", null=True, blank=True)
+
+    mass_intercept_12_13 = models.FloatField("Mass Intercept[12][13]", null=True, blank=True)
+
+    mass_slope_12_14 = models.FloatField("Mass Slope[12][14]", null=True, blank=True)
+
+    mass_intercept_12_14 = models.FloatField("Mass Intercept[12][14]", null=True, blank=True)
+
+    mass_slope_12_15 = models.FloatField("Mass Slope[12][15]", null=True, blank=True)
+
+    mass_intercept_12_15 = models.FloatField("Mass Intercept[12][15]", null=True, blank=True)
+
+    mass_slope_12_16 = models.FloatField("Mass Slope[12][16]", null=True, blank=True)
+
+    mass_intercept_12_16 = models.FloatField("Mass Intercept[12][16]", null=True, blank=True)
+
+    mass_slope_12_17 = models.FloatField("Mass Slope[12][17]", null=True, blank=True)
+
+    mass_intercept_12_17 = models.FloatField("Mass Intercept[12][17]", null=True, blank=True)
+
+    mass_slope_12_18 = models.FloatField("Mass Slope[12][18]", null=True, blank=True)
+
+    mass_intercept_12_18 = models.FloatField("Mass Intercept[12][18]", null=True, blank=True)
+
+    mass_slope_12_19 = models.FloatField("Mass Slope[12][19]", null=True, blank=True)
+
+    mass_intercept_12_19 = models.FloatField("Mass Intercept[12][19]", null=True, blank=True)
+
 
 
 
@@ -1132,6 +3325,505 @@ class MetaCalibrationFileValueFtCal(models.Model):
 
     ft_caldot_item_250 = models.FloatField("FT Cal. Item 250", null=True, blank=True)
 
+    ft_caldot_item_251 = models.FloatField("FT Cal. Item 251", null=True, blank=True)
+
+    ft_caldot_item_252 = models.FloatField("FT Cal. Item 252", null=True, blank=True)
+
+    ft_caldot_item_253 = models.FloatField("FT Cal. Item 253", null=True, blank=True)
+
+    ft_caldot_item_254 = models.FloatField("FT Cal. Item 254", null=True, blank=True)
+
+    ft_caldot_item_255 = models.FloatField("FT Cal. Item 255", null=True, blank=True)
+
+    ft_caldot_item_256 = models.FloatField("FT Cal. Item 256", null=True, blank=True)
+
+    ft_caldot_item_257 = models.FloatField("FT Cal. Item 257", null=True, blank=True)
+
+    ft_caldot_item_258 = models.FloatField("FT Cal. Item 258", null=True, blank=True)
+
+    ft_caldot_item_259 = models.FloatField("FT Cal. Item 259", null=True, blank=True)
+
+    ft_caldot_item_260 = models.FloatField("FT Cal. Item 260", null=True, blank=True)
+
+    ft_caldot_item_261 = models.FloatField("FT Cal. Item 261", null=True, blank=True)
+
+    ft_caldot_item_262 = models.FloatField("FT Cal. Item 262", null=True, blank=True)
+
+    ft_caldot_item_263 = models.FloatField("FT Cal. Item 263", null=True, blank=True)
+
+    ft_caldot_item_264 = models.FloatField("FT Cal. Item 264", null=True, blank=True)
+
+    ft_caldot_item_265 = models.FloatField("FT Cal. Item 265", null=True, blank=True)
+
+    ft_caldot_item_266 = models.FloatField("FT Cal. Item 266", null=True, blank=True)
+
+    ft_caldot_item_267 = models.FloatField("FT Cal. Item 267", null=True, blank=True)
+
+    ft_caldot_item_268 = models.FloatField("FT Cal. Item 268", null=True, blank=True)
+
+    ft_caldot_item_269 = models.FloatField("FT Cal. Item 269", null=True, blank=True)
+
+    ft_caldot_item_270 = models.FloatField("FT Cal. Item 270", null=True, blank=True)
+
+    ft_caldot_item_271 = models.FloatField("FT Cal. Item 271", null=True, blank=True)
+
+    ft_caldot_item_272 = models.FloatField("FT Cal. Item 272", null=True, blank=True)
+
+    ft_caldot_item_273 = models.FloatField("FT Cal. Item 273", null=True, blank=True)
+
+    ft_caldot_item_274 = models.FloatField("FT Cal. Item 274", null=True, blank=True)
+
+    ft_caldot_item_275 = models.FloatField("FT Cal. Item 275", null=True, blank=True)
+
+    ft_caldot_item_276 = models.FloatField("FT Cal. Item 276", null=True, blank=True)
+
+    ft_caldot_item_277 = models.FloatField("FT Cal. Item 277", null=True, blank=True)
+
+    ft_caldot_item_278 = models.FloatField("FT Cal. Item 278", null=True, blank=True)
+
+    ft_caldot_item_279 = models.FloatField("FT Cal. Item 279", null=True, blank=True)
+
+    ft_caldot_item_280 = models.FloatField("FT Cal. Item 280", null=True, blank=True)
+
+    ft_caldot_item_281 = models.FloatField("FT Cal. Item 281", null=True, blank=True)
+
+    ft_caldot_item_282 = models.FloatField("FT Cal. Item 282", null=True, blank=True)
+
+    ft_caldot_item_283 = models.FloatField("FT Cal. Item 283", null=True, blank=True)
+
+    ft_caldot_item_284 = models.FloatField("FT Cal. Item 284", null=True, blank=True)
+
+    ft_caldot_item_285 = models.FloatField("FT Cal. Item 285", null=True, blank=True)
+
+    ft_caldot_item_286 = models.FloatField("FT Cal. Item 286", null=True, blank=True)
+
+    ft_caldot_item_287 = models.FloatField("FT Cal. Item 287", null=True, blank=True)
+
+    ft_caldot_item_288 = models.FloatField("FT Cal. Item 288", null=True, blank=True)
+
+    ft_caldot_item_289 = models.FloatField("FT Cal. Item 289", null=True, blank=True)
+
+    ft_caldot_item_290 = models.FloatField("FT Cal. Item 290", null=True, blank=True)
+
+    ft_caldot_item_291 = models.FloatField("FT Cal. Item 291", null=True, blank=True)
+
+    ft_caldot_item_292 = models.FloatField("FT Cal. Item 292", null=True, blank=True)
+
+    ft_caldot_item_293 = models.FloatField("FT Cal. Item 293", null=True, blank=True)
+
+    ft_caldot_item_294 = models.FloatField("FT Cal. Item 294", null=True, blank=True)
+
+    ft_caldot_item_295 = models.FloatField("FT Cal. Item 295", null=True, blank=True)
+
+    ft_caldot_item_296 = models.FloatField("FT Cal. Item 296", null=True, blank=True)
+
+    ft_caldot_item_297 = models.FloatField("FT Cal. Item 297", null=True, blank=True)
+
+    ft_caldot_item_298 = models.FloatField("FT Cal. Item 298", null=True, blank=True)
+
+    ft_caldot_item_299 = models.FloatField("FT Cal. Item 299", null=True, blank=True)
+
+    ft_caldot_item_300 = models.FloatField("FT Cal. Item 300", null=True, blank=True)
+
+    ft_caldot_item_301 = models.FloatField("FT Cal. Item 301", null=True, blank=True)
+
+    ft_caldot_item_302 = models.FloatField("FT Cal. Item 302", null=True, blank=True)
+
+    ft_caldot_item_303 = models.FloatField("FT Cal. Item 303", null=True, blank=True)
+
+    ft_caldot_item_304 = models.FloatField("FT Cal. Item 304", null=True, blank=True)
+
+    ft_caldot_item_305 = models.FloatField("FT Cal. Item 305", null=True, blank=True)
+
+    ft_caldot_item_306 = models.FloatField("FT Cal. Item 306", null=True, blank=True)
+
+    ft_caldot_item_307 = models.FloatField("FT Cal. Item 307", null=True, blank=True)
+
+    ft_caldot_item_308 = models.FloatField("FT Cal. Item 308", null=True, blank=True)
+
+    ft_caldot_item_309 = models.FloatField("FT Cal. Item 309", null=True, blank=True)
+
+    ft_caldot_item_310 = models.FloatField("FT Cal. Item 310", null=True, blank=True)
+
+    ft_caldot_item_311 = models.FloatField("FT Cal. Item 311", null=True, blank=True)
+
+    ft_caldot_item_312 = models.FloatField("FT Cal. Item 312", null=True, blank=True)
+
+    ft_caldot_item_313 = models.FloatField("FT Cal. Item 313", null=True, blank=True)
+
+    ft_caldot_item_314 = models.FloatField("FT Cal. Item 314", null=True, blank=True)
+
+    ft_caldot_item_315 = models.FloatField("FT Cal. Item 315", null=True, blank=True)
+
+    ft_caldot_item_316 = models.FloatField("FT Cal. Item 316", null=True, blank=True)
+
+    ft_caldot_item_317 = models.FloatField("FT Cal. Item 317", null=True, blank=True)
+
+    ft_caldot_item_318 = models.FloatField("FT Cal. Item 318", null=True, blank=True)
+
+    ft_caldot_item_319 = models.FloatField("FT Cal. Item 319", null=True, blank=True)
+
+    ft_caldot_item_320 = models.FloatField("FT Cal. Item 320", null=True, blank=True)
+
+    ft_caldot_item_321 = models.FloatField("FT Cal. Item 321", null=True, blank=True)
+
+    ft_caldot_item_322 = models.FloatField("FT Cal. Item 322", null=True, blank=True)
+
+    ft_caldot_item_323 = models.FloatField("FT Cal. Item 323", null=True, blank=True)
+
+    ft_caldot_item_324 = models.FloatField("FT Cal. Item 324", null=True, blank=True)
+
+    ft_caldot_item_325 = models.FloatField("FT Cal. Item 325", null=True, blank=True)
+
+    ft_caldot_item_326 = models.FloatField("FT Cal. Item 326", null=True, blank=True)
+
+    ft_caldot_item_327 = models.FloatField("FT Cal. Item 327", null=True, blank=True)
+
+    ft_caldot_item_328 = models.FloatField("FT Cal. Item 328", null=True, blank=True)
+
+    ft_caldot_item_329 = models.FloatField("FT Cal. Item 329", null=True, blank=True)
+
+    ft_caldot_item_330 = models.FloatField("FT Cal. Item 330", null=True, blank=True)
+
+    ft_caldot_item_331 = models.FloatField("FT Cal. Item 331", null=True, blank=True)
+
+    ft_caldot_item_332 = models.FloatField("FT Cal. Item 332", null=True, blank=True)
+
+    ft_caldot_item_333 = models.FloatField("FT Cal. Item 333", null=True, blank=True)
+
+    ft_caldot_item_334 = models.FloatField("FT Cal. Item 334", null=True, blank=True)
+
+    ft_caldot_item_335 = models.FloatField("FT Cal. Item 335", null=True, blank=True)
+
+    ft_caldot_item_336 = models.FloatField("FT Cal. Item 336", null=True, blank=True)
+
+    ft_caldot_item_337 = models.FloatField("FT Cal. Item 337", null=True, blank=True)
+
+    ft_caldot_item_338 = models.FloatField("FT Cal. Item 338", null=True, blank=True)
+
+    ft_caldot_item_339 = models.FloatField("FT Cal. Item 339", null=True, blank=True)
+
+    ft_caldot_item_340 = models.FloatField("FT Cal. Item 340", null=True, blank=True)
+
+    ft_caldot_item_341 = models.FloatField("FT Cal. Item 341", null=True, blank=True)
+
+    ft_caldot_item_342 = models.FloatField("FT Cal. Item 342", null=True, blank=True)
+
+    ft_caldot_item_343 = models.FloatField("FT Cal. Item 343", null=True, blank=True)
+
+    ft_caldot_item_344 = models.FloatField("FT Cal. Item 344", null=True, blank=True)
+
+    ft_caldot_item_345 = models.FloatField("FT Cal. Item 345", null=True, blank=True)
+
+    ft_caldot_item_346 = models.FloatField("FT Cal. Item 346", null=True, blank=True)
+
+    ft_caldot_item_347 = models.FloatField("FT Cal. Item 347", null=True, blank=True)
+
+    ft_caldot_item_348 = models.FloatField("FT Cal. Item 348", null=True, blank=True)
+
+    ft_caldot_item_349 = models.FloatField("FT Cal. Item 349", null=True, blank=True)
+
+    ft_caldot_item_350 = models.FloatField("FT Cal. Item 350", null=True, blank=True)
+
+    ft_caldot_item_351 = models.FloatField("FT Cal. Item 351", null=True, blank=True)
+
+    ft_caldot_item_352 = models.FloatField("FT Cal. Item 352", null=True, blank=True)
+
+    ft_caldot_item_353 = models.FloatField("FT Cal. Item 353", null=True, blank=True)
+
+    ft_caldot_item_354 = models.FloatField("FT Cal. Item 354", null=True, blank=True)
+
+    ft_caldot_item_355 = models.FloatField("FT Cal. Item 355", null=True, blank=True)
+
+    ft_caldot_item_356 = models.FloatField("FT Cal. Item 356", null=True, blank=True)
+
+    ft_caldot_item_357 = models.FloatField("FT Cal. Item 357", null=True, blank=True)
+
+    ft_caldot_item_358 = models.FloatField("FT Cal. Item 358", null=True, blank=True)
+
+    ft_caldot_item_359 = models.FloatField("FT Cal. Item 359", null=True, blank=True)
+
+    ft_caldot_item_360 = models.FloatField("FT Cal. Item 360", null=True, blank=True)
+
+    ft_caldot_item_361 = models.FloatField("FT Cal. Item 361", null=True, blank=True)
+
+    ft_caldot_item_362 = models.FloatField("FT Cal. Item 362", null=True, blank=True)
+
+    ft_caldot_item_363 = models.FloatField("FT Cal. Item 363", null=True, blank=True)
+
+    ft_caldot_item_364 = models.FloatField("FT Cal. Item 364", null=True, blank=True)
+
+    ft_caldot_item_365 = models.FloatField("FT Cal. Item 365", null=True, blank=True)
+
+    ft_caldot_item_366 = models.FloatField("FT Cal. Item 366", null=True, blank=True)
+
+    ft_caldot_item_367 = models.FloatField("FT Cal. Item 367", null=True, blank=True)
+
+    ft_caldot_item_368 = models.FloatField("FT Cal. Item 368", null=True, blank=True)
+
+    ft_caldot_item_369 = models.FloatField("FT Cal. Item 369", null=True, blank=True)
+
+    ft_caldot_item_370 = models.FloatField("FT Cal. Item 370", null=True, blank=True)
+
+    ft_caldot_item_371 = models.FloatField("FT Cal. Item 371", null=True, blank=True)
+
+    ft_caldot_item_372 = models.FloatField("FT Cal. Item 372", null=True, blank=True)
+
+    ft_caldot_item_373 = models.FloatField("FT Cal. Item 373", null=True, blank=True)
+
+    ft_caldot_item_374 = models.FloatField("FT Cal. Item 374", null=True, blank=True)
+
+    ft_caldot_item_375 = models.FloatField("FT Cal. Item 375", null=True, blank=True)
+
+    ft_caldot_item_376 = models.FloatField("FT Cal. Item 376", null=True, blank=True)
+
+    ft_caldot_item_377 = models.FloatField("FT Cal. Item 377", null=True, blank=True)
+
+    ft_caldot_item_378 = models.FloatField("FT Cal. Item 378", null=True, blank=True)
+
+    ft_caldot_item_379 = models.FloatField("FT Cal. Item 379", null=True, blank=True)
+
+    ft_caldot_item_380 = models.FloatField("FT Cal. Item 380", null=True, blank=True)
+
+    ft_caldot_item_381 = models.FloatField("FT Cal. Item 381", null=True, blank=True)
+
+    ft_caldot_item_382 = models.FloatField("FT Cal. Item 382", null=True, blank=True)
+
+    ft_caldot_item_383 = models.FloatField("FT Cal. Item 383", null=True, blank=True)
+
+    ft_caldot_item_384 = models.FloatField("FT Cal. Item 384", null=True, blank=True)
+
+    ft_caldot_item_385 = models.FloatField("FT Cal. Item 385", null=True, blank=True)
+
+    ft_caldot_item_386 = models.FloatField("FT Cal. Item 386", null=True, blank=True)
+
+    ft_caldot_item_387 = models.FloatField("FT Cal. Item 387", null=True, blank=True)
+
+    ft_caldot_item_388 = models.FloatField("FT Cal. Item 388", null=True, blank=True)
+
+    ft_caldot_item_389 = models.FloatField("FT Cal. Item 389", null=True, blank=True)
+
+    ft_caldot_item_390 = models.FloatField("FT Cal. Item 390", null=True, blank=True)
+
+    ft_caldot_item_391 = models.FloatField("FT Cal. Item 391", null=True, blank=True)
+
+    ft_caldot_item_392 = models.FloatField("FT Cal. Item 392", null=True, blank=True)
+
+    ft_caldot_item_393 = models.FloatField("FT Cal. Item 393", null=True, blank=True)
+
+    ft_caldot_item_394 = models.FloatField("FT Cal. Item 394", null=True, blank=True)
+
+    ft_caldot_item_395 = models.FloatField("FT Cal. Item 395", null=True, blank=True)
+
+    ft_caldot_item_396 = models.FloatField("FT Cal. Item 396", null=True, blank=True)
+
+    ft_caldot_item_397 = models.FloatField("FT Cal. Item 397", null=True, blank=True)
+
+    ft_caldot_item_398 = models.FloatField("FT Cal. Item 398", null=True, blank=True)
+
+    ft_caldot_item_399 = models.FloatField("FT Cal. Item 399", null=True, blank=True)
+
+    ft_caldot_item_400 = models.FloatField("FT Cal. Item 400", null=True, blank=True)
+
+    ft_caldot_item_401 = models.FloatField("FT Cal. Item 401", null=True, blank=True)
+
+    ft_caldot_item_402 = models.FloatField("FT Cal. Item 402", null=True, blank=True)
+
+    ft_caldot_item_403 = models.FloatField("FT Cal. Item 403", null=True, blank=True)
+
+    ft_caldot_item_404 = models.FloatField("FT Cal. Item 404", null=True, blank=True)
+
+    ft_caldot_item_405 = models.FloatField("FT Cal. Item 405", null=True, blank=True)
+
+    ft_caldot_item_406 = models.FloatField("FT Cal. Item 406", null=True, blank=True)
+
+    ft_caldot_item_407 = models.FloatField("FT Cal. Item 407", null=True, blank=True)
+
+    ft_caldot_item_408 = models.FloatField("FT Cal. Item 408", null=True, blank=True)
+
+    ft_caldot_item_409 = models.FloatField("FT Cal. Item 409", null=True, blank=True)
+
+    ft_caldot_item_410 = models.FloatField("FT Cal. Item 410", null=True, blank=True)
+
+    ft_caldot_item_411 = models.FloatField("FT Cal. Item 411", null=True, blank=True)
+
+    ft_caldot_item_412 = models.FloatField("FT Cal. Item 412", null=True, blank=True)
+
+    ft_caldot_item_413 = models.FloatField("FT Cal. Item 413", null=True, blank=True)
+
+    ft_caldot_item_414 = models.FloatField("FT Cal. Item 414", null=True, blank=True)
+
+    ft_caldot_item_415 = models.FloatField("FT Cal. Item 415", null=True, blank=True)
+
+    ft_caldot_item_416 = models.FloatField("FT Cal. Item 416", null=True, blank=True)
+
+    ft_caldot_item_417 = models.FloatField("FT Cal. Item 417", null=True, blank=True)
+
+    ft_caldot_item_418 = models.FloatField("FT Cal. Item 418", null=True, blank=True)
+
+    ft_caldot_item_419 = models.FloatField("FT Cal. Item 419", null=True, blank=True)
+
+    ft_caldot_item_420 = models.FloatField("FT Cal. Item 420", null=True, blank=True)
+
+    ft_caldot_item_421 = models.FloatField("FT Cal. Item 421", null=True, blank=True)
+
+    ft_caldot_item_422 = models.FloatField("FT Cal. Item 422", null=True, blank=True)
+
+    ft_caldot_item_423 = models.FloatField("FT Cal. Item 423", null=True, blank=True)
+
+    ft_caldot_item_424 = models.FloatField("FT Cal. Item 424", null=True, blank=True)
+
+    ft_caldot_item_425 = models.FloatField("FT Cal. Item 425", null=True, blank=True)
+
+    ft_caldot_item_426 = models.FloatField("FT Cal. Item 426", null=True, blank=True)
+
+    ft_caldot_item_427 = models.FloatField("FT Cal. Item 427", null=True, blank=True)
+
+    ft_caldot_item_428 = models.FloatField("FT Cal. Item 428", null=True, blank=True)
+
+    ft_caldot_item_429 = models.FloatField("FT Cal. Item 429", null=True, blank=True)
+
+    ft_caldot_item_430 = models.FloatField("FT Cal. Item 430", null=True, blank=True)
+
+    ft_caldot_item_431 = models.FloatField("FT Cal. Item 431", null=True, blank=True)
+
+    ft_caldot_item_432 = models.FloatField("FT Cal. Item 432", null=True, blank=True)
+
+    ft_caldot_item_433 = models.FloatField("FT Cal. Item 433", null=True, blank=True)
+
+    ft_caldot_item_434 = models.FloatField("FT Cal. Item 434", null=True, blank=True)
+
+    ft_caldot_item_435 = models.FloatField("FT Cal. Item 435", null=True, blank=True)
+
+    ft_caldot_item_436 = models.FloatField("FT Cal. Item 436", null=True, blank=True)
+
+    ft_caldot_item_437 = models.FloatField("FT Cal. Item 437", null=True, blank=True)
+
+    ft_caldot_item_438 = models.FloatField("FT Cal. Item 438", null=True, blank=True)
+
+    ft_caldot_item_439 = models.FloatField("FT Cal. Item 439", null=True, blank=True)
+
+    ft_caldot_item_440 = models.FloatField("FT Cal. Item 440", null=True, blank=True)
+
+    ft_caldot_item_441 = models.FloatField("FT Cal. Item 441", null=True, blank=True)
+
+    ft_caldot_item_442 = models.FloatField("FT Cal. Item 442", null=True, blank=True)
+
+    ft_caldot_item_443 = models.FloatField("FT Cal. Item 443", null=True, blank=True)
+
+    ft_caldot_item_444 = models.FloatField("FT Cal. Item 444", null=True, blank=True)
+
+    ft_caldot_item_445 = models.FloatField("FT Cal. Item 445", null=True, blank=True)
+
+    ft_caldot_item_446 = models.FloatField("FT Cal. Item 446", null=True, blank=True)
+
+    ft_caldot_item_447 = models.FloatField("FT Cal. Item 447", null=True, blank=True)
+
+    ft_caldot_item_448 = models.FloatField("FT Cal. Item 448", null=True, blank=True)
+
+    ft_caldot_item_449 = models.FloatField("FT Cal. Item 449", null=True, blank=True)
+
+    ft_caldot_item_450 = models.FloatField("FT Cal. Item 450", null=True, blank=True)
+
+    ft_caldot_item_451 = models.FloatField("FT Cal. Item 451", null=True, blank=True)
+
+    ft_caldot_item_452 = models.FloatField("FT Cal. Item 452", null=True, blank=True)
+
+    ft_caldot_item_453 = models.FloatField("FT Cal. Item 453", null=True, blank=True)
+
+    ft_caldot_item_454 = models.FloatField("FT Cal. Item 454", null=True, blank=True)
+
+    ft_caldot_item_455 = models.FloatField("FT Cal. Item 455", null=True, blank=True)
+
+    ft_caldot_item_456 = models.FloatField("FT Cal. Item 456", null=True, blank=True)
+
+    ft_caldot_item_457 = models.FloatField("FT Cal. Item 457", null=True, blank=True)
+
+    ft_caldot_item_458 = models.FloatField("FT Cal. Item 458", null=True, blank=True)
+
+    ft_caldot_item_459 = models.FloatField("FT Cal. Item 459", null=True, blank=True)
+
+    ft_caldot_item_460 = models.FloatField("FT Cal. Item 460", null=True, blank=True)
+
+    ft_caldot_item_461 = models.FloatField("FT Cal. Item 461", null=True, blank=True)
+
+    ft_caldot_item_462 = models.FloatField("FT Cal. Item 462", null=True, blank=True)
+
+    ft_caldot_item_463 = models.FloatField("FT Cal. Item 463", null=True, blank=True)
+
+    ft_caldot_item_464 = models.FloatField("FT Cal. Item 464", null=True, blank=True)
+
+    ft_caldot_item_465 = models.FloatField("FT Cal. Item 465", null=True, blank=True)
+
+    ft_caldot_item_466 = models.FloatField("FT Cal. Item 466", null=True, blank=True)
+
+    ft_caldot_item_467 = models.FloatField("FT Cal. Item 467", null=True, blank=True)
+
+    ft_caldot_item_468 = models.FloatField("FT Cal. Item 468", null=True, blank=True)
+
+    ft_caldot_item_469 = models.FloatField("FT Cal. Item 469", null=True, blank=True)
+
+    ft_caldot_item_470 = models.FloatField("FT Cal. Item 470", null=True, blank=True)
+
+    ft_caldot_item_471 = models.FloatField("FT Cal. Item 471", null=True, blank=True)
+
+    ft_caldot_item_472 = models.FloatField("FT Cal. Item 472", null=True, blank=True)
+
+    ft_caldot_item_473 = models.FloatField("FT Cal. Item 473", null=True, blank=True)
+
+    ft_caldot_item_474 = models.FloatField("FT Cal. Item 474", null=True, blank=True)
+
+    ft_caldot_item_475 = models.FloatField("FT Cal. Item 475", null=True, blank=True)
+
+    ft_caldot_item_476 = models.FloatField("FT Cal. Item 476", null=True, blank=True)
+
+    ft_caldot_item_477 = models.FloatField("FT Cal. Item 477", null=True, blank=True)
+
+    ft_caldot_item_478 = models.FloatField("FT Cal. Item 478", null=True, blank=True)
+
+    ft_caldot_item_479 = models.FloatField("FT Cal. Item 479", null=True, blank=True)
+
+    ft_caldot_item_480 = models.FloatField("FT Cal. Item 480", null=True, blank=True)
+
+    ft_caldot_item_481 = models.FloatField("FT Cal. Item 481", null=True, blank=True)
+
+    ft_caldot_item_482 = models.FloatField("FT Cal. Item 482", null=True, blank=True)
+
+    ft_caldot_item_483 = models.FloatField("FT Cal. Item 483", null=True, blank=True)
+
+    ft_caldot_item_484 = models.FloatField("FT Cal. Item 484", null=True, blank=True)
+
+    ft_caldot_item_485 = models.FloatField("FT Cal. Item 485", null=True, blank=True)
+
+    ft_caldot_item_486 = models.FloatField("FT Cal. Item 486", null=True, blank=True)
+
+    ft_caldot_item_487 = models.FloatField("FT Cal. Item 487", null=True, blank=True)
+
+    ft_caldot_item_488 = models.FloatField("FT Cal. Item 488", null=True, blank=True)
+
+    ft_caldot_item_489 = models.FloatField("FT Cal. Item 489", null=True, blank=True)
+
+    ft_caldot_item_490 = models.FloatField("FT Cal. Item 490", null=True, blank=True)
+
+    ft_caldot_item_491 = models.FloatField("FT Cal. Item 491", null=True, blank=True)
+
+    ft_caldot_item_492 = models.FloatField("FT Cal. Item 492", null=True, blank=True)
+
+    ft_caldot_item_493 = models.FloatField("FT Cal. Item 493", null=True, blank=True)
+
+    ft_caldot_item_494 = models.FloatField("FT Cal. Item 494", null=True, blank=True)
+
+    ft_caldot_item_495 = models.FloatField("FT Cal. Item 495", null=True, blank=True)
+
+    ft_caldot_item_496 = models.FloatField("FT Cal. Item 496", null=True, blank=True)
+
+    ft_caldot_item_497 = models.FloatField("FT Cal. Item 497", null=True, blank=True)
+
+    ft_caldot_item_498 = models.FloatField("FT Cal. Item 498", null=True, blank=True)
+
+    ft_caldot_item_499 = models.FloatField("FT Cal. Item 499", null=True, blank=True)
+
+    ft_caldot_item_500 = models.FloatField("FT Cal. Item 500", null=True, blank=True)
 
 
 

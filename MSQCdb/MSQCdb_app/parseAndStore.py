@@ -151,8 +151,8 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict, fieldsIgnor
             
             value = value.lstrip()
             
-            if value == '1.#J':
-                value = 0
+            if value == '1.#J' or value == '-1.#J' or value == '1.#IO' or value == '1.$' or value == '-1.$' or value == '-1.#IO':
+                value = '0.0'
 
 
             if tablePrefix == 'Meta':
@@ -160,7 +160,7 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict, fieldsIgnor
                 kv = dict()
                 kv['mass_'] = tablePrefix + 'CalibrationFileValueMass'
                 kv['ft_cal'] = tablePrefix + 'CalibrationFileValueFtCal'
-                kv['res_eject'] = tablePrefix + 'CalibrationFileValueResEject'
+                kv['resdot_eject'] = tablePrefix + 'CalibrationFileValueResEject'
                 
                 
                 if section.startswith(tablePrefix + 'Calibration') and not section.endswith('Value'):
@@ -203,7 +203,7 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict, fieldsIgnor
                 currentValue = fieldsModelDict[longKey]
                 
                 if re.sub(r'\(.*\)', '', fieldTypeValue) != re.sub(r'\(.*\)', '', currentValue):
-                    if fieldsIgnoreDict.get(longKey) == None:
+                    if fieldsIgnoreDict.get(longKey) == None and not (fieldTypeValue.startswith('Integer') and currentValue.startswith('Float')):
                         print "Model discrepency:\t%s : %s\t\t%s-%s" % (fieldTypeValue, currentValue, section, key)
                         values['storeFlag'] = False
                     

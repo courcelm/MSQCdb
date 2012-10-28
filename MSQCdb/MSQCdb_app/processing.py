@@ -59,7 +59,7 @@ def runNISTMSQC(logFile_fh):
     
 
 def testIntegrity(raw_file_fullPath):
-    cmd = r'%s\msconvert.exe %s --filter "msLevel 5" -o %s' % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
+    cmd = r'%s\msconvert.exe "%s" --filter "msLevel 5" -o %s' % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
 
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     out, err = proc.communicate()
@@ -68,7 +68,7 @@ def testIntegrity(raw_file_fullPath):
 
 
 def testMSMS(raw_file_fullPath):
-    cmd = r'%s\msconvert.exe %s --filter "msLevel 2" --mgf -o %s --outfile testMSMS.mgf' % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
+    cmd = r'%s\msconvert.exe "%s" --filter "msLevel 2" --mgf -o %s --outfile testMSMS.mgf' % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
 
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     out, err = proc.communicate()
