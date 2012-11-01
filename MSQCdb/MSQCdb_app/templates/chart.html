@@ -1,3 +1,7 @@
+{% load mytemplatetags %}
+
+
+
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -9,21 +13,34 @@
 $(function() {
 	$.getJSON('{{ chart_data_link }}&callback=?', function(data) {
 		
+		Highcharts.setOptions({
+    		global: {
+        		useUTC: true
+    		}
+		});
+
+		
 		// Create the chart
 		window.chart = new Highcharts.StockChart({
 		    chart: {
 		        renderTo: 'container',
 		        zoomType: 'x'
 		    },
-
+			credits: {
+                enabled: false
+            },
 		    rangeSelector: {
-		        selected: 5
+		        selected: 1
 		    },
 
 		    title: {
 		        text: 'Instrument Chart to SET'
 		    },
+            xAxis: {
+                type: 'datetime',
+                ordinal: false,
 
+            },
 		    yAxis: {
 		        title: {
 		            text: 'to SET'
@@ -37,7 +54,7 @@ $(function() {
 					enabled : true,
 					radius : 3
 				},
-		        id: 'dataseries',
+				id: 'dataseries',
 				tooltip: {
 					valueDecimals: 2
 				}
@@ -46,7 +63,8 @@ $(function() {
 		    {
 				type : 'flags',
 				data : [{
-					x : Date.UTC({{event.datetime.year}}, {{event.datetime.month }} - 1, {{event.datetime.day}}),
+					
+					x : new Date({{event.datetime|epoch}}),
 					title : '{{ event.event_type|slice:"1" }}',
 					text : '{{ event.event_type }}: "{{ event.name }}"'
 				}],

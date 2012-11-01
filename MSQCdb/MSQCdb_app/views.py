@@ -34,6 +34,15 @@ from django.conf import settings
 
 
 # Function definitions  ######################################################
+from django.template import Library
+register = Library()
+@register.filter(expects_localtime=True)
+def datetime_to_milliseconds(some_datetime_object):
+    timetuple = some_datetime_object.timetuple()
+    timestamp = time.mktime(timetuple)
+    return '{0:.0f}'.format(timestamp * 1000.0)
+
+
 
 def chartView(request):
     """
@@ -42,6 +51,8 @@ def chartView(request):
     """
     
     events = EventLog.objects.all()
+    #for event in events:
+    #    event.datetime = datetime_to_milliseconds(event.datetime)
     chart_data_link = '/MSQCdb/chartDataJSON?'
     t = loader.get_template('chart.html')
     c = Context({ 'chart_data_link': chart_data_link, 'events': events,  'MEDIA_URL': settings.MEDIA_URL})
@@ -51,7 +62,7 @@ def chartView(request):
 
 
 
-def chartDataJSON(request):
+def chartDataJSON1(request):
     """
     This function generates a JSON output of data to generate a chart using the 
     Highstock JavaScript plotting library.
@@ -61,11 +72,11 @@ def chartDataJSON(request):
     objects = ReportSpectrumCount.objects.all().order_by('sample__experimentdate')
     
     for obj in objects:
-        epoch = int(time.mktime(obj.sample.experimentdate.timetuple())*1000)
+        epoch = int(time.mktime(obj.sample.experimentdate.timetuple()))*1000
         strTmp += '[%s,%s],\n' % (epoch, obj.ms1_scansfull)
     
-    strTmp = strTmp.rstrip('\n')
-    strTmp = strTmp.rstrip(',')
+    #strTmp = strTmp.rstrip('\n')
+    #strTmp = strTmp.rstrip(',')
     strTmp += '\n]\n'
     
     
@@ -74,6 +85,21 @@ def chartDataJSON(request):
     
     return HttpResponse(response, mimetype='application/json')
 
+
+
+def chartDataJSON(request):
+    """
+    This function generates a JSON output of data to generate a chart using the 
+    Highstock JavaScript plotting library.
+    """
+    
+    objects = ReportSpectrumCount.objects.all().order_by('sample__experimentdate')
+
+    callback = request.GET.get('callback', '')  # For javascript getJSON
+    t = loader.get_template('json.html')
+    c = Context({ 'callback': callback, 'objects': objects})
+    return HttpResponse(t.render(c), mimetype='application/json')
+    
 
 
 

@@ -1,0 +1,10 @@
+{% load mytemplatetags %}
+
+{{callback}}
+(
+[
+{% for object in objects %}
+[{{object.sample.experimentdate|epoch}},{{object.ms1_scansfull}}],
+{% endfor %}
+]
+)
