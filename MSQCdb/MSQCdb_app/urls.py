@@ -6,5 +6,4 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
     url(r'^chartDataJSON', chartDataJSON),                       
     url(r'^chartView', chartView),
-    url(r'^$', listEventLog),
 )

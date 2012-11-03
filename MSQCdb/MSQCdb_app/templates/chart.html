@@ -32,7 +32,14 @@ $(function() {
 		    rangeSelector: {
 		        selected: 1
 		    },
-
+			legend: {
+            	enabled: true,
+            	align: 'left',
+            	verticalAlign: 'top',
+            	floating: true,
+            	x: 275,
+            	y: 27,
+           	},
 		    title: {
 		        text: 'Instrument Chart to SET'
 		    },
@@ -46,7 +53,20 @@ $(function() {
 		            text: 'to SET'
 		        }
 		    },
-
+			scrollbar : {
+				enabled : false
+			},
+			tooltip: {
+	            useHTML: true,
+        	},
+			plotOptions: {
+                series: {
+                    marker: {
+                        lineWidth: 1,
+                    }
+                }
+            },
+			
 			series: [{
 		        name: 'to SET',
 		        data: data,
@@ -55,9 +75,7 @@ $(function() {
 					radius : 3
 				},
 				id: 'dataseries',
-				tooltip: {
-					valueDecimals: 2
-				}
+				
 		    }, 
 		    {% for event in events %}
 		    {
@@ -66,21 +84,27 @@ $(function() {
 					
 					x : new Date({{event.datetime|epoch}}),
 					title : '{{ event.event_type|slice:"1" }}',
-					text : '{{ event.event_type }}: "{{ event.name }}"'
+					text : '<b>{{ event.event_type }}:</b><br />{{ event.name|splitLine }}'
 				}],
 				{% if event.event_type|slice:"1" == 'F' %}
-				shape : 'squarepin',
-            			color : '#AA4643',
+					shape : 'squarepin',
+            		color : '#AA4643',
             	{% else %}
-            		{% if event.event_type|slice:"1" == 'C' %}
-            			shape : 'circlepin',
-            			color : '#006000',
+            		{% if event.event_type|slice:"1" == 'N' %}
+						shape : 'squarepin',
+            			color : '#E87600',
             		{% else %}
-            			shape : 'circlepin',
-            			color : '#8b8989',
+            			{% if event.event_type|slice:"1" == 'C' %}
+            				shape : 'circlepin',
+            				color : '#006000',
+            			{% else %}
+            				shape : 'circlepin',
+            				color : '#8b8989',
+            			{% endif %}
             		{% endif %}
             	{% endif %}
 				width : 16,
+				showInLegend: false,
 				events: {
         			click: function(event) {
         				location.href='/admin/MSQCdb_app/eventlog/{{ event.pk }}/';

@@ -1,4 +1,5 @@
 from django.template import Library
+from django.utils.safestring import mark_safe
 
 import datetime
 import calendar
@@ -20,3 +21,29 @@ def epoch(value):
     if isinstance(value, datetime.datetime):
         return int(calendar.timegm(value.timetuple())*1000)
     return '' #fails silently for non-datetime objects
+
+
+
+
+@register.filter(is_safe=True)
+def splitLine(value):
+    """
+    Wrap line to a defined length at space between words.
+    """
+    
+    lineLength = 25
+    
+    
+    "wrap at first delimiter left of size"  
+    wraplines = []
+    
+    line = ''
+    for word in value.split(' '):
+        if len(line) + len(word) <= lineLength:
+            line += word + ' '
+        else:
+            wraplines.append(line)
+            line = word + ' '
+    wraplines.append(line)
+
+    return mark_safe('<br />'.join(wraplines))

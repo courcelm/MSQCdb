@@ -110,7 +110,7 @@ def writeClassHeader(fh_out, section, vname, tablePrefix):
     fh_out.write('    class Meta:\n')
     fh_out.write('        verbose_name = "%s"\n\n\n' % (vname))
     fh_out.write('    sample = models.ForeignKey(Sample, related_name=\'\
-                    %(class)s_%s\')\n\n' % (tablePrefix))
+                    %(class)s_' + tablePrefix + '\')\n\n')
 
 
 
@@ -377,7 +377,10 @@ def parseAndStore(rawFile, raw_file_fullPath, logFile_fh):
     
     
     ## Check that file has MS1 spectrum
-    ms1 = reportValues['ReportSpectrumCount']['ms1_scansfull']
+    ms1 = 0
+    if reportValues.has_key('ReportSpectrumCount'):
+        ms1 = reportValues['ReportSpectrumCount']['ms1_scansfull']
+        
     if ms1 == '0':
         # Add file to ignore list
         fh_out = open(config['ARCHIVE_DIR'] + r'\ignoreFiles.txt', 'a')

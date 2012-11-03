@@ -29,6 +29,7 @@ from django.template import loader, Context
 from django.http import HttpResponse
 from MSQCdb.MSQCdb_app.models import *
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -43,7 +44,7 @@ def datetime_to_milliseconds(some_datetime_object):
     return '{0:.0f}'.format(timestamp * 1000.0)
 
 
-
+@login_required
 def chartView(request):
     """
     This function prepares the Context to display the metrics and Event using
@@ -61,32 +62,7 @@ def chartView(request):
 
 
 
-
-def chartDataJSON1(request):
-    """
-    This function generates a JSON output of data to generate a chart using the 
-    Highstock JavaScript plotting library.
-    """
-    
-    strTmp = '[\n'    
-    objects = ReportSpectrumCount.objects.all().order_by('sample__experimentdate')
-    
-    for obj in objects:
-        epoch = int(time.mktime(obj.sample.experimentdate.timetuple()))*1000
-        strTmp += '[%s,%s],\n' % (epoch, obj.ms1_scansfull)
-    
-    #strTmp = strTmp.rstrip('\n')
-    #strTmp = strTmp.rstrip(',')
-    strTmp += '\n]\n'
-    
-    
-    callback = request.GET.get('callback', '')  # For javascript getJSON
-    response = callback + '(' + strTmp + ');'
-    
-    return HttpResponse(response, mimetype='application/json')
-
-
-
+@login_required
 def chartDataJSON(request):
     """
     This function generates a JSON output of data to generate a chart using the 
@@ -100,20 +76,4 @@ def chartDataJSON(request):
     c = Context({ 'callback': callback, 'objects': objects})
     return HttpResponse(t.render(c), mimetype='application/json')
     
-
-
-
-def listEventLog(request):
-    """
-    This function prepare the Context to display the EventLog.
-    """
-    
-    events = EventLog.objects.all()
-    t = loader.get_template('events.html')
-    c = Context({ 'events': events})
-    return HttpResponse(t.render(c))
-
-
-
-
 

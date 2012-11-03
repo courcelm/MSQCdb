@@ -110,6 +110,14 @@ TEMPLATE_DIRS = (
     "C:/Users/Mathieu/My Documents/Aptana Studio 3 Workspace/MSQCdb/MSQCdb/MSQCdb_app/templates"
 )
 
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.request",
+    "django.core.context_processors.i18n",
+    'django.contrib.messages.context_processors.messages',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -117,6 +125,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Visual enhancment
+    'grappelli.dashboard',
+    'grappelli',
+    
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -158,3 +171,8 @@ LOGGING = {
         },
     }
 }
+
+
+
+GRAPPELLI_ADMIN_TITLE = 'MSQCdb - Database and frontend for the NIST MSCQC Pipeline'
+GRAPPELLI_INDEX_DASHBOARD = 'MSQCdb.dashboard.CustomIndexDashboard'

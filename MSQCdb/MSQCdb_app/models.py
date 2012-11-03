@@ -25,6 +25,9 @@ from django.contrib.auth.models import User
 
 
 
+    
+
+
 class Instrument(models.Model):
     """
     This class holds the name of all the MS instrument.
@@ -92,6 +95,7 @@ class EventLog(models.Model):
     EVENT_TYPES = (('Calibration', 'Calibration'),
                    ('Failure', 'Failure'),
                    ('Maintenance', 'Maintenance'),
+                   ('Note', 'Note'),
                    )
     
     event_type = models.CharField('Event type', max_length=30,
@@ -104,6 +108,31 @@ class EventLog(models.Model):
     
     description = models.TextField('Detailed description (what was replaced,\
                                      how it was fixed)', blank=True)
+
+
+
+
+
+class Chart(models.Model):
+    """
+    Chart information for plotting a Highstock chart
+    """
+    
+    title = models.CharField(help_text = 'Title that appear at the top of the chart.', max_length=50, unique=True)
+
+
+class ChartSeries(models.Model):
+    """
+    Define the criteria to retrieve a series of data point
+    """
+    
+    chart = models.ForeignKey(Chart)
+    
+    instrument_name = models.ForeignKey(Instrument, null=True, blank=True)
+
+    keyword = models.CharField(max_length=50, unique=True)
+    
+    
 
 
 

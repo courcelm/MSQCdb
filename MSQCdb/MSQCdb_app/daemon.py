@@ -23,7 +23,7 @@ The daemon stores STDOUT, STDERR to a log file.
 """
 
 
-# Import standard libraries
+# Import standard librariesdjang
 import os
 import sys
 import time

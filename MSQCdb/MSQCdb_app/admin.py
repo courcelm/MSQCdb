@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from MSQCdb.MSQCdb_app.models import *
 from django.utils.safestring import mark_safe
+from genericcollection import GenericCollectionTabularInline
 
 
 
@@ -79,9 +80,22 @@ class SampleAdmin(admin.ModelAdmin):
 
 
 
+class ChartSeriesInline(admin.TabularInline):
+    
+    extra = 2
+    
+    model = ChartSeries
+
+
+class ChartAdmin(admin.ModelAdmin):
+    
+    inlines = [ChartSeriesInline]
+    
+
+    models.g
 
 ## Register admin panels
 admin.site.register(MetadataOverview, MetadataOverviewAdmin)
 admin.site.register(EventLog, EventLogAdmin)
 admin.site.register(Sample, SampleAdmin)
-
+admin.site.register(Chart, ChartAdmin)

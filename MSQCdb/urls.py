@@ -18,4 +18,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': MSQCdb.settings.MEDIA_ROOT}),
     url(r'^MSQCdb/', include('MSQCdb.MSQCdb_app.urls')),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'admin/login.html'}),
+    url(r'^grappelli/', include('grappelli.urls')),
+
 )
