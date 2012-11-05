@@ -5,5 +5,6 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     url(r'^chartDataJSON', chartDataJSON),                       
-    url(r'^chartView', chartView),
+    url(r'^chartView/(?P<chartId>.*)$', chartView),
+    url(r'^fieldOptions/(?P<modelName>.*)$', fieldOptions),
 )

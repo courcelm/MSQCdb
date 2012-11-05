@@ -69,11 +69,35 @@ def chartDataJSON(request):
     Highstock JavaScript plotting library.
     """
     
-    objects = ReportSpectrumCount.objects.all().order_by('sample__experimentdate')
+    #objects = ReportSpectrumCount.objects.all().order_by('sample__experimentdate')
+    
+    m = models.get_model('MSQCdb_app', 'ReportSpectrumCount')
+    objects_sorted = m.objects.all().order_by('sample__experimentdate')
+    objects = objects_sorted.extra(select={'chartValue': "ms1_scansfull"})
 
     callback = request.GET.get('callback', '')  # For javascript getJSON
     t = loader.get_template('json.html')
     c = Context({ 'callback': callback, 'objects': objects})
+    
     return HttpResponse(t.render(c), mimetype='application/json')
     
 
+
+
+def fieldOptions(request, modelName):
+    
+
+    model =  models.get_model('MSQCdb_app', modelName)
+
+    fields =  [field for field in model._meta.fields if field.get_internal_type().startswith('Int') or field.get_internal_type().startswith('Float') ]
+    
+    t = loader.get_template('fieldOptions.html')
+    c = Context({ 'fields': fields})
+    
+    return HttpResponse(t.render(c))
+
+
+
+
+
+    

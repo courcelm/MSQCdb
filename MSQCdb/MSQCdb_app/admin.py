@@ -6,17 +6,17 @@ from genericcollection import GenericCollectionTabularInline
 
 
 
-class EventLogForm(forms.ModelForm):
-    
-    def __init__(self, *args, **kwargs):
-        super(EventLogForm, self).__init__(*args, **kwargs)
-        instrumentsChoice = [(instrumentObject.instrument_name, instrumentObject.instrument_name) for instrumentObject in Instrument.objects.all()]
-        instrumentsChoice.insert(0, (u'', u'---------'))
-        
-        self.fields['instrument_name'] = forms.ChoiceField(choices=instrumentsChoice)
-
-    class Meta:
-        model = EventLog
+#class EventLogForm(forms.ModelForm):
+#    
+#    def __init__(self, *args, **kwargs):
+#        super(EventLogForm, self).__init__(*args, **kwargs)
+#        instrumentsChoice = [(instrumentObject.instrument_name, instrumentObject.instrument_name) for instrumentObject in Instrument.objects.all()]
+#        instrumentsChoice.insert(0, (u'', u'---------'))
+#        
+#        self.fields['instrument_name'] = forms.ChoiceField(choices=instrumentsChoice)
+#
+#    class Meta:
+#        model = EventLog
     
 
     
@@ -25,8 +25,6 @@ class EventLogForm(forms.ModelForm):
 class EventLogAdmin(admin.ModelAdmin):
     
     datetime = 'datetime'
-    
-    form = EventLogForm
     
     list_display   = ('datetime', 'created_by', 'instrument_name', 'event_type', 'name')
     
@@ -80,19 +78,52 @@ class SampleAdmin(admin.ModelAdmin):
 
 
 
+class ChartSeriesForm(forms.ModelForm):
+    from django.db.models import get_app, get_models
+    
+
+    app = get_app('MSQCdb_app')
+
+    tableChoices = [(model.__name__, model._meta.verbose_name) for model in get_models(app) if model.__name__.startswith('Report') or model.__name__.startswith('Meta')]
+    tableChoices.insert(0, ('',''))
+    
+    table = forms.ChoiceField(choices=tableChoices, label = 'Table', widget=forms.Select(attrs={'onchange':'get_fieldOptions(this);'}))
+    
+    
+    fieldsChoice = []
+    for model in get_models(app):
+        if model.__name__.startswith('Report') or model.__name__.startswith('Meta'):
+            fieldsChoice.extend([(field.name, field.verbose_name) for field in model._meta.fields if field.get_internal_type().startswith('Int') or field.get_internal_type().startswith('Float') ])
+    fieldsChoice.insert(0, ('',''))
+    field = forms.ChoiceField(choices=fieldsChoice, label = 'Field', widget=forms.Select(attrs={'disabled':'disabled'}), help_text='test')
+
+
 class ChartSeriesInline(admin.TabularInline):
     
     extra = 2
     
     model = ChartSeries
+    
+    form = ChartSeriesForm
+    
+    
+class ChartEventFlagInline(admin.TabularInline):
+    
+    extra = 1
+    
+    model = ChartEventFlag
+    
 
 
 class ChartAdmin(admin.ModelAdmin):
     
-    inlines = [ChartSeriesInline]
+    inlines = [ChartSeriesInline, ChartEventFlagInline]
+    
+    change_form_template = 'admin/chart_change_form.html'
     
 
-    models.g
+
+
 
 ## Register admin panels
 admin.site.register(MetadataOverview, MetadataOverviewAdmin)

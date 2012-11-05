@@ -4,7 +4,7 @@
 (
 [
 {% for object in objects %}
-[{{object.sample.experimentdate|epoch}},{{object.ms1_scansfull}}],
+[{{object.sample.experimentdate|epoch}},{{object.chartValue}}],
 {% endfor %}
 ]
 )
