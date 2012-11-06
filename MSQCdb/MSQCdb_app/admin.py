@@ -89,13 +89,7 @@ class ChartSeriesForm(forms.ModelForm):
     
     table = forms.ChoiceField(choices=tableChoices, label = 'Table', widget=forms.Select(attrs={'onchange':'get_fieldOptions(this);'}))
     
-    
-    fieldsChoice = []
-    for model in get_models(app):
-        if model.__name__.startswith('Report') or model.__name__.startswith('Meta'):
-            fieldsChoice.extend([(field.name, field.verbose_name) for field in model._meta.fields if field.get_internal_type().startswith('Int') or field.get_internal_type().startswith('Float') ])
-    fieldsChoice.insert(0, ('',''))
-    field = forms.ChoiceField(choices=fieldsChoice, label = 'Field', widget=forms.Select(attrs={'disabled':'disabled'}), help_text='test')
+    field = forms.CharField(label = 'Field', widget=forms.TextInput(attrs={'readonly': 'true', 'style': 'width: 250px;'}), help_text='Change table to activate.')
 
 
 class ChartSeriesInline(admin.TabularInline):

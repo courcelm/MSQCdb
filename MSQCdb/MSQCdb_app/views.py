@@ -45,35 +45,39 @@ def datetime_to_milliseconds(some_datetime_object):
 
 
 @login_required
-def chartView(request):
+def chartView(request, chartId):
     """
     This function prepares the Context to display the metrics and Event using
     the Highstock JavaScript plotting library. 
     """
     
+    chartObject = Chart.objects.get(pk=chartId)
+    
+    series = chartObject.chartseries_set.all()
+    
     events = EventLog.objects.all()
     #for event in events:
     #    event.datetime = datetime_to_milliseconds(event.datetime)
-    chart_data_link = '/MSQCdb/chartDataJSON?'
+    chart_data_link = '/MSQCdb/chartDataJSON'
     t = loader.get_template('chart.html')
-    c = Context({ 'chart_data_link': chart_data_link, 'events': events,  'MEDIA_URL': settings.MEDIA_URL})
+    c = Context({ 'chart_data_link': chart_data_link, 'chartObject': chartObject, 'series': series, 'events': events,  'MEDIA_URL': settings.MEDIA_URL})
     
     return HttpResponse(t.render(c))
 
 
 
 @login_required
-def chartDataJSON(request):
+def chartDataJSON(request, seriesId):
     """
     This function generates a JSON output of data to generate a chart using the 
     Highstock JavaScript plotting library.
     """
     
-    #objects = ReportSpectrumCount.objects.all().order_by('sample__experimentdate')
+    seriesObject = ChartSeries.objects.get(pk=seriesId)
     
-    m = models.get_model('MSQCdb_app', 'ReportSpectrumCount')
+    m = models.get_model('MSQCdb_app', seriesObject.table)
     objects_sorted = m.objects.all().order_by('sample__experimentdate')
-    objects = objects_sorted.extra(select={'chartValue': "ms1_scansfull"})
+    objects = objects_sorted.extra(select={'chartValue': seriesObject.field})
 
     callback = request.GET.get('callback', '')  # For javascript getJSON
     t = loader.get_template('json.html')

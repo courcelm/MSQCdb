@@ -10,8 +10,49 @@
 
 		<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript">
+		
+
+var seriesOptions = [];
+var seriesCounter = 0;		
+		
 $(function() {
-	$.getJSON('{{ chart_data_link }}&callback=?', function(data) {
+	
+    var names = [
+    {% for s in series %}
+    '{{s.name}}???{{s.pk}}',
+    {% endfor %}
+    ];
+
+    $.each(names, function(i, name) {
+		seriesId = name.split("???")[1];
+		
+        $.getJSON('{{ chart_data_link }}/' + seriesId + '/?&callback=?',    function(data) {
+
+			seriesName = name.split("???")[0];
+
+            seriesOptions[i] = {
+                name: seriesName,
+                data: data,
+                marker : {
+                    enabled : true,
+                    radius : 3
+                },
+            };
+
+            // As we're loading the data asynchronously, we don't know what order it will arrive. So
+            // we keep a counter and create the chart when all the data is loaded.
+            seriesCounter++;
+
+            if (seriesCounter == names.length) {
+                createChart();
+            }
+        });
+    });
+});		
+
+
+// create the chart when all data is loaded
+function createChart() {		
 		
 		Highcharts.setOptions({
     		global: {
@@ -41,7 +82,7 @@ $(function() {
             	y: 27,
            	},
 		    title: {
-		        text: 'Instrument Chart to SET'
+		        text: '{{ chartObject.title }}'
 		    },
             xAxis: {
                 type: 'datetime',
@@ -50,7 +91,7 @@ $(function() {
             },
 		    yAxis: {
 		        title: {
-		            text: 'to SET'
+		            text: '{{ chartObject.yAxisTitle }}'
 		        }
 		    },
 			scrollbar : {
@@ -67,55 +108,13 @@ $(function() {
                 }
             },
 			
-			series: [{
-		        name: 'to SET',
-		        data: data,
-		        marker : {
-					enabled : true,
-					radius : 3
-				},
-				id: 'dataseries',
-				
-		    }, 
-		    {% for event in events %}
-		    {
-				type : 'flags',
-				data : [{
-					
-					x : new Date({{event.datetime|epoch}}),
-					title : '{{ event.event_type|slice:"1" }}',
-					text : '<b>{{ event.event_type }}:</b><br />{{ event.name|splitLine }}'
-				}],
-				{% if event.event_type|slice:"1" == 'F' %}
-					shape : 'squarepin',
-            		color : '#AA4643',
-            	{% else %}
-            		{% if event.event_type|slice:"1" == 'N' %}
-						shape : 'squarepin',
-            			color : '#E87600',
-            		{% else %}
-            			{% if event.event_type|slice:"1" == 'C' %}
-            				shape : 'circlepin',
-            				color : '#006000',
-            			{% else %}
-            				shape : 'circlepin',
-            				color : '#8b8989',
-            			{% endif %}
-            		{% endif %}
-            	{% endif %}
-				width : 16,
-				showInLegend: false,
-				events: {
-        			click: function(event) {
-        				location.href='/admin/MSQCdb_app/eventlog/{{ event.pk }}/';
-        			}
-        		}
-			},
-		    {% endfor %}
-		    ]
+			
+			series: seriesOptions
+			
+			
 		});
-	});
-});
+
+}
 		</script>
 	</head>
 	<body>

@@ -1,8 +1,18 @@
 
-function get_fieldOptions(value) {	
+
+
+
+function get_fieldOptions(currentValue) {	
 (function($) {
-	idNum = value.id.split("-")[1];
-	value = value.options[value.selectedIndex].value;
+	idNum = currentValue.id.split("-")[1];
+	value = currentValue.options[currentValue.selectedIndex].value;
+	text= currentValue.options[currentValue.selectedIndex].text;
+	
+	$("#id_chartseries_set-" + idNum + "-field").val('');
+	$("#id_chartseries_set-" + idNum + "-fieldSelect").remove();
+	$("#id_chartseries_set-" + idNum + "-field")
+    .after('<select style="width: 0px;" id="id_chartseries_set-' + idNum + '-fieldSelect" name="chartseries_set-' + idNum + '-fieldSelect" onchange="updateTextBox(this);">' +
+          '</select>');
 	
 	
 	$.ajax({  
@@ -10,14 +20,20 @@ function get_fieldOptions(value) {
 		url: '/MSQCdb/fieldOptions/' + value,  
 		dataType: 'html',  
 		success: function(html){     
-			$("#id_chartseries_set-" + idNum + "-field").html(html);
-			$("#id_chartseries_set-" + idNum + "-field").removeAttr('disabled'); 
+			$("#id_chartseries_set-" + idNum + "-fieldSelect").html(html);
+			
 		} 
 	})
 	
 
-
 })(grp.jQuery);
 }
 
+
+function updateTextBox(currentValue) {	
+(function($) {
+	idNum = currentValue.id.split("-")[1];
+	$("#id_chartseries_set-" + idNum + "-field").val($("#id_chartseries_set-" + idNum + "-fieldSelect").val());
+})(grp.jQuery);
+}
 

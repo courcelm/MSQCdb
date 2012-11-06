@@ -2,9 +2,19 @@ from MSQCdb.MSQCdb_app.models import *
 import sys
 
 
-print models.get_models()
-print models.get_apps()
+#print models.get_models()
+#print models.get_apps()
 
+
+
+
+
+c = Chart.objects.all()[0]
+print c
+for series in c.chartseries_set.all():
+    print series
+    print series.name
+sys.exit()
 
 from django.db.models import get_app, get_models
 

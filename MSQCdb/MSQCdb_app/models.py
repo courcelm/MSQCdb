@@ -118,7 +118,12 @@ class Chart(models.Model):
     Chart information for plotting a Highstock chart
     """
     
-    title = models.CharField(help_text = 'Title that appear at the top of the chart.', max_length=50, unique=True)
+    title = models.CharField(help_text = 'Title that appear at the top of the chart.', max_length=50)
+    
+    yAxisTitle = models.CharField('Y axis title', help_text = 'Title of the y axix.', max_length=25)
+
+    def __unicode__(self):
+        return str('Chart:' + str(self.pk))
 
 
 class ChartSeries(models.Model):
@@ -139,7 +144,8 @@ class ChartSeries(models.Model):
     field =  models.CharField(max_length=100)
 
 
-
+    def __unicode__(self):
+        return str('ChartSeries:' + str(self.pk))
 
 class ChartEventFlag(models.Model):
     """
