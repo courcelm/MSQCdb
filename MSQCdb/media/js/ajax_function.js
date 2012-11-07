@@ -37,3 +37,21 @@ function updateTextBox(currentValue) {
 })(grp.jQuery);
 }
 
+
+function getChart(chartId) {	
+(function($) {
+	
+	$.ajax({  
+		type: 'GET',  
+		url: '/MSQCdb/chartView/' + chartId,  
+		dataType: 'html',  
+		success: function(html){     
+			$("#chart_preview").html(html);
+			
+		} 
+	})
+	
+
+})(grp.jQuery);
+}
+

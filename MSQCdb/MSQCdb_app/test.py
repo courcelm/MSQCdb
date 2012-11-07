@@ -10,6 +10,13 @@ import sys
 
 
 c = Chart.objects.all()[0]
+if c.charteventflag_set is not None:
+        for flag_filter in c.charteventflag_set.all():
+            print flag_filter.instrument_name
+            events = EventLog.objects.all().filter(instrument_name=flag_filter.instrument_name)
+            print events
+sys.exit()
+
 print c
 for series in c.chartseries_set.all():
     print series
@@ -55,3 +62,6 @@ for o in s :
 #for ct in ContentType.objects.all():
 #    m = ct.model_class()
 #    print "%s.%s\t%d" % (m.__module__, m.__name__, m._default_manager.count())
+
+
+

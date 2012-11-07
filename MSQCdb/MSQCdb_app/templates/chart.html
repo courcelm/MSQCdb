@@ -26,9 +26,13 @@ $(function() {
     $.each(names, function(i, name) {
 		seriesId = name.split("???")[1];
 		
+		
+		
         $.getJSON('{{ chart_data_link }}/' + seriesId + '/?&callback=?',    function(data) {
 
+			seriesId = name.split("???")[1];
 			seriesName = name.split("???")[0];
+			
 
             seriesOptions[i] = {
                 name: seriesName,
@@ -42,6 +46,8 @@ $(function() {
             // As we're loading the data asynchronously, we don't know what order it will arrive. So
             // we keep a counter and create the chart when all the data is loaded.
             seriesCounter++;
+            
+            $("#loadingmsg").append("<br />Retrieving data (" + seriesCounter + "/" + names.length +  "):  " + seriesName);
 
             if (seriesCounter == names.length) {
                 createChart();
@@ -49,6 +55,51 @@ $(function() {
         });
     });
 });		
+
+
+
+
+			var flags =  [ 
+		    {% for event in events %}
+		    {
+				type : 'flags',
+				data : [{
+
+					x : new Date({{event.datetime|epoch}}),
+					title : '{{ event.event_type|slice:"1" }}',
+					text : '<b>{{ event.event_type }}:</b><br />{{ event.name|splitLine }}'
+				}],
+				{% if event.event_type|slice:"1" == 'F' %}
+					shape : 'squarepin',
+            		color : '#AA4643',
+            	{% else %}
+            		{% if event.event_type|slice:"1" == 'N' %}
+						shape : 'squarepin',
+            			color : '#E87600',
+            		{% else %}
+            			{% if event.event_type|slice:"1" == 'C' %}
+            				shape : 'circlepin',
+            				color : '#006000',
+            			{% else %}
+            				shape : 'circlepin',
+            				color : '#8b8989',
+            			{% endif %}
+            		{% endif %}
+            	{% endif %}
+				width : 16,
+				showInLegend: false,
+				events: {
+        			click: function(event) {
+        				location.href='/admin/MSQCdb_app/eventlog/{{ event.pk }}/';
+        			}
+        		}
+			},
+		    {% endfor %}
+		    ]
+
+
+
+
 
 
 // create the chart when all data is loaded
@@ -109,7 +160,7 @@ function createChart() {
             },
 			
 			
-			series: seriesOptions
+			series: seriesOptions.concat(flags),
 			
 			
 		});
@@ -121,6 +172,11 @@ function createChart() {
 <script src="{{ MEDIA_URL }}js/Highstock-1.2.2/js/highstock.js"></script>
 <script src="{{ MEDIA_URL }}js/Highstock-1.2.2/js/modules/exporting.js"></script>
 
-<div id="container" style="height: 500px; min-width: 500px"></div>
+<div id="container" style="height: 500px; min-width: 500px">
+	<font size=2>
+	<br /><img src="{{ MEDIA_URL }}img/ajax-loader.gif" /> Generating chart...please wait...
+	<div id="loadingmsg"></div>
+	</font>
+</div>
 	</body>
 </html>

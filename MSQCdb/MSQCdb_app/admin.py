@@ -107,6 +107,10 @@ class ChartEventFlagInline(admin.TabularInline):
     
     model = ChartEventFlag
     
+    classes = ('grp-collapse grp-closed',)
+    
+    inline_classes = ('grp-collapse grp-closed',)
+    
 
 
 class ChartAdmin(admin.ModelAdmin):

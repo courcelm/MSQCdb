@@ -13,6 +13,19 @@
 
 
 {% block after_related_objects %}
-Test
+{% if original.pk %}
 
+<div class="grp-group grp-tabular">
+
+<h2>Chart Preview</h2>
+Click 'Save and continue editing' to refresh after modifications.
+<div id="chart_preview"></div>
+
+<script type="text/javascript">
+(function($) {
+$('#chart_preview').load(getChart({{original.pk}}));
+})(grp.jQuery);
+</script>
+</div>
+{% endif %}
 {% endblock %}

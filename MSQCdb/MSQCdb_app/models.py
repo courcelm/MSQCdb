@@ -137,15 +137,20 @@ class ChartSeries(models.Model):
     
     instrument_name = models.ForeignKey(Instrument, null=True, blank=True)
 
-    keyword = models.CharField(max_length=50, null=True, blank=True)
+    keyword = models.CharField('Sample name keyword', help_text='Sample name should contain this word.', max_length=50, null=True, blank=True)
     
     table =  models.CharField(max_length=100)
     
     field =  models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name_plural = "ChartSeries"
 
     def __unicode__(self):
         return str('ChartSeries:' + str(self.pk))
+
+
+
 
 class ChartEventFlag(models.Model):
     """

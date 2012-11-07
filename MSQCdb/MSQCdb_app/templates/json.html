@@ -4,7 +4,9 @@
 (
 [
 {% for object in objects %}
+{% if object.chartValue != None %}
 [{{object.sample.experimentdate|epoch}},{{object.chartValue}}],
+{% endif%}
 {% endfor %}
 ]
 )

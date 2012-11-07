@@ -55,7 +55,14 @@ def chartView(request, chartId):
     
     series = chartObject.chartseries_set.all()
     
-    events = EventLog.objects.all()
+    events = []
+    
+    if chartObject.charteventflag_set is not None:
+        
+        for flag_filter in chartObject.charteventflag_set.all():
+            events = EventLog.objects.all().filter(instrument_name=flag_filter.instrument_name)
+        
+    
     #for event in events:
     #    event.datetime = datetime_to_milliseconds(event.datetime)
     chart_data_link = '/MSQCdb/chartDataJSON'
@@ -76,12 +83,21 @@ def chartDataJSON(request, seriesId):
     seriesObject = ChartSeries.objects.get(pk=seriesId)
     
     m = models.get_model('MSQCdb_app', seriesObject.table)
-    objects_sorted = m.objects.all().order_by('sample__experimentdate')
-    objects = objects_sorted.extra(select={'chartValue': seriesObject.field})
+    o = m.objects.all()
+    
+    if seriesObject.instrument_name is not None:
+        o = o.filter(sample__instrument_name=seriesObject.instrument_name)
+        
+    if seriesObject.keyword is not None:
+        o = o.filter(sample__raw_file__contains=seriesObject.keyword)
+        
+    
+    o = o.order_by('sample__experimentdate')
+    o = o.extra(select={'chartValue': seriesObject.field})
 
     callback = request.GET.get('callback', '')  # For javascript getJSON
     t = loader.get_template('json.html')
-    c = Context({ 'callback': callback, 'objects': objects})
+    c = Context({ 'callback': callback, 'objects': o})
     
     return HttpResponse(t.render(c), mimetype='application/json')
     
