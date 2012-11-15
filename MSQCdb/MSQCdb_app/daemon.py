@@ -30,9 +30,9 @@ import time
 from time import  localtime, strftime
 
 # Import Django related libraries
-from MSQCdb.MSQCdb_app.models import Sample
 
 # Import project libraries
+from MSQCdb.MSQCdb_app.models import Sample
 from config import *
 import processing
 
@@ -154,8 +154,8 @@ while True:
     # Inspect folder for new files
     rawFiles = []
     for fileDir in config['SEARCH_DIRS']:
-        rawFiles.extend(getRawFiles(fileDir))
-        #rawFiles.extend(getRecentRawFiles(fileDir))
+        #rawFiles.extend(getRawFiles(fileDir))
+        rawFiles.extend(getRecentRawFiles(fileDir))
     
     # Compute list difference with files in db and to ignore
     rawFiles = diff(rawFiles, sampleFiles)

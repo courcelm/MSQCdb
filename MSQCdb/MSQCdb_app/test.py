@@ -1,4 +1,5 @@
 from MSQCdb.MSQCdb_app.models import *
+from django.db.models import Q
 import sys
 
 
@@ -7,14 +8,35 @@ import sys
 
 
 
+filtersEvent = []
+        
+        
+# "Adding" Q objects in Django
+# Ref: http://bradmontgomery.blogspot.ca/2009/06/adding-q-objects-in-django.html
+
+q_object = Q()
+for flag_filter in Chart.objects.all()[0].charteventflag_set.all():
+    
+    q_object.add(Q(instrument_name=flag_filter.instrument_name), Q.OR)
+            
+
+events = EventLog.objects.all().filter(q_object)
+print events
+sys.exit()
+
 
 
 c = Chart.objects.all()[0]
+q_object = Q()
+
 if c.charteventflag_set is not None:
         for flag_filter in c.charteventflag_set.all():
             print flag_filter.instrument_name
-            events = EventLog.objects.all().filter(instrument_name=flag_filter.instrument_name)
-            print events
+            q_object.add(Q(instrument_name=flag_filter.instrument_name), Q.OR)
+            
+            
+events = EventLog.objects.all().filter(q_object)
+print events
 sys.exit()
 
 print c

@@ -2,21 +2,18 @@
 
 
 
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>MSQCdb - ChartView - Instrument TOSET</title>
-
-		<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.8.2.min.js"></script>
-		<script type="text/javascript">
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
 		
 
+var flags = [];
 var seriesOptions = [];
 var seriesCounter = 0;		
 		
 $(function() {
 	
+	
+	// Get data for series to display on the chart
     var names = [
     {% for s in series %}
     '{{s.name}}???{{s.pk}}',
@@ -37,7 +34,7 @@ $(function() {
             seriesOptions[i] = {
                 name: seriesName,
                 data: data,
-                marker : {
+                marker: {
                     enabled : true,
                     radius : 3
                 },
@@ -54,39 +51,38 @@ $(function() {
             }
         });
     });
-});		
-
-
-
-
-			var flags =  [ 
-		    {% for event in events %}
+    
+    
+    
+    
+    // Get Events to be displayed as flag on the chart
+	flags =  [ 
+	{% for event in events %}
 		    {
-				type : 'flags',
-				data : [{
-
-					x : new Date({{event.datetime|epoch}}),
-					title : '{{ event.event_type|slice:"1" }}',
-					text : '<b>{{ event.event_type }}:</b><br />{{ event.name|splitLine }}'
+				type: 'flags',
+				data: [{
+					x: new Date({{event.datetime|epoch}}),
+					title: '{{ event.event_type|slice:"1" }}',
+					text: '<b>{{event.instrument_name}} - {{ event.event_type }}</b><br />{{ event.name|splitLine }}'
 				}],
 				{% if event.event_type|slice:"1" == 'F' %}
-					shape : 'squarepin',
-            		color : '#AA4643',
+					shape: 'squarepin',
+            		color: '#AA4643',
             	{% else %}
             		{% if event.event_type|slice:"1" == 'N' %}
-						shape : 'squarepin',
-            			color : '#E87600',
+						shape: 'squarepin',
+            			color: '#E87600',
             		{% else %}
             			{% if event.event_type|slice:"1" == 'C' %}
-            				shape : 'circlepin',
-            				color : '#006000',
+            				shape: 'circlepin',
+            				color: '#006000',
             			{% else %}
-            				shape : 'circlepin',
-            				color : '#8b8989',
+            				shape: 'circlepin',
+            				color: '#8b8989',
             			{% endif %}
             		{% endif %}
             	{% endif %}
-				width : 16,
+				width: 16,
 				showInLegend: false,
 				events: {
         			click: function(event) {
@@ -94,14 +90,14 @@ $(function() {
         			}
         		}
 			},
-		    {% endfor %}
-		    ]
+	{% endfor %}
+	]
+    
+});		
 
 
 
-
-
-
+			
 // create the chart when all data is loaded
 function createChart() {		
 		
@@ -162,15 +158,13 @@ function createChart() {
 			
 			series: seriesOptions.concat(flags),
 			
-			
 		});
 
 }
-		</script>
-	</head>
-	<body>
-<script src="{{ MEDIA_URL }}js/Highstock-1.2.2/js/highstock.js"></script>
-<script src="{{ MEDIA_URL }}js/Highstock-1.2.2/js/modules/exporting.js"></script>
+</script>
+
+<script src="{{ MEDIA_URL }}js/Highstock-1.2.4/js/highstock.js"></script>
+<script src="{{ MEDIA_URL }}js/Highstock-1.2.4/js/modules/exporting.js"></script>
 
 <div id="container" style="height: 500px; min-width: 500px">
 	<font size=2>
@@ -178,5 +172,3 @@ function createChart() {
 	<div id="loadingmsg"></div>
 	</font>
 </div>
-	</body>
-</html>

@@ -22,7 +22,11 @@ function get_fieldOptions(currentValue) {
 		success: function(html){     
 			$("#id_chartseries_set-" + idNum + "-fieldSelect").html(html);
 			
-		} 
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown)
+		{
+			registerError(textStatus);
+		}
 	})
 	
 

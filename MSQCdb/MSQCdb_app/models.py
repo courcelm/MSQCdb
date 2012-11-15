@@ -1,3 +1,6 @@
+## Copyright 2012 Mathieu Courcelles
+## Mike Tyers's lab / IRIC / Universite de Montreal 
+
 ## This file is part of the MSQCdb project
 ## MSQCdb is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU Affero General Public License as
@@ -118,12 +121,21 @@ class Chart(models.Model):
     Chart information for plotting a Highstock chart
     """
     
-    title = models.CharField(help_text = 'Title that appear at the top of the chart.', max_length=50)
+    title = models.CharField(help_text = 'Title that appears at the top of the\
+                                         chart.', max_length=50)
     
-    yAxisTitle = models.CharField('Y axis title', help_text = 'Title of the y axix.', max_length=25)
+    yAxisTitle = models.CharField('Y axis title', help_text = 'Title of the y\
+                                     axis.', max_length=25)
+    
+    created_by = models.ForeignKey(User, null=True, blank=True,
+                                   related_name='%(class)s_created_by', 
+                                   editable=False)
+    
 
     def __unicode__(self):
         return str('Chart:' + str(self.pk))
+
+
 
 
 class ChartSeries(models.Model):
@@ -137,14 +149,20 @@ class ChartSeries(models.Model):
     
     instrument_name = models.ForeignKey(Instrument, null=True, blank=True)
 
-    keyword = models.CharField('Sample name keyword', help_text='Sample name should contain this word.', max_length=50, null=True, blank=True)
+    keyword = models.CharField('Sample name keyword', help_text='Sample name\
+                                 should contain this word.', max_length=50, 
+                                 null=True, blank=True)
     
     table =  models.CharField(max_length=100)
     
     field =  models.CharField(max_length=100)
 
+
+
     class Meta:
         verbose_name_plural = "ChartSeries"
+
+
 
     def __unicode__(self):
         return str('ChartSeries:' + str(self.pk))
@@ -160,6 +178,16 @@ class ChartEventFlag(models.Model):
     chart = models.ForeignKey(Chart)
     
     instrument_name = models.ForeignKey(Instrument, null=True, blank=True)
+    
+    EVENT_TYPES = (('Calibration', 'Calibration'),
+                   ('Failure', 'Failure'),
+                   ('Maintenance', 'Maintenance'),
+                   ('Note', 'Note'),
+                   )
+    
+    event_type = models.CharField('Event type', max_length=30,
+                                     choices=EVENT_TYPES, null=True, 
+                                     blank=True)
     
     
     
