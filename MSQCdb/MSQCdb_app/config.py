@@ -51,12 +51,10 @@ config['MODEL_DIR'] = r'C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQ
 
 # Directory where the daemon will search for new raw files
 #config['SEARCH_DIR'] = r'F:\ProhitsStorage'
-config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP'
-#config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS'
-#config['SEARCH_DIR'] = r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE'
+config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
 
 # Time interval that the daemon will wait before searching for new files
-config['SEARCH_INTERVAL'] = 300
+config['SEARCH_INTERVAL'] = 600
 
 # Number of days from cuurent time that the daemon is looking for new files
 config['SEARCH_MAXDAY'] = 7

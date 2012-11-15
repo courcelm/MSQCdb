@@ -73,7 +73,7 @@ def getIgnoreFiles():
 
 
 
-def getRawFiles():
+def getRawFiles(fileDir):
     """
     This function inspects the folder defined by config['SEARCH_DIR'],
     searches for Promix raw files and return a list of files.
@@ -81,7 +81,7 @@ def getRawFiles():
     
     # Inspect folder for Promix files
     rawFiles = [os.path.join(root, name)
-                 for root, dirs, files in os.walk(config['SEARCH_DIR'])
+                 for root, dirs, files in os.walk(fileDir)
                  for name in files
                  if name.startswith('Promix') and (name.endswith('.RAW') or
                                                    name.endswith('.raw'))]
@@ -90,7 +90,7 @@ def getRawFiles():
 
 
 
-def getRecentRawFiles():
+def getRecentRawFiles(fileDir):
     """
     This function inspects the folder defined by config['SEARCH_DIR'],
     extract the list of recently modified folders as specified by 
@@ -103,8 +103,8 @@ def getRecentRawFiles():
     deltaTimeLimit = config['SEARCH_MAXDAY'] * 24 * 60 * 60
     
     recentlyModifiedDirs = []
-    for name in os.listdir(config['SEARCH_DIR']):
-        path = os.path.join(config['SEARCH_DIR'], name)
+    for name in os.listdir(fileDir):
+        path = os.path.join(fileDir, name)
 
         if os.path.isdir(path):
             deltaTime = time.mktime(localtime()) - os.stat(path).st_mtime
@@ -152,8 +152,10 @@ ignoreFiles = getIgnoreFiles()
 while True:
     
     # Inspect folder for new files
-    rawFiles = getRawFiles()
-    #rawFiles = getRecentRawFiles()
+    rawFiles = []
+    for fileDir in config['SEARCH_DIRS']:
+        rawFiles.extend(getRawFiles(fileDir))
+        #rawFiles.extend(getRecentRawFiles(fileDir))
     
     # Compute list difference with files in db and to ignore
     rawFiles = diff(rawFiles, sampleFiles)
