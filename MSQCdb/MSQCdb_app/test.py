@@ -7,6 +7,10 @@ import sys
 #print models.get_apps()
 
 
+s = Sample.objects.all()[0]
+m = s.metadataoverview_set.all()[0]
+
+sys.exit()
 
 filtersEvent = []
         

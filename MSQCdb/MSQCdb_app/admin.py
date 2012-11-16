@@ -27,13 +27,12 @@ This is the Admin module for the MSQCdb.
 from django import forms
 from django.contrib import admin
 from django.db.models import get_app, get_models
-from django.utils.safestring import mark_safe
 
 
 # Import project libraries
 from admin_samples import SampleAdmin
 import MSQCdb.MSQCdb_app.models as MSQCdbModels
-
+from  django.utils.text import wrap
 
 
 class EventLogAdmin(admin.ModelAdmin):
@@ -44,13 +43,13 @@ class EventLogAdmin(admin.ModelAdmin):
     datetime = 'datetime'
     
     list_display   = ('datetime', 'created_by', 'instrument_name',
-                      'event_type', 'name')
+                      'event_type', 'name', 'truncatedDescription')
     
     list_filter = ('event_type', 'instrument_name', 'created_by')
     
     search_fields = ('name', 'description')
-
-
+    
+    
     # Save the creator of the object
     def save_model(self, request, obj, form, change):
 
@@ -59,27 +58,18 @@ class EventLogAdmin(admin.ModelAdmin):
             obj.created_by = request.user
             
         obj.save()
+        
+    
+    def truncatedDescription(self, obj):
+        lines = wrap(obj.description, 200).split('\n')
+        lines = [line[:200] for line in lines]
+        return '<br/>'.join(lines)
+    truncatedDescription.short_description = 'Description'
+    truncatedDescription.allow_tags = True
+        
 
 
             
-
-class MetadataOverviewAdmin(admin.ModelAdmin):
-    """
-    Admin config for MetadataOverview
-    """
-
-    date_hierarchy = 'experimentdate'
-    
-    list_display   = ('sample', 'thermo_raw_file', 'instrument_name',
-                      'instrumentmethod', 'instrument_software_version',
-                      'experimentdate')
-    
-    list_filter = ('instrument_name', 'instrument_software_version')
-    
-    search_fields = ('thermo_raw_file', 'instrument_name', 'instrumentmethod',)
-
-
-    
 
 class ChartSeriesForm(forms.ModelForm):
     """
@@ -143,13 +133,29 @@ class ChartAdmin(admin.ModelAdmin):
     
     inlines = [ChartSeriesInline, ChartEventFlagInline]
     
-    list_display   = ('title', 'created_by',)
+    list_display   = ('title', 'created_by', 'yAxisTitle', 'seriesString',
+                      'flagsString')
     
-    list_filter = ('created_by',)
+    list_filter = ('created_by', 
+                   'chartseries__instrument_name__instrument_name',
+                   'chartseries__table',
+                   'chartseries__field',
+                   'charteventflag__event_type',
+                   'charteventflag__instrument_name__instrument_name',
+                   )
     
-    search_fields = ('title', )
+    search_fields = ('title', 'yAxisTitle', 
+                     'chartseries__name',
+                     'chartseries__instrument_name__instrument_name',
+                     'chartseries__keyword',
+                     'chartseries__table',
+                     'chartseries__field',
+                     'charteventflag__event_type',
+                     'charteventflag__instrument_name__instrument_name',
+                     )
     
     
+      
     
     # Save the creator of the object
     def save_model(self, request, obj, form, change):
@@ -159,13 +165,26 @@ class ChartAdmin(admin.ModelAdmin):
             obj.created_by = request.user
             
         obj.save()
+        
+    
+    def seriesString(self, obj):
+        series = [str(series) for series in obj.chartseries_set.all()]
+        return '<br/>'.join(series)
+    seriesString.short_description = 'Series'
+    seriesString.allow_tags = True
+    
+    def flagsString(self, obj):
+        flags = [str(flag) for flag in obj.charteventflag_set.all()]
+        return '<br/>'.join(flags)
+    flagsString.short_description = 'Event Flags'
+    flagsString.allow_tags = True
+            
     
 
 
 
 
 ## Register admin panels
-admin.site.register(MSQCdbModels.MetadataOverview, MetadataOverviewAdmin)
 admin.site.register(MSQCdbModels.EventLog, EventLogAdmin)
 admin.site.register(MSQCdbModels.Sample, SampleAdmin)
 admin.site.register(MSQCdbModels.Chart, ChartAdmin)

@@ -28,16 +28,14 @@ def epoch(value):
 
 
 @register.filter(is_safe=True)
-def splitLine(value):
+def splitLine(value, lineLength = 30 ):
     """
     Wrap line to a defined length at space between words.
     """
     
-    lineLength = 25
-    
-    
     "wrap at first delimiter left of size"  
     wraplines = []
+    
     
     line = ''
     for word in value.split(' '):

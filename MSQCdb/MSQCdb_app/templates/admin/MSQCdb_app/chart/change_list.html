@@ -1,0 +1,27 @@
+{% extends "admin/change_list.html" %}
+
+{% block extrahead %}{{ block.super }}
+<style type="text/css">
+	span.tag {
+		border: 1px dashed #5C819C;
+		background-color: #FFFFFF;
+		margin-left: 10px;
+		margin-right: 5px;
+		padding: 1px 10px;
+		font-weight: bold;
+	}
+	
+	table.table-tag {
+		border: 0px;
+		margin-top: 0px;
+		padding-top: 0px;
+	}
+	
+	table.table-tag td, table.table-tag th {
+		line-height: 10px;
+		padding: 2px;
+		border-left: 0px;
+	}
+</style>
+
+{% endblock %}

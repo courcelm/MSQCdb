@@ -71,10 +71,8 @@ class Sample(models.Model):
         return str(self.pk)
     
 
-    
-    
     class Meta:
-        ordering = ['experimentdate']
+        ordering = ['-experimentdate']
 
 
         
@@ -165,7 +163,17 @@ class ChartSeries(models.Model):
 
 
     def __unicode__(self):
-        return str('ChartSeries:' + str(self.pk))
+        return '<table class="table-tag"><tr>\
+                <td><span class="tag">name</span> %s</td>\
+                <td><span class="tag">instrument_name</span> %s</td>\
+                <td><span class="tag">keyword</span> %s</td>\
+                <td><span class="tag">table</span> %s</td>\
+                <td><span class="tag">field</span> %s</td>\
+                </tr></table>' % (self.name, 
+                                                         self.instrument_name,  
+                                                         self.keyword, 
+                                                         self.table,
+                                                         self.field)
 
 
 
@@ -189,6 +197,12 @@ class ChartEventFlag(models.Model):
                                      choices=EVENT_TYPES, null=True, 
                                      blank=True)
     
+    def __unicode__(self):
+        return '<table class="table-tag"><tr>\
+                <td><span class="tag">instrument_name</span> %s\
+                <td><span class="tag">event_type</span> %s\
+                </tr></table>' % (self.instrument_name,
+                                                        self.event_type)
     
     
     
