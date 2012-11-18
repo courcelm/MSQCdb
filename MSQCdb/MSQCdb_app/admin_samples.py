@@ -25,814 +25,726 @@ This is the Admin Samples module for the MSQCdb.
 
 # Import Django related libraries
 from django.contrib import admin
+from django.forms.models import BaseInlineFormSet
+from django.utils.functional import curry
 from django.utils.safestring import mark_safe
-
 
 # Import project libraries
 import MSQCdb.MSQCdb_app.models as MSQCdbModels
 
 
 
+class SampleStackedInlineFormSet(BaseInlineFormSet):
+    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(SampleStackedInlineFormSet, self).__init__(*args, **kwargs)
+    
+    def save_new(self, form, commit=True):
+        
+        if self.request.user.is_superuser:
+            return super(SampleStackedInlineFormSet, self).save_new(form, commit=commit)
+        else:
+            pass
 
-class MetadataOverviewInline(admin.StackedInline):
+    def save_existing(self, form, instance, commit=True):
+        
+        if self.request.user.is_superuser:
+            return form.save(commit=commit)
+        else:
+            pass
+    
+
+
+
+class SampleStackedInline(admin.StackedInline):
+    """
+    StackedInline with overided save_model to restrict
+    write to super user only.
+    """
+
+    extra = 0
+    
+    formset = SampleStackedInlineFormSet
+    
+
+    def get_formset(self, request, obj=None, **kwargs):
+
+        formset = super(SampleStackedInline, self).get_formset(request, obj, **kwargs)
+        formset.__init__ = curry(formset.__init__, request=request)
+
+        return formset
+
+
+
+
+class MetadataOverviewInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetadataOverview
 
+    classes = ('grp-collapse grp-open',)
+    
+    inline_classes = ('grp-collapse grp-open',)
 
 
-
-class MetaTuneFileValueInline(admin.StackedInline):
+class MetaTuneFileValueInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaTuneFileValue
 
 
 
 
-class MetaPositivePolarityInline(admin.StackedInline):
+class MetaPositivePolarityInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaPositivePolarity
 
 
 
 
-class MetaNegativePolarityInline(admin.StackedInline):
+class MetaNegativePolarityInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaNegativePolarity
 
 
 
 
-class MetaAdditionalFtTuneFileValueInline(admin.StackedInline):
+class MetaAdditionalFtTuneFileValueInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaAdditionalFtTuneFileValue
 
 
 
 
-class MetaReagentIonSourceTuneFileValueInline(admin.StackedInline):
+class MetaReagentIonSourceTuneFileValueInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaReagentIonSourceTuneFileValue
 
 
 
 
-class MetaCalibrationFileValueInline(admin.StackedInline):
+class MetaCalibrationFileValueInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaCalibrationFileValue
 
 
 
 
-class MetaCalibrationFileValueResEjectInline(admin.StackedInline):
+class MetaCalibrationFileValueResEjectInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaCalibrationFileValueResEject
 
 
 
 
-class MetaCalibrationFileValueMassInline(admin.StackedInline):
+class MetaCalibrationFileValueMassInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaCalibrationFileValueMass
 
 
 
 
-class MetaCalibrationFileValueFtCalInline(admin.StackedInline):
+class MetaCalibrationFileValueFtCalInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.MetaCalibrationFileValueFtCal
 
 
 
 
-class ReportSpectrumCountInline(admin.StackedInline):
+class ReportSpectrumCountInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportSpectrumCount
 
 
 
 
-class ReportFirstAndLastMs1Rt_MinInline(admin.StackedInline):
+class ReportFirstAndLastMs1Rt_MinInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportFirstAndLastMs1Rt_Min
 
 
 
 
-class ReportTrypticPeptideCountInline(admin.StackedInline):
+class ReportTrypticPeptideCountInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportTrypticPeptideCount
 
 
 
 
-class ReportPeptideCountInline(admin.StackedInline):
+class ReportPeptideCountInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportPeptideCount
 
 
 
 
-class ReportDifferentProteinInline(admin.StackedInline):
+class ReportDifferentProteinInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportDifferentProtein
 
 
 
 
-class ReportMiddlePeptideRetentionTimePeriod_MinInline(admin.StackedInline):
+class ReportMiddlePeptideRetentionTimePeriod_MinInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportMiddlePeptideRetentionTimePeriod_Min
 
 
 
 
-class ReportMs1DuringMiddle_AndEarly_PeptideRetentionPerInline(admin.StackedInline):
+class ReportMs1DuringMiddle_AndEarly_PeptideRetentionPerInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportMs1DuringMiddle_AndEarly_PeptideRetentionPer
 
 
 
 
-class ReportMs1TotalIonCurrentForDifferentRtPeriodInline(admin.StackedInline):
+class ReportMs1TotalIonCurrentForDifferentRtPeriodInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportMs1TotalIonCurrentForDifferentRtPeriod
 
 
 
 
-class ReportTotalIonCurrentForIdsAtPeakMaximaInline(admin.StackedInline):
+class ReportTotalIonCurrentForIdsAtPeakMaximaInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportTotalIonCurrentForIdsAtPeakMaxima
 
 
 
 
-class ReportPrecursorMZForIdInline(admin.StackedInline):
+class ReportPrecursorMZForIdInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportPrecursorMZForId
 
 
 
 
-class ReportNumberOfIonsVsChargeInline(admin.StackedInline):
+class ReportNumberOfIonsVsChargeInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportNumberOfIonsVsCharge
 
 
 
 
-class ReportAveragesVsRtForIdedPeptideInline(admin.StackedInline):
+class ReportAveragesVsRtForIdedPeptideInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportAveragesVsRtForIdedPeptide
 
 
 
 
-class ReportPrecursorMZPeptideIonMZ_Plus2ChargeOnlyRejecInline(admin.StackedInline):
+class ReportPrecursorMZPeptideIonMZ_Plus2ChargeOnlyRejecInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportPrecursorMZPeptideIonMZ_Plus2ChargeOnlyRejec
 
 
 
 
-class ReportIonIdsByChargeState_RelativeToPlus2Inline(admin.StackedInline):
+class ReportIonIdsByChargeState_RelativeToPlus2Inline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportIonIdsByChargeState_RelativeToPlus2
 
 
 
 
-class ReportAveragePeptideLengthsForDifferentChargeStateInline(admin.StackedInline):
+class ReportAveragePeptideLengthsForDifferentChargeStateInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportAveragePeptideLengthsForDifferentChargeState
 
 
 
 
-class ReportAveragePeptideLengthsForCharge2ForDifferentNInline(admin.StackedInline):
+class ReportAveragePeptideLengthsForCharge2ForDifferentNInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportAveragePeptideLengthsForCharge2ForDifferentN
 
 
 
 
-class ReportNumbersOfIonIdsAtDifferentChargesWith1MobileInline(admin.StackedInline):
+class ReportNumbersOfIonIdsAtDifferentChargesWith1MobileInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportNumbersOfIonIdsAtDifferentChargesWith1Mobile
 
 
 
 
-class ReportPercentOfIdsAtDifferentChargesAndMobileProtoInline(admin.StackedInline):
+class ReportPercentOfIdsAtDifferentChargesAndMobileProtoInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportPercentOfIdsAtDifferentChargesAndMobileProto
 
 
 
 
-class ReportIntensitiesVsDifferentMobileProtonInline(admin.StackedInline):
+class ReportIntensitiesVsDifferentMobileProtonInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportIntensitiesVsDifferentMobileProton
 
 
 
 
-class ReportPrecursorMZMonoisotopeExactMZInline(admin.StackedInline):
+class ReportPrecursorMZMonoisotopeExactMZInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportPrecursorMZMonoisotopeExactMZ
 
 
 
 
-class ReportMs2IdSpectraInline(admin.StackedInline):
+class ReportMs2IdSpectraInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportMs2IdSpectra
 
 
 
 
-class ReportMs1IdMaxInline(admin.StackedInline):
+class ReportMs1IdMaxInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportMs1IdMax
 
 
 
 
-class ReportFractionOfMs2IdentifiedAtDifferentMs1MaxQuarInline(admin.StackedInline):
+class ReportFractionOfMs2IdentifiedAtDifferentMs1MaxQuarInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportFractionOfMs2IdentifiedAtDifferentMs1MaxQuar
 
 
 
 
-class ReportMs1IdAbundAtMs2AcquisitionInline(admin.StackedInline):
+class ReportMs1IdAbundAtMs2AcquisitionInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportMs1IdAbundAtMs2Acquisition
 
 
 
 
-class ReportMs2IdAbundReportedInline(admin.StackedInline):
+class ReportMs2IdAbundReportedInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportMs2IdAbundReported
 
 
 
 
-class ReportPeakWidthAtHalfHeightForIdInline(admin.StackedInline):
+class ReportPeakWidthAtHalfHeightForIdInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportPeakWidthAtHalfHeightForId
 
 
 
 
-class ReportPeakWidthsAtHalfMaxOverRtDecilesForIdInline(admin.StackedInline):
+class ReportPeakWidthsAtHalfMaxOverRtDecilesForIdInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportPeakWidthsAtHalfMaxOverRtDecilesForId
 
 
 
 
-class ReportNearbyResamplingOfIdsOversamplingDetailInline(admin.StackedInline):
+class ReportNearbyResamplingOfIdsOversamplingDetailInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportNearbyResamplingOfIdsOversamplingDetail
 
 
 
 
-class ReportWideRtDifferencesForIds_Gt4MinInline(admin.StackedInline):
+class ReportWideRtDifferencesForIds_Gt4MinInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportWideRtDifferencesForIds_Gt4Min
 
 
 
 
-class ReportFractionOfRepeatPeptideIdsWithDivergentRt_RtInline(admin.StackedInline):
+class ReportFractionOfRepeatPeptideIdsWithDivergentRt_RtInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportFractionOfRepeatPeptideIdsWithDivergentRt_Rt
 
 
 
 
-class ReportEarlyAndLateRtOversampling_SpectrumIdsUniqueInline(admin.StackedInline):
+class ReportEarlyAndLateRtOversampling_SpectrumIdsUniqueInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportEarlyAndLateRtOversampling_SpectrumIdsUnique
 
 
 
 
-class ReportPeptideIonIdsByGt3Spectra_Hi_Vs13Spectra_Lo_Inline(admin.StackedInline):
+class ReportPeptideIonIdsByGt3Spectra_Hi_Vs13Spectra_Lo_Inline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportPeptideIonIdsByGt3Spectra_Hi_Vs13Spectra_Lo_
 
 
 
 
-class ReportRatiosOfPeptideIonsIdedByDifferentNumbersOfSInline(admin.StackedInline):
+class ReportRatiosOfPeptideIonsIdedByDifferentNumbersOfSInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportRatiosOfPeptideIonsIdedByDifferentNumbersOfS
 
 
 
 
-class ReportSingleSpectrumPeptideIonIdentificationsOversInline(admin.StackedInline):
+class ReportSingleSpectrumPeptideIonIdentificationsOversInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportSingleSpectrumPeptideIonIdentificationsOvers
 
 
 
 
-class ReportMs1MaxMs1SampledAbundanceRatioIdsInefficientInline(admin.StackedInline):
+class ReportMs1MaxMs1SampledAbundanceRatioIdsInefficientInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportMs1MaxMs1SampledAbundanceRatioIdsInefficient
 
 
 
 
-class ReportRt_Ms1Max_Rt_Ms2_ForIds_SecInline(admin.StackedInline):
+class ReportRt_Ms1Max_Rt_Ms2_ForIds_SecInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportRt_Ms1Max_Rt_Ms2_ForIds_Sec
 
 
 
 
-class ReportIonInjectionTimesForIds_MsInline(admin.StackedInline):
+class ReportIonInjectionTimesForIds_MsInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportIonInjectionTimesForIds_Ms
 
 
 
 
-class ReportTopIonAbundanceMeasureInline(admin.StackedInline):
+class ReportTopIonAbundanceMeasureInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportTopIonAbundanceMeasure
 
 
 
 
-class ReportIsotopicAbundanceVariationInline(admin.StackedInline):
+class ReportIsotopicAbundanceVariationInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportIsotopicAbundanceVariation
 
 
 
 
-class ReportIonPeakClusterCountDistributionInline(admin.StackedInline):
+class ReportIonPeakClusterCountDistributionInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportIonPeakClusterCountDistribution
 
 
 
 
-class ReportIonClusterAbundanceDistributionInline(admin.StackedInline):
+class ReportIonClusterAbundanceDistributionInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportIonClusterAbundanceDistribution
 
 
 
 
-class ReportAbundanceDistributionTotalInline(admin.StackedInline):
+class ReportAbundanceDistributionTotalInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
     
     model = MSQCdbModels.ReportAbundanceDistributionTotal
 
 
 
 
-class ReportAbundanceDistribution1RtQuartileInline(admin.StackedInline):
+class ReportAbundanceDistribution1RtQuartileInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportAbundanceDistribution1RtQuartile
 
 
 
 
-class ReportAbundanceDistribution2RtQuartileInline(admin.StackedInline):
+class ReportAbundanceDistribution2RtQuartileInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportAbundanceDistribution2RtQuartile
 
 
 
 
-class ReportAbundanceDistribution3RtQuartileInline(admin.StackedInline):
+class ReportAbundanceDistribution3RtQuartileInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportAbundanceDistribution3RtQuartile
 
 
 
 
-class ReportAbundanceDistribution4RtQuartileInline(admin.StackedInline):
+class ReportAbundanceDistribution4RtQuartileInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportAbundanceDistribution4RtQuartile
 
 
 
 
-class ReportAbundanceDistributionLastSegmentInline(admin.StackedInline):
+class ReportAbundanceDistributionLastSegmentInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportAbundanceDistributionLastSegment
 
 
 
 
-class ReportMZMediansForClustersAtRtQuartiles_AllChargesInline(admin.StackedInline):
+class ReportMZMediansForClustersAtRtQuartiles_AllChargesInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportMZMediansForClustersAtRtQuartiles_AllCharges
 
 
 
 
-class ReportMZMediansForClustersAtRtQuartiles_Plus2OnlyInline(admin.StackedInline):
+class ReportMZMediansForClustersAtRtQuartiles_Plus2OnlyInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportMZMediansForClustersAtRtQuartiles_Plus2Only
 
 
 
 
-class ReportMZMediansForClustersAtDifferentChargeInline(admin.StackedInline):
+class ReportMZMediansForClustersAtDifferentChargeInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportMZMediansForClustersAtDifferentCharge
 
 
 
 
-class ReportNumbersOfClustersOfDifferentChargeInline(admin.StackedInline):
+class ReportNumbersOfClustersOfDifferentChargeInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportNumbersOfClustersOfDifferentCharge
 
 
 
 
-class ReportNumbersOfClustersAtPlus1Plus2ChargesAtRtQuarInline(admin.StackedInline):
+class ReportNumbersOfClustersAtPlus1Plus2ChargesAtRtQuarInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportNumbersOfClustersAtPlus1Plus2ChargesAtRtQuar
 
 
 
 
-class ReportNumbersOfClustersAtPlus3Plus2ChargesAtRtQuarInline(admin.StackedInline):
+class ReportNumbersOfClustersAtPlus3Plus2ChargesAtRtQuarInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportNumbersOfClustersAtPlus3Plus2ChargesAtRtQuar
 
 
 
 
-class ReportFractOfClusterAbundanceAt50PercentAnd90PerceInline(admin.StackedInline):
+class ReportFractOfClusterAbundanceAt50PercentAnd90PerceInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportFractOfClusterAbundanceAt50PercentAnd90Perce
 
 
 
 
-class ReportTop10NoidIonInline(admin.StackedInline):
+class ReportTop10NoidIonInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportTop10NoidIon
 
 
 
 
-class ReportNewMetricInline(admin.StackedInline):
+class ReportNewMetricInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportNewMetric
 
 
 
 
-class ReportOtherIonClusterStatisticInline(admin.StackedInline):
+class ReportOtherIonClusterStatisticInline(SampleStackedInline):
     """
     Admin config for InLine
     """
-    
-    extra = 0
-    
+        
     model = MSQCdbModels.ReportOtherIonClusterStatistic
 
 
@@ -950,5 +862,13 @@ class SampleAdmin(admin.ModelAdmin):
         return obj.metadataoverview_Meta.all()[0].instrument_software_version
     instrument_software_version.short_description = 'Instrument Software Version'
     instrument_software_version.admin_order_field  = 'metadataoverview_Meta__instrument_software_version'
+
+
+
+    def save_model(self, request, obj, form, change):
+
+        if request.user.is_superuser:            
+            obj.save()
+
 
 
