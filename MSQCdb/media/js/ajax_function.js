@@ -42,15 +42,15 @@ function updateTextBox(currentValue) {
 }
 
 
-function getChart(chartId) {	
+function getChart(chartId, position) {	
 (function($) {
 	
 	$.ajax({  
 		type: 'GET',  
-		url: '/MSQCdb/chartView/' + chartId,  
+		url: '/MSQCdb/chartView/' + chartId + '/' + position,  
 		dataType: 'html',  
 		success: function(html){     
-			$("#chart_preview").html(html);
+			$("#chart_preview-" + position).html(html);
 			
 		} 
 	})
@@ -59,3 +59,21 @@ function getChart(chartId) {
 })(grp.jQuery);
 }
 
+
+
+function getReport(reportId) {	
+(function($) {
+	
+	$.ajax({  
+		type: 'GET',  
+		url: '/MSQCdb/reportView/' + reportId,  
+		dataType: 'html',  
+		success: function(html){     
+			$("#report_preview").html(html);
+			
+		} 
+	})
+	
+
+})(grp.jQuery);
+}

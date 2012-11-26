@@ -41,7 +41,7 @@ import MSQCdb.MSQCdb_app.models as MSQCdbModels
 
 
 @login_required
-def chartView(request, chartId):
+def chartView(request, chartId, position):
     """
     This function prepares the Context to display the metrics and Event using
     the Highstock JavaScript plotting library. 
@@ -77,7 +77,7 @@ def chartView(request, chartId):
     
     chart_data_link = '/MSQCdb/chartDataJSON'
     t = loader.get_template('chart.html')
-    c = Context({ 'chart_data_link': chart_data_link, 
+    c = Context({ 'chart_data_link': chart_data_link, 'position': position,
                  'chartObject': chartObject, 'series': series, 
                  'events': events,  'MEDIA_URL': settings.MEDIA_URL})
     
@@ -138,5 +138,19 @@ def fieldOptions(request, modelName):
 
 
 
-
+@login_required
+def reportView(request, reportId):
+    """
+    This function prepares the Context to display multiple charts
+    to generates a report. 
+    """
     
+    reportObject = MSQCdbModels.Report.objects.get(pk=reportId)
+    charts = reportObject.reportchart_set.all()
+    
+    t = loader.get_template('report.html')
+    c = Context({ 
+                 'columns': reportObject.column_num, 'charts': charts,
+                 'MEDIA_URL': settings.MEDIA_URL})
+    
+    return HttpResponse(t.render(c))

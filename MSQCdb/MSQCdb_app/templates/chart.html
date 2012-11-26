@@ -6,21 +6,21 @@
 <script type="text/javascript">
 		
 
-var flags = [];
-var seriesOptions = [];
-var seriesCounter = 0;		
+var flags{{position}} = [];
+var seriesOptions{{position}} = [];
+var seriesCounter{{position}} = 0;		
 		
 $(function() {
 	
 	
 	// Get data for series to display on the chart
-    var names = [
+    var names{{position}} = [
     {% for s in series %}
     '{{s.name}}???{{s.pk}}',
     {% endfor %}
     ];
 
-    $.each(names, function(i, name) {
+    $.each(names{{position}}, function(i, name) {
 		seriesId = name.split("???")[1];
 		
 		
@@ -31,7 +31,7 @@ $(function() {
 			seriesName = name.split("???")[0];
 			
 
-            seriesOptions[i] = {
+            seriesOptions{{position}}[i] = {
                 name: seriesName,
                 data: data,
                 marker: {
@@ -42,12 +42,12 @@ $(function() {
 
             // As we're loading the data asynchronously, we don't know what order it will arrive. So
             // we keep a counter and create the chart when all the data is loaded.
-            seriesCounter++;
+            seriesCounter{{position}}++;
             
-            $("#loadingmsg").append("<br />Retrieving data (" + seriesCounter + "/" + names.length +  "):  " + seriesName);
+            $("#loadingmsg{{position}}").append("<br />Retrieving data (" + seriesCounter{{position}} + "/" + names{{position}}.length +  "):  " + seriesName);
 
-            if (seriesCounter == names.length) {
-                createChart();
+            if (seriesCounter{{position}} == names{{position}}.length) {
+                createChart{{position}}();
             }
         });
     });
@@ -56,7 +56,7 @@ $(function() {
     
     
     // Get Events to be displayed as flag on the chart
-	flags =  [ 
+	flags{{position}} =  [ 
 	{% for event in events %}
 		    {
 				type: 'flags',
@@ -99,7 +99,7 @@ $(function() {
 
 			
 // create the chart when all data is loaded
-function createChart() {		
+function createChart{{position}}() {		
 		
 		Highcharts.setOptions({
     		global: {
@@ -109,9 +109,9 @@ function createChart() {
 
 		
 		// Create the chart
-		window.chart = new Highcharts.StockChart({
+		window.chart{{position}} = new Highcharts.StockChart({
 		    chart: {
-		        renderTo: 'container',
+		        renderTo: 'container{{position}}',
 		        zoomType: 'x'
 		    },
 			credits: {
@@ -156,9 +156,11 @@ function createChart() {
             },
 			
 			
-			series: seriesOptions.concat(flags),
+			series: seriesOptions{{position}}.concat(flags{{position}}),
 			
 		});
+		
+
 
 }
 </script>
@@ -166,9 +168,9 @@ function createChart() {
 <script src="{{ MEDIA_URL }}js/Highstock-1.2.4/js/highstock.js"></script>
 <script src="{{ MEDIA_URL }}js/Highstock-1.2.4/js/modules/exporting.js"></script>
 
-<div id="container" style="height: 500px; min-width: 500px">
+<div id="container{{position}}">
 	<font size=2>
 	<br /><img src="{{ MEDIA_URL }}img/ajax-loader.gif" /> Generating chart...please wait...
-	<div id="loadingmsg"></div>
+	<div id="loadingmsg{{position}}"></div>
 	</font>
 </div>

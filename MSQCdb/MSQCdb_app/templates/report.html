@@ -1,0 +1,23 @@
+<h2>Report Preview</h2>
+Click 'Save and continue editing' to refresh after modifications.
+
+
+<table width="100%" style="table-layout: fixed;"><tr>
+{% for chart in charts %}
+<td>
+<div id="chart_preview-{{chart.position}}"></div>
+</td>
+{% if forloop.counter|divisibleby:columns %}
+	</tr><tr>
+{% endif %}
+<script type="text/javascript">
+(function($) {
+$('#chart_preview-{{chart.position}}').load(getChart({{chart.chart.pk}}, {{chart.position}}));
+})(grp.jQuery);
+</script>
+
+
+{% endfor %}
+</tr>
+</table>
+

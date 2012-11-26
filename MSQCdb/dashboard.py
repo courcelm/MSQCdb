@@ -97,6 +97,10 @@ class CustomIndexDashboard(Dashboard):
                           know the state of the instrument before using it to \
                           prevent wasting time. Events can be displayed on \
                           chart as flags.<br/><br/>\
+                          <span style="font-weight: bold;">Report</span><br />\
+                          Reports are a collection of charts to display \
+                          simultaneously multiple metrics about an MS instrument \
+                          in order to review its performance.<br/><br/>\
                           <span style="font-weight: bold;">Samples</span><br />\
                           This section lists all the standard samples \
                           (e.g. Promix) that are stored in the database and \

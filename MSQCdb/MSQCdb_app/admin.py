@@ -181,6 +181,85 @@ class ChartAdmin(admin.ModelAdmin):
             
     
 
+class ReportChartForm(forms.ModelForm):
+    class Meta:
+        model = MSQCdbModels.ReportChart
+
+    def __init__(self, *args, **kwargs):
+        from django.forms.widgets import HiddenInput
+        super(ReportChartForm, self).__init__(*args, **kwargs)
+        self.fields['position'].widget = HiddenInput()
+
+
+
+
+class ReportChartInline(admin.TabularInline):
+    """
+    Admin config for ReportChart InLine.
+    """
+    
+    extra = 1
+    
+    form = ReportChartForm
+    
+    model = MSQCdbModels.ReportChart
+
+    # define the sortable
+    sortable_field_name = "position"
+    
+    
+    
+    
+class ReportAdmin(admin.ModelAdmin):
+    """
+    Admin config for Report model.
+    """
+
+    change_form_template = 'admin/report_change_form.html'
+
+    fieldsets = (
+                 (None, {
+                         'fields' : (( ('name', 'column_num'),
+                                       'description',
+                                      )
+                                     )
+                         }
+                  ),
+                 )
+    
+    inlines = [ReportChartInline]
+
+    list_display   = ('name', 'truncatedDescription', 'chartString', 
+                      'column_num', 'created_by')
+
+    list_filter = ('created_by', )
+    
+    search_fields = ('name', 'description', 
+                     'reportchart__chart__title')
+
+
+    def chartString(self, obj):
+        charts = [str(chart.chart) for chart in obj.reportchart_set.all()]
+        return '<br/>'.join(charts)
+    chartString.short_description = 'Charts'
+    chartString.allow_tags = True
+
+
+    # Save the creator of the object
+    def save_model(self, request, obj, form, change):
+
+        ## Store the obj creator
+        if getattr(obj, 'created_by', None) is None:
+            obj.created_by = request.user
+            
+        obj.save()
+        
+    def truncatedDescription(self, obj):
+        lines = wrap(obj.description, 200).split('\n')
+        lines = [line[:200] for line in lines]
+        return '<br/>'.join(lines)
+    truncatedDescription.short_description = 'Description'
+    truncatedDescription.allow_tags = True
 
 
 
@@ -188,3 +267,4 @@ class ChartAdmin(admin.ModelAdmin):
 admin.site.register(MSQCdbModels.EventLog, EventLogAdmin)
 admin.site.register(MSQCdbModels.Sample, SampleAdmin)
 admin.site.register(MSQCdbModels.Chart, ChartAdmin)
+admin.site.register(MSQCdbModels.Report, ReportAdmin)

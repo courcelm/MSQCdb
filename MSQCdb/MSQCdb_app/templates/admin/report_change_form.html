@@ -15,17 +15,25 @@
 {% block after_related_objects %}
 {% if original.pk %}
 
-<div class="grp-group grp-tabular">
+<script type="text/javascript" src="/media/js/jquery-1.8.2.min.js"></script>
 
-<h2>Chart Preview</h2>
-Click 'Save and continue editing' to refresh after modifications.
-<div id="chart_preview-0"></div>
+
+
+<div id="report_preview" class="grp-group grp-tabular"></div>
 
 <script type="text/javascript">
-(function($) {
-$('#chart_preview-0').load(getChart({{original.pk}}, 0));
-})(grp.jQuery);
+jQuery(function($) {
+	$('#report_preview').load(getReport({{original.pk}}));
+
+
+});
+
 </script>
-</div>
+
+
+
+
+
+
 {% endif %}
 {% endblock %}

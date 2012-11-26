@@ -7,6 +7,21 @@ import sys
 #print models.get_apps()
 
 
+for obj in Report.objects.all():
+    charts = [str(chart.chart) for chart in obj.reportchart_set.all()]
+    print charts
+sys.exit()
+
+reportObject = Report.objects.get(pk=1)
+    
+print reportObject.column_num
+divList = []
+for i in range(reportObject.column_num):
+    print i
+    divList.append(i)
+
+sys.exit()
+
 s = Sample.objects.all()[0]
 m = s.metadataoverview_set.all()[0]
 
