@@ -3,7 +3,7 @@
 
 
 function get_fieldOptions(currentValue) {	
-(function($) {
+
 	idNum = currentValue.id.split("-")[1];
 	value = currentValue.options[currentValue.selectedIndex].value;
 	text= currentValue.options[currentValue.selectedIndex].text;
@@ -30,21 +30,20 @@ function get_fieldOptions(currentValue) {
 	})
 	
 
-})(grp.jQuery);
+
 }
 
 
 function updateTextBox(currentValue) {	
-(function($) {
+
 	idNum = currentValue.id.split("-")[1];
 	$("#id_chartseries_set-" + idNum + "-field").val($("#id_chartseries_set-" + idNum + "-fieldSelect").val());
-})(grp.jQuery);
+
 }
 
 
 function getChart(chartId, position) {	
-(function($) {
-	
+
 	$.ajax({  
 		type: 'GET',  
 		url: '/MSQCdb/chartView/' + chartId + '/' + position,  
@@ -54,26 +53,19 @@ function getChart(chartId, position) {
 			
 		} 
 	})
-	
-
-})(grp.jQuery);
 }
 
 
 
 function getReport(reportId) {	
-(function($) {
-	
 	$.ajax({  
 		type: 'GET',  
 		url: '/MSQCdb/reportView/' + reportId,  
 		dataType: 'html',  
 		success: function(html){     
-			$("#report_preview").html(html);
+			$("#report_preview").html($("#report_preview").html() + html);
 			
 		} 
 	})
 	
-
-})(grp.jQuery);
 }

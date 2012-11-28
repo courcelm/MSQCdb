@@ -53,6 +53,7 @@ def chartView(request, chartId, position):
 
     q_outer_object = Q()
 
+    events = []
     
     if chartObject.charteventflag_set is not None:
         
@@ -72,7 +73,7 @@ def chartView(request, chartId, position):
             q_outer_object.add(q_inner_object, Q.OR)
             
             
-    events = MSQCdbModels.EventLog.objects.all().filter(q_outer_object)
+            events = MSQCdbModels.EventLog.objects.all().filter(q_outer_object)
         
     
     chart_data_link = '/MSQCdb/chartDataJSON'

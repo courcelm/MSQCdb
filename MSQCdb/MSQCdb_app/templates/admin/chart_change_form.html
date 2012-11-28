@@ -3,6 +3,7 @@
 {% block extrahead %}{{ block.super }}
 {% url 'admin:jsi18n' as jsi18nurl %}
 <script type="text/javascript" src="{{ jsi18nurl|default:"../../../jsi18n/" }}"></script>
+<script type="text/javascript" src="/media/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/media/js/ajax_function.js"></script>
 
 
@@ -22,9 +23,7 @@ Click 'Save and continue editing' to refresh after modifications.
 <div id="chart_preview-0"></div>
 
 <script type="text/javascript">
-(function($) {
 $('#chart_preview-0').load(getChart({{original.pk}}, 0));
-})(grp.jQuery);
 </script>
 </div>
 {% endif %}

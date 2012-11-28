@@ -26,13 +26,19 @@ This is the Admin module for the MSQCdb.
 # Import Django related libraries
 from django import forms
 from django.contrib import admin
+from django.contrib.admin.sites import site
 from django.db.models import get_app, get_models
+from django.utils.text import wrap
+
 
 
 # Import project libraries
 from admin_samples import SampleAdmin
 import MSQCdb.MSQCdb_app.models as MSQCdbModels
-from  django.utils.text import wrap
+from adminWidgets import *
+
+
+
 
 
 class EventLogAdmin(admin.ModelAdmin):
@@ -82,6 +88,9 @@ class ChartSeriesForm(forms.ModelForm):
                     get_models(app) if model.__name__.startswith('Report') or 
                     model.__name__.startswith('Meta')]
     
+    tableChoices.pop(0)
+    tableChoices.pop(0)
+    tableChoices.pop(0)
     tableChoices.insert(0, ('',''))
     
     table = forms.ChoiceField(choices=tableChoices, label = 'Table', 
@@ -154,7 +163,7 @@ class ChartAdmin(admin.ModelAdmin):
                      'charteventflag__instrument_name__instrument_name',
                      )
     
-    
+    save_as = True
       
     
     # Save the creator of the object
@@ -203,11 +212,25 @@ class ReportChartInline(admin.TabularInline):
     form = ReportChartForm
     
     model = MSQCdbModels.ReportChart
+    
+    raw_id_fields = ('chart',)
 
     # define the sortable
     sortable_field_name = "position"
     
     
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        
+        if db_field.name in self.raw_id_fields:
+            
+            kwargs.pop("request", None)
+            fType = db_field.rel.__class__.__name__
+            if fType == "ManyToOneRel":
+                kwargs['widget'] = VerboseForeignKeyRawIdWidget(db_field.rel, site)
+            elif fType == "ManyToManyRel":
+                kwargs['widget'] = VerboseManyToManyRawIdWidget(db_field.rel, site)
+            return db_field.formfield(**kwargs)
+        return super(ReportChartInline, self).formfield_for_dbfield(db_field, **kwargs)
     
     
 class ReportAdmin(admin.ModelAdmin):
@@ -236,13 +259,17 @@ class ReportAdmin(admin.ModelAdmin):
     
     search_fields = ('name', 'description', 
                      'reportchart__chart__title')
+    
+    save_as = True
 
+    
 
     def chartString(self, obj):
-        charts = [str(chart.chart) for chart in obj.reportchart_set.all()]
+        charts = [chart.chart.html_url() for chart in obj.reportchart_set.all()]
         return '<br/>'.join(charts)
     chartString.short_description = 'Charts'
     chartString.allow_tags = True
+    
 
 
     # Save the creator of the object
@@ -262,6 +289,7 @@ class ReportAdmin(admin.ModelAdmin):
     truncatedDescription.allow_tags = True
 
 
+    
 
 ## Register admin panels
 admin.site.register(MSQCdbModels.EventLog, EventLogAdmin)

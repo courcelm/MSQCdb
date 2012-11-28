@@ -24,7 +24,7 @@ This is the data model module for the MSQCdb.
 # Import Django related libraries
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core import urlresolvers
 
 
 
@@ -110,7 +110,8 @@ class EventLog(models.Model):
     description = models.TextField('Detailed description (what was replaced,\
                                      how it was fixed)', blank=True)
 
-
+    def __unicode__(self):
+        return '%s: %s' % (self.event_type, self.name)
 
 
 
@@ -132,6 +133,20 @@ class Chart(models.Model):
 
     def __unicode__(self):
         return str('Chart (' + str(self.pk) + '): ' + self.title)
+    
+    def get_admin_url(self):
+        return urlresolvers.reverse("admin:%s_%s_change" %
+        (self._meta.app_label, self._meta.module_name), args=(self.id,))
+    
+    def get_relative_url(self):
+        """
+        Define standard relative URL for object access in templates
+        """
+        return 'chart/%i/' % self.id
+    
+    def html_url(self):
+        return '<a href="%s">%s</a>' % (self.get_admin_url(),
+                                        self.__unicode__())
 
 
 
@@ -228,6 +243,10 @@ class Report(models.Model):
     created_by = models.ForeignKey(User, null=True, blank=True,
                                    related_name='%(class)s_created_by', 
                                    editable=False)    
+    
+    
+    def __unicode__(self):
+        return '%s' % (self.name)
 
 
 

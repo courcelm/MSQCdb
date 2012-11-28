@@ -1,5 +1,5 @@
-<h2>Report Preview</h2>
-Click 'Save and continue editing' to refresh after modifications.
+<script type="text/javascript" src="/media/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/media/js/ajax_function.js"></script>
 
 
 <table width="100%" style="table-layout: fixed;"><tr>
@@ -10,14 +10,15 @@ Click 'Save and continue editing' to refresh after modifications.
 {% if forloop.counter|divisibleby:columns %}
 	</tr><tr>
 {% endif %}
-<script type="text/javascript">
-(function($) {
-$('#chart_preview-{{chart.position}}').load(getChart({{chart.chart.pk}}, {{chart.position}}));
-})(grp.jQuery);
-</script>
+
 
 
 {% endfor %}
 </tr>
 </table>
 
+{% for chart in charts %}
+<script type="text/javascript">
+$('#chart_preview-{{chart.position}}').load(getChart({{chart.chart.pk}}, {{chart.position}}));
+</script>
+{% endfor %}
