@@ -1,14 +1,29 @@
+{% if header %}
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highstock Example</title>
+
 <script type="text/javascript" src="/media/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/media/js/Highstock-1.2.4/js/highstock.js"></script>
+<script type="text/javascript" src="/media/js/Highstock-1.2.4/js/modules/exporting.js"></script>
 <script type="text/javascript" src="/media/js/ajax_function.js"></script>
 
 
-<table width="100%" style="table-layout: fixed;"><tr>
+{% endif %}
+
+
+
+<table width="100%" style="table-layout: fixed;">
+	<tr>
 {% for chart in charts %}
-<td>
-<div id="chart_preview-{{chart.position}}"></div>
-</td>
+		<td>
+			<div id="chart_preview-{{chart.position}}"></div>
+		</td>
 {% if forloop.counter|divisibleby:columns %}
-	</tr><tr>
+	</tr>
+	<tr>
 {% endif %}
 
 
@@ -17,8 +32,14 @@
 </tr>
 </table>
 
-{% for chart in charts %}
+
+
 <script type="text/javascript">
+
+{% for chart in charts %}
 $('#chart_preview-{{chart.position}}').load(getChart({{chart.chart.pk}}, {{chart.position}}));
-</script>
 {% endfor %}
+
+
+</script>
+

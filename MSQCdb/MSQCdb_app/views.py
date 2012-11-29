@@ -55,6 +55,12 @@ def chartView(request, chartId, position):
 
     events = []
     
+    header = True 
+    if request.GET.get('header') == 'False':
+        header = False
+    
+
+    
     if chartObject.charteventflag_set is not None:
         
         # "Adding" Q objects in Django
@@ -79,7 +85,8 @@ def chartView(request, chartId, position):
     chart_data_link = '/MSQCdb/chartDataJSON'
     t = loader.get_template('chart.html')
     c = Context({ 'chart_data_link': chart_data_link, 'position': position,
-                 'chartObject': chartObject, 'series': series, 
+                 'chartObject': chartObject, 'series': series,
+                 'header': header,
                  'events': events,  'MEDIA_URL': settings.MEDIA_URL})
     
     return HttpResponse(t.render(c))
@@ -149,9 +156,14 @@ def reportView(request, reportId):
     reportObject = MSQCdbModels.Report.objects.get(pk=reportId)
     charts = reportObject.reportchart_set.all()
     
+    header = True 
+    if request.GET.get('header') == 'False':
+        header = False
+    
     t = loader.get_template('report.html')
     c = Context({ 
                  'columns': reportObject.column_num, 'charts': charts,
+                 'header': header,
                  'MEDIA_URL': settings.MEDIA_URL})
     
     return HttpResponse(t.render(c))

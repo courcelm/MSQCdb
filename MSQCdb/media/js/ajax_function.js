@@ -46,10 +46,10 @@ function getChart(chartId, position) {
 
 	$.ajax({  
 		type: 'GET',  
-		url: '/MSQCdb/chartView/' + chartId + '/' + position,  
+		url: '/MSQCdb/chartView/' + chartId + '/' + position + '?header=False',  
 		dataType: 'html',  
-		success: function(html){     
-			$("#chart_preview-" + position).html(html);
+		success: function(htmlStr){
+			$("#chart_preview-" + position).html(htmlStr);
 			
 		} 
 	})
@@ -60,10 +60,10 @@ function getChart(chartId, position) {
 function getReport(reportId) {	
 	$.ajax({  
 		type: 'GET',  
-		url: '/MSQCdb/reportView/' + reportId,  
+		url: '/MSQCdb/reportView/' + reportId + '?header=False',  
 		dataType: 'html',  
-		success: function(html){     
-			$("#report_preview").html($("#report_preview").html() + html);
+		success: function(htmlStr){     
+			$("#report_preview").html($("#report_preview").html() + htmlStr);
 			
 		} 
 	})

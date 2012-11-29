@@ -1,28 +1,33 @@
 {% load mytemplatetags %}
 
 
-{% if position == '0' %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.8.2.min.js"></script>
-<script src="{{ MEDIA_URL }}js/Highstock-1.2.4/js/highstock.js"></script>
-<script src="{{ MEDIA_URL }}js/Highstock-1.2.4/js/modules/exporting.js"></script>
+{% if header %}
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highstock Example</title>
+
+<script type="text/javascript" src="/media/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/media/js/Highstock-1.2.4/js/highstock.js"></script>
+<script type="text/javascript" src="/media/js/Highstock-1.2.4/js/modules/exporting.js"></script>
+
 {% endif %}
 
 <script type="text/javascript">
 		
 
+
+
 var flags{{position}} = [];
 var seriesOptions{{position}} = [];
 var seriesCounter{{position}} = 0;		
-		
+
 $(function() {
 	
 	
 	// Get data for series to display on the chart
-    var names{{position}} = [
-    {% for s in series %}
-    '{{s.name}}???{{s.pk}}',
-    {% endfor %}
-    ];
+    var names{{position}} = [ {% for s in series %}'{{s.name}}???{{s.pk}}' {% if forloop.last %}{% else %},{% endif %}{% endfor %} ];
 
     $.each(names{{position}}, function(i, name) {
 		seriesId = name.split("???")[1];
@@ -41,7 +46,7 @@ $(function() {
                 marker: {
                     enabled : true,
                     radius : 3
-                },
+                }
             };
 
             // As we're loading the data asynchronously, we don't know what order it will arrive. So
@@ -114,8 +119,10 @@ function createChart{{position}}() {
 		
 		// Create the chart
 		window.chart{{position}} = new Highcharts.StockChart({
+			
 		    chart: {
 		        renderTo: 'container{{position}}',
+		        type: 'line',
 		        zoomType: 'x'
 		    },
 			credits: {
@@ -130,14 +137,14 @@ function createChart{{position}}() {
             	verticalAlign: 'top',
             	floating: true,
             	x: 275,
-            	y: 27,
+            	y: 27
            	},
 		    title: {
 		        text: '{{ chartObject.title }}'
 		    },
             xAxis: {
                 type: 'datetime',
-                ordinal: false,
+                ordinal: false
 
             },
 		    yAxis: {
@@ -149,18 +156,18 @@ function createChart{{position}}() {
 				enabled : false
 			},
 			tooltip: {
-	            useHTML: true,
+	            useHTML: true
         	},
 			plotOptions: {
                 series: {
                     marker: {
-                        lineWidth: 1,
+                        lineWidth: 1
                     }
                 }
             },
 			
 			
-			series: seriesOptions{{position}}.concat(flags{{position}}),
+			series: seriesOptions{{position}}.concat(flags{{position}})
 			
 		});
 		
@@ -169,7 +176,10 @@ function createChart{{position}}() {
 }
 </script>
 
-
+{% if header %}
+</head>
+	<body>
+{% endif %}
 
 <div id="container{{position}}">
 	<font size=2>
@@ -177,3 +187,8 @@ function createChart{{position}}() {
 	<div id="loadingmsg{{position}}"></div>
 	</font>
 </div>
+
+{% if header %}
+	</body>
+</html>
+{% endif %}
