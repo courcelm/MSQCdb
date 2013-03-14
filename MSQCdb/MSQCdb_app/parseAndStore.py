@@ -163,7 +163,7 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict,
 
         
         # Check for section
-        if len(keyVal_list) == 1:
+        if len(keyVal_list) == 1 or line.startswith('='):
             
             # Stop reading the file at this point
             # all required data should be read at this point
@@ -174,10 +174,14 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict,
             if tablePrefix == 'Meta':
                 if line == '------ LTQ Metadata ------':
                     break
+                if line.startswith('=== Identification: ==='):
+                    break
+                
+                
                 
             # This is a section
-            vname = tablePrefix + ': ' + line.title().rstrip('s')
-            section = line.title().rstrip('s')
+            vname = tablePrefix + ': ' + line.replace('=', '').replace(':', '').title().rstrip('s').rstrip(' ')
+            section = line.replace('=', '').replace(':', '').title().rstrip('s').rstrip(' ')
             section = modelReader.sanitizeName(section)
             section = tablePrefix + section
             #print section
@@ -232,6 +236,9 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict,
                         if key.startswith(k):
                             flag = False
                     
+                    if section.endswith('Data'):
+                        flag = False
+                    
                     if flag:
                         section = tablePrefix + 'CalibrationFileValue'
                                     
@@ -241,7 +248,7 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict,
                 
                 
                 for k, v in kv.iteritems():
-                    if key.startswith(k) and section != v:
+                    if key.startswith(k) and section != v and not section.endswith('Data'):
                         section = v
                                     
                         if not values.has_key(section):

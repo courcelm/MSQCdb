@@ -4044,6 +4044,405 @@ class MetaCalibrationFileValueFtCal(models.Model):
 
 
 
+class MetaTuneData(models.Model):
+
+
+    class Meta:
+        verbose_name = "Meta:  Tune Data"
+
+
+    sample = models.ForeignKey(Sample, related_name='                    %(class)s_Meta')
+
+    spray_voltage_plus = models.IntegerField("Spray Voltage (+)", null=True, blank=True)
+
+    spray_voltage = models.IntegerField("Spray Voltage (-)", null=True, blank=True)
+
+    capillary_temperature_plus_or_plus = models.IntegerField("Capillary Temperature (+ or +-)", null=True, blank=True)
+
+    capillary_temperature = models.IntegerField("Capillary Temperature (-)", null=True, blank=True)
+
+    sheath_gas_plus_or_plus = models.IntegerField("Sheath Gas (+ or +-)", null=True, blank=True)
+
+    sheath_gas = models.IntegerField("Sheath Gas (-)", null=True, blank=True)
+
+    aux_gas_plus_or_plus = models.IntegerField("Aux Gas (+ or +-)", null=True, blank=True)
+
+    aux_gas = models.IntegerField("Aux Gas (-)", null=True, blank=True)
+
+    spare_gas_plus_or_plus = models.IntegerField("Spare Gas (+ or +-)", null=True, blank=True)
+
+    spare_gas = models.IntegerField("Spare Gas (-)", null=True, blank=True)
+
+    max_spray_current_plus = models.IntegerField("Max Spray Current (+)", null=True, blank=True)
+
+    max_spray_current = models.IntegerField("Max Spray Current (-)", null=True, blank=True)
+
+    probe_heater_tempdot_plus_or_plus = models.IntegerField("Probe Heater Temp. (+ or +-)", null=True, blank=True)
+
+    probe_heater_tempdot = models.IntegerField("Probe Heater Temp. (-)", null=True, blank=True)
+
+    slens_rf_level = models.IntegerField("S-Lens RF Level", null=True, blank=True)
+
+    ion_source = models.CharField("Ion Source", max_length=50, null=True, blank=True)
+
+
+
+
+
+class MetaCalibrationData(models.Model):
+
+
+    class Meta:
+        verbose_name = "Meta:  Calibration Data"
+
+
+    sample = models.ForeignKey(Sample, related_name='                    %(class)s_Meta')
+
+    mass_caldot_plus_age_d = models.FloatField("Mass Cal. (+) age (d)", null=True, blank=True)
+
+    mass_caldot_age_d = models.FloatField("Mass Cal. (-) age (d)", null=True, blank=True)
+
+    isolation_caldot_plus_age_d = models.FloatField("Isolation Cal. (+) age (d)", null=True, blank=True)
+
+    isolation_caldot_age_d = models.FloatField("Isolation Cal. (-) age (d)", null=True, blank=True)
+
+    amplifier_gain = models.IntegerField("Amplifier Gain", null=True, blank=True)
+
+    mass_calibration_parameter_0 = models.IntegerField("Mass Calibration Parameter (0)", null=True, blank=True)
+
+    mass_calibration_parameter_1 = models.IntegerField("Mass Calibration Parameter (1)", null=True, blank=True)
+
+    mass_calibration_parameter_2 = models.FloatField("Mass Calibration Parameter (2)", null=True, blank=True)
+
+    mass_calibration_parameter_3 = models.FloatField("Mass Calibration Parameter (3)", null=True, blank=True)
+
+    mass_calibration_parameter_4 = models.FloatField("Mass Calibration Parameter (4)", null=True, blank=True)
+
+    mass_calibration_parameter_5 = models.FloatField("Mass Calibration Parameter (5)", null=True, blank=True)
+
+    mass_calibration_parameter_6 = models.FloatField("Mass Calibration Parameter (6)", null=True, blank=True)
+
+    mass_calibration_parameter_7 = models.FloatField("Mass Calibration Parameter (7)", null=True, blank=True)
+
+    mass_calibration_parameter_8 = models.FloatField("Mass Calibration Parameter (8)", null=True, blank=True)
+
+    mass_calibration_parameter_9 = models.FloatField("Mass Calibration Parameter (9)", null=True, blank=True)
+
+    mass_calibration_parameter_10 = models.FloatField("Mass Calibration Parameter (10)", null=True, blank=True)
+
+    mass_calibration_parameter_11 = models.IntegerField("Mass Calibration Parameter (11)", null=True, blank=True)
+
+    mass_calibration_parameter_12 = models.FloatField("Mass Calibration Parameter (12)", null=True, blank=True)
+
+    mass_calibration_parameter_13 = models.IntegerField("Mass Calibration Parameter (13)", null=True, blank=True)
+
+    mass_calibration_parameter_14 = models.FloatField("Mass Calibration Parameter (14)", null=True, blank=True)
+
+    mass_calibration_parameter_15 = models.FloatField("Mass Calibration Parameter (15)", null=True, blank=True)
+
+    mass_calibration_parameter_16 = models.FloatField("Mass Calibration Parameter (16)", null=True, blank=True)
+
+    mass_calibration_parameter_17 = models.FloatField("Mass Calibration Parameter (17)", null=True, blank=True)
+
+    mass_calibration_parameter_18 = models.FloatField("Mass Calibration Parameter (18)", null=True, blank=True)
+
+    mass_calibration_parameter_19 = models.FloatField("Mass Calibration Parameter (19)", null=True, blank=True)
+
+    mass_calibration_parameter_20 = models.FloatField("Mass Calibration Parameter (20)", null=True, blank=True)
+
+    mass_calibration_parameter_21 = models.FloatField("Mass Calibration Parameter (21)", null=True, blank=True)
+
+    mass_calibration_parameter_22 = models.IntegerField("Mass Calibration Parameter (22)", null=True, blank=True)
+
+    mass_calibration_parameter_23 = models.IntegerField("Mass Calibration Parameter (23)", null=True, blank=True)
+
+    mass_calibration_parameter_24 = models.IntegerField("Mass Calibration Parameter (24)", null=True, blank=True)
+
+    mass_calibration_parameter_25 = models.IntegerField("Mass Calibration Parameter (25)", null=True, blank=True)
+
+    mass_calibration_parameter_26 = models.IntegerField("Mass Calibration Parameter (26)", null=True, blank=True)
+
+    mass_calibration_parameter_27 = models.IntegerField("Mass Calibration Parameter (27)", null=True, blank=True)
+
+    mass_calibration_parameter_28 = models.IntegerField("Mass Calibration Parameter (28)", null=True, blank=True)
+
+    mass_calibration_parameter_29 = models.IntegerField("Mass Calibration Parameter (29)", null=True, blank=True)
+
+    mass_calibration_parameter_30 = models.IntegerField("Mass Calibration Parameter (30)", null=True, blank=True)
+
+    mass_calibration_parameter_31 = models.IntegerField("Mass Calibration Parameter (31)", null=True, blank=True)
+
+    mass_calibration_parameter_32 = models.IntegerField("Mass Calibration Parameter (32)", null=True, blank=True)
+
+    mass_calibration_parameter_33 = models.IntegerField("Mass Calibration Parameter (33)", null=True, blank=True)
+
+    mass_calibration_parameter_34 = models.FloatField("Mass Calibration Parameter (34)", null=True, blank=True)
+
+    mass_calibration_parameter_35 = models.FloatField("Mass Calibration Parameter (35)", null=True, blank=True)
+
+    mass_calibration_parameter_36 = models.FloatField("Mass Calibration Parameter (36)", null=True, blank=True)
+
+    mass_calibration_parameter_37 = models.IntegerField("Mass Calibration Parameter (37)", null=True, blank=True)
+
+    mass_calibration_parameter_38 = models.IntegerField("Mass Calibration Parameter (38)", null=True, blank=True)
+
+    mass_calibration_parameter_39 = models.FloatField("Mass Calibration Parameter (39)", null=True, blank=True)
+
+    mass_calibration_parameter_40 = models.IntegerField("Mass Calibration Parameter (40)", null=True, blank=True)
+
+    mass_calibration_parameter_41 = models.FloatField("Mass Calibration Parameter (41)", null=True, blank=True)
+
+    mass_calibration_parameter_42 = models.FloatField("Mass Calibration Parameter (42)", null=True, blank=True)
+
+    mass_calibration_parameter_43 = models.FloatField("Mass Calibration Parameter (43)", null=True, blank=True)
+
+    mass_calibration_parameter_44 = models.FloatField("Mass Calibration Parameter (44)", null=True, blank=True)
+
+    mass_calibration_parameter_45 = models.FloatField("Mass Calibration Parameter (45)", null=True, blank=True)
+
+    mass_calibration_parameter_46 = models.FloatField("Mass Calibration Parameter (46)", null=True, blank=True)
+
+    mass_calibration_parameter_47 = models.FloatField("Mass Calibration Parameter (47)", null=True, blank=True)
+
+    mass_calibration_parameter_48 = models.FloatField("Mass Calibration Parameter (48)", null=True, blank=True)
+
+    mass_calibration_parameter_49 = models.FloatField("Mass Calibration Parameter (49)", null=True, blank=True)
+
+    mass_calibration_parameter_50 = models.FloatField("Mass Calibration Parameter (50)", null=True, blank=True)
+
+    mass_calibration_parameter_51 = models.FloatField("Mass Calibration Parameter (51)", null=True, blank=True)
+
+    mass_calibration_parameter_52 = models.FloatField("Mass Calibration Parameter (52)", null=True, blank=True)
+
+    mass_calibration_parameter_53 = models.IntegerField("Mass Calibration Parameter (53)", null=True, blank=True)
+
+    mass_calibration_parameter_54 = models.IntegerField("Mass Calibration Parameter (54)", null=True, blank=True)
+
+    mass_calibration_parameter_55 = models.IntegerField("Mass Calibration Parameter (55)", null=True, blank=True)
+
+    mass_calibration_parameter_56 = models.FloatField("Mass Calibration Parameter (56)", null=True, blank=True)
+
+    mass_calibration_parameter_57 = models.FloatField("Mass Calibration Parameter (57)", null=True, blank=True)
+
+    mass_calibration_parameter_58 = models.FloatField("Mass Calibration Parameter (58)", null=True, blank=True)
+
+    mass_calibration_parameter_59 = models.IntegerField("Mass Calibration Parameter (59)", null=True, blank=True)
+
+    mass_calibration_parameter_60 = models.IntegerField("Mass Calibration Parameter (60)", null=True, blank=True)
+
+    mass_calibration_parameter_61 = models.FloatField("Mass Calibration Parameter (61)", null=True, blank=True)
+
+    mass_calibration_parameter_62 = models.IntegerField("Mass Calibration Parameter (62)", null=True, blank=True)
+
+    mass_calibration_parameter_63 = models.FloatField("Mass Calibration Parameter (63)", null=True, blank=True)
+
+    mass_calibration_parameter_64 = models.FloatField("Mass Calibration Parameter (64)", null=True, blank=True)
+
+    mass_calibration_parameter_65 = models.FloatField("Mass Calibration Parameter (65)", null=True, blank=True)
+
+    mass_calibration_parameter_66 = models.FloatField("Mass Calibration Parameter (66)", null=True, blank=True)
+
+    mass_calibration_parameter_67 = models.FloatField("Mass Calibration Parameter (67)", null=True, blank=True)
+
+    mass_calibration_parameter_68 = models.FloatField("Mass Calibration Parameter (68)", null=True, blank=True)
+
+    mass_calibration_parameter_69 = models.FloatField("Mass Calibration Parameter (69)", null=True, blank=True)
+
+    mass_calibration_parameter_70 = models.FloatField("Mass Calibration Parameter (70)", null=True, blank=True)
+
+    mass_calibration_parameter_71 = models.FloatField("Mass Calibration Parameter (71)", null=True, blank=True)
+
+    mass_calibration_parameter_72 = models.FloatField("Mass Calibration Parameter (72)", null=True, blank=True)
+
+    mass_calibration_parameter_73 = models.FloatField("Mass Calibration Parameter (73)", null=True, blank=True)
+
+    mass_calibration_parameter_74 = models.FloatField("Mass Calibration Parameter (74)", null=True, blank=True)
+
+    mass_calibration_parameter_75 = models.FloatField("Mass Calibration Parameter (75)", null=True, blank=True)
+
+    mass_calibration_parameter_76 = models.FloatField("Mass Calibration Parameter (76)", null=True, blank=True)
+
+    mass_calibration_parameter_77 = models.FloatField("Mass Calibration Parameter (77)", null=True, blank=True)
+
+    mass_calibration_parameter_78 = models.FloatField("Mass Calibration Parameter (78)", null=True, blank=True)
+
+    mass_calibration_parameter_79 = models.IntegerField("Mass Calibration Parameter (79)", null=True, blank=True)
+
+    mass_calibration_parameter_80 = models.IntegerField("Mass Calibration Parameter (80)", null=True, blank=True)
+
+    mass_calibration_parameter_81 = models.IntegerField("Mass Calibration Parameter (81)", null=True, blank=True)
+
+    mass_calibration_parameter_82 = models.IntegerField("Mass Calibration Parameter (82)", null=True, blank=True)
+
+    mass_calibration_parameter_83 = models.IntegerField("Mass Calibration Parameter (83)", null=True, blank=True)
+
+    mass_calibration_parameter_84 = models.IntegerField("Mass Calibration Parameter (84)", null=True, blank=True)
+
+    mass_calibration_parameter_85 = models.IntegerField("Mass Calibration Parameter (85)", null=True, blank=True)
+
+    mass_calibration_parameter_86 = models.IntegerField("Mass Calibration Parameter (86)", null=True, blank=True)
+
+    mass_calibration_parameter_87 = models.IntegerField("Mass Calibration Parameter (87)", null=True, blank=True)
+
+    mass_calibration_parameter_88 = models.IntegerField("Mass Calibration Parameter (88)", null=True, blank=True)
+
+    mass_calibration_parameter_89 = models.IntegerField("Mass Calibration Parameter (89)", null=True, blank=True)
+
+    mass_calibration_parameter_90 = models.IntegerField("Mass Calibration Parameter (90)", null=True, blank=True)
+
+    mass_calibration_parameter_91 = models.IntegerField("Mass Calibration Parameter (91)", null=True, blank=True)
+
+    mass_calibration_parameter_92 = models.IntegerField("Mass Calibration Parameter (92)", null=True, blank=True)
+
+    mass_calibration_parameter_93 = models.IntegerField("Mass Calibration Parameter (93)", null=True, blank=True)
+
+    mass_calibration_parameter_94 = models.IntegerField("Mass Calibration Parameter (94)", null=True, blank=True)
+
+    mass_calibration_parameter_95 = models.IntegerField("Mass Calibration Parameter (95)", null=True, blank=True)
+
+    mass_calibration_parameter_96 = models.IntegerField("Mass Calibration Parameter (96)", null=True, blank=True)
+
+    mass_calibration_parameter_97 = models.IntegerField("Mass Calibration Parameter (97)", null=True, blank=True)
+
+    mass_calibration_parameter_98 = models.IntegerField("Mass Calibration Parameter (98)", null=True, blank=True)
+
+    mass_calibration_parameter_99 = models.IntegerField("Mass Calibration Parameter (99)", null=True, blank=True)
+
+    mass_calibration_parameter_100 = models.IntegerField("Mass Calibration Parameter (100)", null=True, blank=True)
+
+    mass_calibration_parameter_101 = models.IntegerField("Mass Calibration Parameter (101)", null=True, blank=True)
+
+    mass_calibration_parameter_102 = models.IntegerField("Mass Calibration Parameter (102)", null=True, blank=True)
+
+    mass_calibration_parameter_103 = models.IntegerField("Mass Calibration Parameter (103)", null=True, blank=True)
+
+    mass_calibration_parameter_104 = models.IntegerField("Mass Calibration Parameter (104)", null=True, blank=True)
+
+    mass_calibration_parameter_105 = models.IntegerField("Mass Calibration Parameter (105)", null=True, blank=True)
+
+    mass_calibration_parameter_106 = models.IntegerField("Mass Calibration Parameter (106)", null=True, blank=True)
+
+    mass_calibration_parameter_107 = models.IntegerField("Mass Calibration Parameter (107)", null=True, blank=True)
+
+    mass_calibration_parameter_108 = models.IntegerField("Mass Calibration Parameter (108)", null=True, blank=True)
+
+    mass_calibration_parameter_109 = models.IntegerField("Mass Calibration Parameter (109)", null=True, blank=True)
+
+    mass_calibration_parameter_110 = models.IntegerField("Mass Calibration Parameter (110)", null=True, blank=True)
+
+    mass_calibration_parameter_111 = models.IntegerField("Mass Calibration Parameter (111)", null=True, blank=True)
+
+    mass_calibration_parameter_112 = models.IntegerField("Mass Calibration Parameter (112)", null=True, blank=True)
+
+    mass_calibration_parameter_113 = models.IntegerField("Mass Calibration Parameter (113)", null=True, blank=True)
+
+    mass_calibration_parameter_114 = models.IntegerField("Mass Calibration Parameter (114)", null=True, blank=True)
+
+    mass_calibration_parameter_115 = models.IntegerField("Mass Calibration Parameter (115)", null=True, blank=True)
+
+    mass_calibration_parameter_116 = models.IntegerField("Mass Calibration Parameter (116)", null=True, blank=True)
+
+    mass_calibration_parameter_117 = models.IntegerField("Mass Calibration Parameter (117)", null=True, blank=True)
+
+    mass_calibration_parameter_118 = models.IntegerField("Mass Calibration Parameter (118)", null=True, blank=True)
+
+    mass_calibration_parameter_119 = models.IntegerField("Mass Calibration Parameter (119)", null=True, blank=True)
+
+    ctcd_scale_plus = models.FloatField("CTCD Scale (+)", null=True, blank=True)
+
+    ctcd_scale = models.FloatField("CTCD Scale (-)", null=True, blank=True)
+
+    ctcd_para_plus = models.FloatField("CTCD Para (+)", null=True, blank=True)
+
+    ctcd_para = models.FloatField("CTCD Para (-)", null=True, blank=True)
+
+    detect_delay = models.FloatField("Detect Delay", null=True, blank=True)
+
+    relais_delay = models.IntegerField("Relais Delay", null=True, blank=True)
+
+    resdotdepdot_delay = models.IntegerField("Res.-Dep. Delay", null=True, blank=True)
+
+    quad_dc_plus0 = models.FloatField("Quad DC (+,0)", null=True, blank=True)
+
+    quad_dc_plus1 = models.FloatField("Quad DC (+,1)", null=True, blank=True)
+
+    quad_dc_0 = models.FloatField("Quad DC (-,0)", null=True, blank=True)
+
+    quad_dc_1 = models.FloatField("Quad DC (-,1)", null=True, blank=True)
+
+    quad_otk_plus0 = models.FloatField("Quad OTK (+,0)", null=True, blank=True)
+
+    quad_otk_plus1 = models.FloatField("Quad OTK (+,1)", null=True, blank=True)
+
+    quad_otk_0 = models.FloatField("Quad OTK (-,0)", null=True, blank=True)
+
+    quad_otk_1 = models.FloatField("Quad OTK (-,1)", null=True, blank=True)
+
+    quad_para_a = models.IntegerField("Quad Para A", null=True, blank=True)
+
+    quad_para_b = models.IntegerField("Quad Para B", null=True, blank=True)
+
+    quad_para_c = models.IntegerField("Quad Para C", null=True, blank=True)
+
+    clt_gnd_voltage_plus = models.FloatField("CLT GND Voltage (+)", null=True, blank=True)
+
+    clt_gnd_voltage = models.FloatField("CLT GND Voltage (-)", null=True, blank=True)
+
+    clt_offset_voltage_plus = models.IntegerField("CLT Offset Voltage (+)", null=True, blank=True)
+
+    clt_offset_voltage = models.IntegerField("CLT Offset Voltage (-)", null=True, blank=True)
+
+    clt_push_voltage_plus = models.IntegerField("CLT Push Voltage (+)", null=True, blank=True)
+
+    clt_push_voltage = models.IntegerField("CLT Push Voltage (-)", null=True, blank=True)
+
+    clt_pull_voltage_plus = models.IntegerField("CLT Pull Voltage (+)", null=True, blank=True)
+
+    clt_pull_voltage = models.IntegerField("CLT Pull Voltage (-)", null=True, blank=True)
+
+    lens_6_voltage_plus = models.IntegerField("Lens 6 Voltage (+)", null=True, blank=True)
+
+    lens_6_voltage = models.IntegerField("Lens 6 Voltage (-)", null=True, blank=True)
+
+    zlens_3_voltage_plus = models.IntegerField("Z-Lens 3 Voltage (+)", null=True, blank=True)
+
+    zlens_3_voltage = models.IntegerField("Z-Lens 3 Voltage (-)", null=True, blank=True)
+
+    deinject_voltage_plus = models.IntegerField("De-Inject Voltage (+)", null=True, blank=True)
+
+    deinject_voltage = models.IntegerField("De-Inject Voltage (-)", null=True, blank=True)
+
+    demeasure_voltage_plus = models.IntegerField("De-Measure Voltage (+)", null=True, blank=True)
+
+    demeasure_voltage = models.IntegerField("De-Measure Voltage (-)", null=True, blank=True)
+
+    ceinject_voltage_plus = models.IntegerField("CE-Inject Voltage (+)", null=True, blank=True)
+
+    ceinject_voltage = models.IntegerField("CE-Inject Voltage (-)", null=True, blank=True)
+
+
+
+
+
+class MetaConfigurationData(models.Model):
+
+
+    class Meta:
+        verbose_name = "Meta:  Configuration Data"
+
+
+    sample = models.ForeignKey(Sample, related_name='                    %(class)s_Meta')
+
+    preamp_protect_mode = models.IntegerField("Preamp Protect Mode", null=True, blank=True)
+
+    tmp_sweep_mode = models.IntegerField("TMP Sweep Mode", null=True, blank=True)
+
+    temp_sensor_mode = models.IntegerField("Temp Sensor Mode", null=True, blank=True)
+
+
+
+
+
 class ReportSpectrumCount(models.Model):
 
 
@@ -4170,6 +4569,7 @@ class ReportPeptideCount(models.Model):
 
     idspeptide = models.FloatField("IDs/Peptide", null=True, blank=True)
 
+    itraq_ids = models.IntegerField("iTRAQ IDs", null=True, blank=True)
 
 
 
@@ -4234,6 +4634,8 @@ class ReportMs1DuringMiddle_AndEarly_PeptideRetentionPer(models.Model):
     sn_median = models.FloatField("S/N Median", null=True, blank=True)
 
     tic_median1000 = models.IntegerField("TIC Median/1000", null=True, blank=True)
+    
+    tic_medi10000 = models.IntegerField("TIC Medi/10000", null=True, blank=True)
 
     npeaks_median = models.IntegerField("Npeaks Median", null=True, blank=True)
 
@@ -4248,6 +4650,21 @@ class ReportMs1DuringMiddle_AndEarly_PeptideRetentionPer(models.Model):
     s2s3qrtmed = models.FloatField("S2S-3Qrt/Med", null=True, blank=True)
 
     s2s4qrtmed = models.FloatField("S2S-4Qrt/Med", null=True, blank=True)
+    
+    s2s_max = models.FloatField("S2S max", null=True, blank=True)
+
+    s2s_max_rt = models.IntegerField("S2S max RT", null=True, blank=True)
+
+    s2s_rt_ranges = models.IntegerField("S2S RT range/s", null=True, blank=True)
+
+    s2s_2nd = models.FloatField("S2S 2nd", null=True, blank=True)
+
+    s2s_2nd_rt = models.FloatField("S2S 2nd RT", null=True, blank=True)
+
+    s2s_3rd = models.FloatField("S2S 3rd", null=True, blank=True)
+
+    s2s_3rd_rt = models.FloatField("S2S 3rd RT", null=True, blank=True)
+
 
     esi_off_time = models.FloatField("ESI Off Time", null=True, blank=True)
 
@@ -4278,7 +4695,6 @@ class ReportMs1DuringMiddle_AndEarly_PeptideRetentionPer(models.Model):
     ms1_hirt_gt10x = models.IntegerField("MS1 HiRT >10x", null=True, blank=True)
 
     ms1_hirt_ltdot1x = models.IntegerField("MS1 HiRT <.1x", null=True, blank=True)
-
 
 
 
@@ -5604,4 +6020,72 @@ class ReportOtherIonClusterStatistic(models.Model):
     qual_percent_9099 = models.FloatField("Qual % 90:99", null=True, blank=True)
 
     qual_percent_100100 = models.FloatField("Qual % 100:100", null=True, blank=True)
+    
+    
+
+
+class ReportHcdMetric(models.Model):
+
+
+    class Meta:
+        verbose_name = "Report: Hcd Metric"
+
+
+    sample = models.ForeignKey(Sample, related_name='%(class)s_Report')
+
+    nb_spectra = models.IntegerField("# Spectra", null=True, blank=True)
+
+    ceparentplus2 = models.FloatField("CE/Parent:+2", null=True, blank=True)
+
+    ceparentplus3 = models.FloatField("CE/Parent:+3", null=True, blank=True)
+
+    fragpre_plus2_l10 = models.FloatField("Frag/Pre +2 L10", null=True, blank=True)
+
+    fragpre_plus3_l10 = models.FloatField("Frag/Pre +3 L10", null=True, blank=True)
+
+    fragpre_plus2_iq = models.FloatField("Frag/Pre +2 IQ", null=True, blank=True)
+
+    fragpre_plus3_iq = models.FloatField("Frag/Pre +3 IQ", null=True, blank=True)
+
+    fragpre_plus2_m0 = models.FloatField("Frag/Pre +2 m0", null=True, blank=True)
+
+    fragpre_plus2_m1 = models.FloatField("Frag/Pre +2 m1", null=True, blank=True)
+
+
+
+
+class ReportPeakWidthForMiddleHalfOfSignalForId(models.Model):
+
+
+    class Meta:
+        verbose_name = "Report: Peak Width For Middle Half Of Signal For Id"
+
+
+    sample = models.ForeignKey(Sample, related_name='                    %(class)s_Report')
+
+    median_value = models.FloatField("Median Value", null=True, blank=True)
+
+    med_top_quart = models.FloatField("Med Top Quart", null=True, blank=True)
+
+    med_top_16th = models.FloatField("Med Top 16th", null=True, blank=True)
+
+    med_top_100 = models.FloatField("Med Top 100", null=True, blank=True)
+
+    median_disper = models.FloatField("Median Disper", null=True, blank=True)
+
+    med_quart_disp = models.FloatField("Med Quart Disp", null=True, blank=True)
+
+    med_16th_disp = models.FloatField("Med 16th Disp", null=True, blank=True)
+
+    med_100_disp = models.FloatField("Med 100 Disp", null=True, blank=True)
+
+    n3quart_value = models.FloatField("3Quart Value", null=True, blank=True)
+
+    n9dec_value = models.FloatField("9Dec Value", null=True, blank=True)
+
+    ms1_interscans = models.FloatField("MS1 Interscan/s", null=True, blank=True)
+
+    ms1_scanfwhm = models.FloatField("MS1 Scan/FWHM", null=True, blank=True)
+
+    ids_used = models.IntegerField("IDs Used", null=True, blank=True)
 

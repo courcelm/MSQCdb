@@ -83,8 +83,7 @@ def getRawFiles(fileDir):
     rawFiles = [os.path.join(root, name)
                  for root, dirs, files in os.walk(fileDir)
                  for name in files
-                 if name.startswith('Promix') and (name.endswith('.RAW') or
-                                                   name.endswith('.raw'))]
+                 if 'promix' in name.lower() and name.lower().endswith('.raw')]
     return  rawFiles
 
 
@@ -119,8 +118,7 @@ def getRecentRawFiles(fileDir):
         files = [os.path.join(root, name)
                      for root, dirs, files in os.walk(directory)
                      for name in files
-                     if name.startswith('Promix') and (name.endswith('.RAW') or 
-                                                       name.endswith('.raw'))]
+                     if 'promix' in name.lower() and name.lower().endswith('.raw')]
         rawFiles.extend(files)
 
     
@@ -154,8 +152,8 @@ while True:
     # Inspect folder for new files
     rawFiles = []
     for fileDir in config['SEARCH_DIRS']:
-        #rawFiles.extend(getRawFiles(fileDir))
-        rawFiles.extend(getRecentRawFiles(fileDir))
+        rawFiles.extend(getRawFiles(fileDir))
+        #rawFiles.extend(getRecentRawFiles(fileDir))
     
     # Compute list difference with files in db and to ignore
     rawFiles = diff(rawFiles, sampleFiles)

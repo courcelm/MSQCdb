@@ -173,5 +173,5 @@ LOGGING = {
 }
 
 
-GRAPPELLI_ADMIN_TITLE = 'MSQCdb - Database and frontend for the NIST MSCQC Pipeline'
+GRAPPELLI_ADMIN_TITLE = 'MSQCdb - Database and frontend for the NIST MSQC Pipeline'
 GRAPPELLI_INDEX_DASHBOARD = 'MSQCdb.dashboard.CustomIndexDashboard'

@@ -87,8 +87,8 @@ def runNISTMSQC(logFile_fh):
     Process output is stored in the log file specified as parameter. 
     """
     
-    param = '--in_dir %s --out_dir %s --library Promix --instrument_type ORBI \
-             --search_engine OMSSA --overwrite_searches --pro_ms --log_file \
+    param = '--in_dir %s --out_dir %s --library Promix --instrument_type ORBI_HCD \
+             --search_engine omssa --overwrite_searches --updated_converter --pro_ms --log_file \
              --verbose --mode full' % (config['IN_DIR'], config['OUT_DIR'])
              
     cmd = r'%s\perl.exe run_NISTMSQC_pipeline.pl %s' % (config['PERL_PATH'],
@@ -168,6 +168,16 @@ def process(raw_file_fullPath, logFile_fh):
     NISTMSQc pipeline, metadata & report parser and stores results to
     database.
     """
+    
+    
+    print 'Storing metadata and report to database...'
+    logFile_fh.flush()
+    rawFile = getFileName() 
+    parseAndStore.parseAndStore(rawFile, raw_file_fullPath, logFile_fh)
+    print 'Done\n'
+    import sys
+    sys.exit()
+    
     
     # Be sure to run in a clean and healthy environment 
     cleanInOut()

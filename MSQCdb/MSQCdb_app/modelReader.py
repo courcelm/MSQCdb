@@ -152,6 +152,7 @@ def sanitizeName(tmp_str):
     tmp_str = tmp_str.replace('.','Dot')
     tmp_str = tmp_str.replace('\'','')
     tmp_str = tmp_str.replace('%','Percent')
+    tmp_str = tmp_str.replace('#','Nb')
     tmp_str = tmp_str.replace('__','_')
     tmp_str = tmp_str.replace ('@', 'at')
     tmp_str = tmp_str.replace ('__', '_')

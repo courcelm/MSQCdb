@@ -27,7 +27,7 @@ Edit those parameters before running
 config = dict()
 
 # Softwares path
-config['NISTMSQC_PATH'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\NISTMSQCv1_2_0_x64\NISTMSQCv1_2_0\scripts'
+config['NISTMSQC_PATH'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\NISTMSQCv1_5_0\NISTMSQCv1_5_0\scripts'
 config['PERL_PATH'] = r'C:\Perl\bin'
 config['PROTEOWIZARD_DIR'] = r'C:\Proteowizard'
 
@@ -37,7 +37,7 @@ config['IN_DIR'] = r'C:\NISTMSQC_TMP\in'
 
 # Temporary path were the NISTMSQC will generate his output
 # Note: For best performance use local drive
-config['OUT_DIR'] = r'C:\NISTMSQC_TMP\\out'
+config['OUT_DIR'] = r'C:\NISTMSQC_TMP\out'
 
 # Directory where the metadata and NISTMSQC report files will be archive
 config['ARCHIVE_DIR'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\archive'
@@ -50,9 +50,11 @@ config['TMPMODEL_DIR'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\tmpmodel'
 config['MODEL_DIR'] = r'C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb\MSQCdb_app'
 
 # Directory where the daemon will search for new raw files
-#config['SEARCH_DIR'] = r'F:\ProhitsStorage'
+#config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE',]
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
-config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
+#config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
+config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE',]
+#config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP',]
 
 # Time interval that the daemon will wait before searching for new files
 config['SEARCH_INTERVAL'] = 600
