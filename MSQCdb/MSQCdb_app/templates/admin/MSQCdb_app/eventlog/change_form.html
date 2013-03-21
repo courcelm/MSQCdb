@@ -2,10 +2,16 @@
 {% load i18n admin_static admin_modify %}
 {% load url from future %}
 {% load admin_urls %}
+{% load mytemplatetags %}
 
 {% block submit_buttons_bottom %}
+
+{% ifusergroup ms_expert %}
+{% submit_row %}
+{% endifusergroup %}
 
 {% if request.user.is_superuser %}
 {% submit_row %}
 {% endif %}
+
 {% endblock %}

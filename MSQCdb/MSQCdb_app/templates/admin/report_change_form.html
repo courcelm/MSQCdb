@@ -1,4 +1,9 @@
 {% extends "admin/change_form.html" %}
+{% load i18n admin_static admin_modify %}
+{% load url from future %}
+{% load admin_urls %}
+{% load mytemplatetags %}
+
 
 {% block extrahead %}{{ block.super }}
 {% url 'admin:jsi18n' as jsi18nurl %}
@@ -33,5 +38,19 @@ Click 'Save and continue editing' to refresh after modifications.
 
 
 
+{% endif %}
+{% endblock %}
+
+
+
+{% block submit_buttons_bottom %}
+
+{% ifusergroup editor %}
+{% submit_row %}
+{% endifusergroup %}
+
+
+{% if request.user.is_superuser %}
+{% submit_row %}
 {% endif %}
 {% endblock %}

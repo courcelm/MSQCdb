@@ -78,7 +78,7 @@ def getFileName():
 
 
 
-def runNISTMSQC(logFile_fh):
+def runNISTMSQC(logFile_fh, msmsType):
     """
     This function executes the NISTMSQC processing pipeline on the Promix file
     in config['IN_DIR'].
@@ -87,9 +87,9 @@ def runNISTMSQC(logFile_fh):
     Process output is stored in the log file specified as parameter. 
     """
     
-    param = '--in_dir %s --out_dir %s --library Promix --instrument_type ORBI_HCD \
-             --search_engine omssa --overwrite_searches --updated_converter --pro_ms --log_file \
-             --verbose --mode full' % (config['IN_DIR'], config['OUT_DIR'])
+    param = '--in_dir %s --out_dir %s --library Promix --instrument_type %s \
+             --search_engine msgf+ --overwrite_searches --updated_converter --pro_ms --log_file \
+             --verbose --mode full' % (config['IN_DIR'], config['OUT_DIR'], msmsType)
              
     cmd = r'%s\perl.exe run_NISTMSQC_pipeline.pl %s' % (config['PERL_PATH'],
                                                         param)
@@ -129,7 +129,7 @@ def testMSMS(raw_file_fullPath):
     a MGF file. If the MGF file is empty, it returns False, True otherwise.
     """
 
-    cmd = r'%s\msconvert.exe "%s" --filter "msLevel 2" --mgf -o %s --outfile testMSMS.mgf' \
+    cmd = r'%s\msconvert.exe "%s" --filter "msLevel 2" --filter "index [500,600]" --mgf -o %s --outfile testMSMS.mgf' \
         % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
 
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
@@ -142,6 +142,51 @@ def testMSMS(raw_file_fullPath):
         return False
     else:
         return True
+    
+    
+    
+    
+def testMSMStype(raw_file_fullPath):
+    """
+    This function verifies the presence of MSMS in the specified files and 
+    returns ORBI_CID, ORBI_HCD or False accordingly.
+    
+    It uses msconvert.exe from ProteoWizard to extract MSMS scans and produce
+    a MGF file. If the MGF file is empty, it returns False, ORBI_CID, ORBI_HCD
+    otherwise.
+    """
+
+
+    # Test for HCD MS/MS
+    cmd = r'%s\msconvert.exe "%s" --filter "msLevel 2" --filter "index [500,600]" --filter "activation HCD" \
+        --mgf -o %s --outfile testMSMS.mgf' \
+        % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
+
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    out, err = proc.communicate()
+    
+    # Get the MGF file size
+    b = os.path.getsize(r'%s\testMSMS.mgf' % (config['OUT_DIR']))
+    
+    if b != 0:
+        return 'ORBI_HCD'
+    else:
+        
+        # Test for CID MS/MS
+        cmd = r'%s\msconvert.exe "%s" --filter "msLevel 2" --filter "index [500,600]" --filter "activation CID" \
+        --mgf -o %s --outfile testMSMS.mgf' \
+        % (config['PROTEOWIZARD_DIR'], raw_file_fullPath, config['OUT_DIR'])
+
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        out, err = proc.communicate()
+    
+        # Get the MGF file size
+        b = os.path.getsize(r'%s\testMSMS.mgf' % (config['OUT_DIR']))
+    
+        if b != 0:
+            return 'ORBI_CID'
+        else:
+            return False
 
 
 
@@ -170,15 +215,6 @@ def process(raw_file_fullPath, logFile_fh):
     """
     
     
-    print 'Storing metadata and report to database...'
-    logFile_fh.flush()
-    rawFile = getFileName() 
-    parseAndStore.parseAndStore(rawFile, raw_file_fullPath, logFile_fh)
-    print 'Done\n'
-    import sys
-    sys.exit()
-    
-    
     # Be sure to run in a clean and healthy environment 
     cleanInOut()
     
@@ -191,12 +227,14 @@ def process(raw_file_fullPath, logFile_fh):
     # Test file integrity
     if testIntegrity(raw_file_fullPath):
         
-        # Test file for MSMS
-        if testMSMS(raw_file_fullPath):
+        # Test file for MSMS type 
+        msmsType = testMSMStype(raw_file_fullPath)
+        
+        if msmsType != False:
 
             print 'Running NISTMSQC...' 
             logFile_fh.flush()   
-            runNISTMSQC(logFile_fh)
+            runNISTMSQC(logFile_fh, msmsType)
             print 'Done\n'
             
             print 'Storing metadata and report to database...'

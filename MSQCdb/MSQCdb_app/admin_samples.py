@@ -180,6 +180,34 @@ class MetaCalibrationFileValueFtCalInline(SampleStackedInline):
 
 
 
+class MetaTuneDataInline(SampleStackedInline):
+    """
+    Admin config for InLine
+    """
+    
+    model = MSQCdbModels.MetaTuneData
+
+
+class MetaCalibrationDataInline(SampleStackedInline):
+    """
+    Admin config for InLine
+    """
+    
+    model = MSQCdbModels.MetaCalibrationData
+
+
+
+
+class MetaConfigurationDataInline(SampleStackedInline):
+    """
+    Admin config for InLine
+    """
+    
+    model = MSQCdbModels.MetaConfigurationData
+
+
+
+
 class ReportSpectrumCountInline(SampleStackedInline):
     """
     Admin config for InLine
@@ -749,6 +777,26 @@ class ReportOtherIonClusterStatisticInline(SampleStackedInline):
 
 
 
+class ReportHcdMetricInline(SampleStackedInline):
+    """
+    Admin config for InLine
+    """
+        
+    model = MSQCdbModels.ReportHcdMetric
+    
+    
+    
+    
+class ReportPeakWidthForMiddleHalfOfSignalForIdInline(SampleStackedInline):
+    """
+    Admin config for InLine
+    """
+        
+    model = MSQCdbModels.ReportPeakWidthForMiddleHalfOfSignalForId    
+
+               
+
+
 
 class SampleAdmin(admin.ModelAdmin):
     """
@@ -767,6 +815,9 @@ class SampleAdmin(admin.ModelAdmin):
                MetaCalibrationFileValueResEjectInline,
                MetaCalibrationFileValueMassInline,
                MetaCalibrationFileValueFtCalInline,
+               MetaTuneDataInline,
+               MetaCalibrationDataInline,
+               MetaConfigurationDataInline,
                ReportSpectrumCountInline, 
                ReportFirstAndLastMs1Rt_MinInline,
                ReportTrypticPeptideCountInline,
@@ -824,6 +875,8 @@ class SampleAdmin(admin.ModelAdmin):
                ReportTop10NoidIonInline,
                ReportNewMetricInline,
                ReportOtherIonClusterStatisticInline,
+               ReportHcdMetricInline,
+               ReportPeakWidthForMiddleHalfOfSignalForIdInline,
                
                ]
     

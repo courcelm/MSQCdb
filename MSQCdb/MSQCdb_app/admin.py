@@ -27,8 +27,10 @@ This is the Admin module for the MSQCdb.
 from django import forms
 from django.contrib import admin
 from django.contrib.admin.sites import site
+from django.contrib import messages
 from django.db.models import get_app, get_models
 from django.utils.text import wrap
+
 
 
 
@@ -63,7 +65,11 @@ class EventLogAdmin(admin.ModelAdmin):
         if getattr(obj, 'created_by', None) is None:
             obj.created_by = request.user
             
-        obj.save()
+        if request.user.is_superuser or obj.created_by == request.user:
+            obj.save()
+        else:
+            messages.error(request, '%s is not allowed to modify this event. Ignore message below.'  
+                                   % (request.user.username))
         
     
     def truncatedDescription(self, obj):
@@ -101,6 +107,9 @@ class ChartSeriesForm(forms.ModelForm):
             help_text='Change table to activate.')
 
 
+    
+
+
 
 
 class ChartSeriesInline(admin.TabularInline):
@@ -115,6 +124,7 @@ class ChartSeriesInline(admin.TabularInline):
     form = ChartSeriesForm
     
 
+    
 
     
 class ChartEventFlagInline(admin.TabularInline):
@@ -172,8 +182,10 @@ class ChartAdmin(admin.ModelAdmin):
         ## Store the obj creator
         if getattr(obj, 'created_by', None) is None:
             obj.created_by = request.user
-            
-        obj.save()
+        
+        if request.user.is_superuser or request.user.groups.filter(name='editor').exists():            
+            obj.save()    
+        
         
     
     def seriesString(self, obj):
@@ -279,7 +291,9 @@ class ReportAdmin(admin.ModelAdmin):
         if getattr(obj, 'created_by', None) is None:
             obj.created_by = request.user
             
-        obj.save()
+        if request.user.is_superuser or request.user.groups.filter(name='editor').exists():            
+            obj.save()
+            
         
     def truncatedDescription(self, obj):
         lines = wrap(obj.description, 200).split('\n')
