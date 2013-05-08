@@ -149,31 +149,36 @@ ignoreFiles = getIgnoreFiles()
 # Daemon infinite loop
 while True:
     
-    # Inspect folder for new files
-    rawFiles = []
-    for fileDir in config['SEARCH_DIRS']:
-        rawFiles.extend(getRawFiles(fileDir))
-        #rawFiles.extend(getRecentRawFiles(fileDir))
-    
-    # Compute list difference with files in db and to ignore
-    rawFiles = diff(rawFiles, sampleFiles)
-    rawFiles = diff(rawFiles, ignoreFiles)
-
-    # Log list of files    
-    print strftime("%Y-%m-%d %H:%M:%S", localtime()) + ' --  ' + \
-                    str(len(rawFiles)) + " files to process: " + \
-                    str(rawFiles) + '\n'
-    logFile_fh.flush() 
-    
-    
-    # Process new files
-    for raw_file_fullPath in rawFiles:
-        processing.process(raw_file_fullPath, logFile_fh)
+    try:
+        # Inspect folder for new files
+        rawFiles = []
+        for fileDir in config['SEARCH_DIRS']:
+            #rawFiles.extend(getRawFiles(fileDir))
+            rawFiles.extend(getRecentRawFiles(fileDir))
         
-        # Add to file in the list of files stored in the database
-        sampleFiles.append(raw_file_fullPath)
+        # Compute list difference with files in db and to ignore
+        rawFiles = diff(rawFiles, sampleFiles)
+        rawFiles = diff(rawFiles, ignoreFiles)
     
-    
+        # Log list of files    
+        print strftime("%Y-%m-%d %H:%M:%S", localtime()) + ' --  ' + \
+                        str(len(rawFiles)) + " files to process: " + \
+                        str(rawFiles) + '\n'
+        logFile_fh.flush() 
+        
+        
+        # Process new files
+        for raw_file_fullPath in rawFiles:
+            processing.process(raw_file_fullPath, logFile_fh)
+            
+            # Add to file in the list of files stored in the database
+            sampleFiles.append(raw_file_fullPath)
+            
+            #sys.exit()
+            
+    except EnvironmentError: # parent of IOError, OSError *and* WindowsError where available
+        print('error')
+            
     # Sleep for the specified amount of time
     time.sleep(config['SEARCH_INTERVAL'])
 

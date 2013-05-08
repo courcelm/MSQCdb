@@ -33,14 +33,15 @@ config['PROTEOWIZARD_DIR'] = r'C:\Proteowizard'
 
 # Temporary path were the raw file is store for processing
 # Note: For best performance use local drive
-config['IN_DIR'] = r'C:\NISTMSQC_TMP\in'
+config['SUFFIX'] = r''
+config['IN_DIR'] = r'C:\NISTMSQC_TMP\in' + config['SUFFIX']
 
 # Temporary path were the NISTMSQC will generate his output
 # Note: For best performance use local drive
-config['OUT_DIR'] = r'C:\NISTMSQC_TMP\out'
+config['OUT_DIR'] = r'C:\NISTMSQC_TMP\out' + config['SUFFIX']
 
 # Directory where the metadata and NISTMSQC report files will be archive
-config['ARCHIVE_DIR'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\archive'
+config['ARCHIVE_DIR'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\archive' + config['SUFFIX']
 
 # Directory to save the temporary data model generated when metadata and 
 # report files are parsed.
@@ -51,16 +52,20 @@ config['MODEL_DIR'] = r'C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQ
 
 # Directory where the daemon will search for new raw files
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE',]
+#config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP',]
+#config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS',]
+#config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE',]
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
-config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE',]
+config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE', r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
+#config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\Tyers_ProhitsStorage\QEXACTIVE', r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE']
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP',]
 
 # Time interval that the daemon will wait before searching for new files
 config['SEARCH_INTERVAL'] = 600
 
 # Number of days from cuurent time that the daemon is looking for new files
-config['SEARCH_MAXDAY'] = 7
+config['SEARCH_MAXDAY'] = 20
 
 
 

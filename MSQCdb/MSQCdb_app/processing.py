@@ -43,9 +43,9 @@ def archive(rawFile):
     config['OUT_DIR'] to config['ARCHIVE_DIR'].
     """
     
-    shutil.copy(r'%s\out_report.msqc' % (config['OUT_DIR']), 
-                r'%s\%s.msqc' % (config['ARCHIVE_DIR'], rawFile) )
-    shutil.copy(r'%s\out_report.msqc.LOG' % (config['OUT_DIR']), 
+    shutil.copy(r'%s\out%s_report.msqc' % (config['OUT_DIR'], config['SUFFIX']),
+                r'%s\%s.msqc' % (config['ARCHIVE_DIR'], rawFile))
+    shutil.copy(r'%s\out%s_report.msqc.LOG' % (config['OUT_DIR'], config['SUFFIX']),
                 r'%s\%s.msqc.LOG' % (config['ARCHIVE_DIR'], rawFile) )
     shutil.copy(r'%s\%s.metadata' % (config['OUT_DIR'], rawFile), 
                 r'%s' % (config['ARCHIVE_DIR']) )

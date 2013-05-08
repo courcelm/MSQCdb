@@ -55,6 +55,8 @@ class EventLogAdmin(admin.ModelAdmin):
     
     list_filter = ('event_type', 'instrument_name', 'created_by')
     
+    save_as = True
+    
     search_fields = ('name', 'description')
     
     

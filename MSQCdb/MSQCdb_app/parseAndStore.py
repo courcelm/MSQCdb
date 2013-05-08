@@ -216,7 +216,8 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict,
             
             # Fix value for div by 0 or infinite value string representation
             if value == '1.#J' or value == '-1.#J' or value == '1.#IO' or \
-                value == '1.$' or value == '-1.$' or value == '-1.#IO':
+                value == '1.$' or value == '-1.$' or value == '-1.#IO' or \
+                value == '-1.$e+0' or value == '1.$e+0':
                 value = '0.0'
 
 
@@ -373,7 +374,7 @@ def parseAndStore(rawFile, raw_file_fullPath, logFile_fh):
 
     # Read and parse metadata and report files
     metaFile = r'%s\%s.metadata' % (config['OUT_DIR'], rawFile)
-    reportFile = r'%s\out_report.msqc' % (config['OUT_DIR'])
+    reportFile = r'%s\out%s_report.msqc' % (config['OUT_DIR'], config['SUFFIX'])
 
     metaValues = parse(fh_out, metaFile, 'Meta', ':', fieldsModelDict, 
                        fieldsIgnoreDict)
