@@ -243,6 +243,7 @@ def process(raw_file_fullPath, logFile_fh):
             parseAndStore.parseAndStore(rawFile, raw_file_fullPath, logFile_fh)
             print 'Done\n'
             
+            
             print 'Archiving and Cleaning IN and OUT...'    
             archive(rawFile)
             cleanInOut()

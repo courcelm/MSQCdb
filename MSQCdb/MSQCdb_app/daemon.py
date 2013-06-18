@@ -153,8 +153,8 @@ while True:
         # Inspect folder for new files
         rawFiles = []
         for fileDir in config['SEARCH_DIRS']:
-            #rawFiles.extend(getRawFiles(fileDir))
-            rawFiles.extend(getRecentRawFiles(fileDir))
+            rawFiles.extend(getRawFiles(fileDir))
+            #rawFiles.extend(getRecentRawFiles(fileDir))
         
         # Compute list difference with files in db and to ignore
         rawFiles = diff(rawFiles, sampleFiles)
@@ -168,6 +168,7 @@ while True:
         
         
         # Process new files
+        time.sleep(60)  # Sleep 1 min to be sure that RAW file are completely copied to the network drive.
         for raw_file_fullPath in rawFiles:
             processing.process(raw_file_fullPath, logFile_fh)
             

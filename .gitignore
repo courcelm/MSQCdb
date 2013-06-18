@@ -8,3 +8,9 @@ sqlite.db
 MSQCdb/MSQCdb_app/migrations
 sqlite.db
 sqlite.db.old
+sqlite_20130607.db
+sqlite_20130617.db
+MSQCdb/settings_postgresql.py
+MSQCdb/settings_mysql.py
+MSQCdb/settings.py
+MSQCdb/settings.py

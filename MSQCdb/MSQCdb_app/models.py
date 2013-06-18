@@ -60,7 +60,7 @@ class Sample(models.Model):
     
     raw_file = models.CharField(max_length=1000)
     
-    raw_file_fullPath = models.CharField(max_length=1000, unique=True)
+    raw_file_fullPath = models.CharField(max_length=1000)
     
     instrument_name = models.ForeignKey(Instrument)
 
@@ -295,9 +295,9 @@ class MetadataOverview(models.Model):
 
     sha1_hash = models.CharField("Sha1 hash", max_length=40, null=True, blank=True)
 
-    instrument_name = models.CharField("Instrument Name", max_length=50, null=True, blank=True)
+    instrument_name = models.CharField("Instrument Name", max_length=100, null=True, blank=True)
 
-    instrument_serial_number = models.CharField("Instrument Serial Number", max_length=50, null=True, blank=True)
+    instrument_serial_number = models.CharField("Instrument Serial Number", max_length=100, null=True, blank=True)
 
     instrument_model = models.CharField("Instrument Model", max_length=50, null=True, blank=True)
 
@@ -307,9 +307,9 @@ class MetadataOverview(models.Model):
 
     operator = models.CharField("Operator", max_length=50, null=True, blank=True)
 
-    instrument_software_version = models.CharField("Instrument Software Version", max_length=10, null=True, blank=True)
+    instrument_software_version = models.CharField("Instrument Software Version", max_length=50, null=True, blank=True)
 
-    instrument_hardware_version = models.CharField("Instrument Hardware Version", max_length=10, null=True, blank=True)
+    instrument_hardware_version = models.CharField("Instrument Hardware Version", max_length=50, null=True, blank=True)
 
 
 
@@ -4051,7 +4051,7 @@ class MetaTuneData(models.Model):
         verbose_name = "Meta:  Tune Data"
 
 
-    sample = models.ForeignKey(Sample, related_name='                    %(class)s_Meta')
+    sample = models.ForeignKey(Sample, related_name='%(class)s_Meta')
 
     spray_voltage_plus = models.IntegerField("Spray Voltage (+)", null=True, blank=True)
 
@@ -4096,7 +4096,7 @@ class MetaCalibrationData(models.Model):
         verbose_name = "Meta:  Calibration Data"
 
 
-    sample = models.ForeignKey(Sample, related_name='                    %(class)s_Meta')
+    sample = models.ForeignKey(Sample, related_name='%(class)s_Meta')
 
     mass_caldot_plus_age_d = models.FloatField("Mass Cal. (+) age (d)", null=True, blank=True)
 
@@ -4431,7 +4431,7 @@ class MetaConfigurationData(models.Model):
         verbose_name = "Meta:  Configuration Data"
 
 
-    sample = models.ForeignKey(Sample, related_name='                    %(class)s_Meta')
+    sample = models.ForeignKey(Sample, related_name='%(class)s_Meta')
 
     preamp_protect_mode = models.IntegerField("Preamp Protect Mode", null=True, blank=True)
 
@@ -6061,7 +6061,7 @@ class ReportPeakWidthForMiddleHalfOfSignalForId(models.Model):
         verbose_name = "Report: Peak Width For Middle Half Of Signal For Id"
 
 
-    sample = models.ForeignKey(Sample, related_name='                    %(class)s_Report')
+    sample = models.ForeignKey(Sample, related_name='%(class)s_Report')
 
     median_value = models.FloatField("Median Value", null=True, blank=True)
 
@@ -6088,4 +6088,3 @@ class ReportPeakWidthForMiddleHalfOfSignalForId(models.Model):
     ms1_scanfwhm = models.FloatField("MS1 Scan/FWHM", null=True, blank=True)
 
     ids_used = models.IntegerField("IDs Used", null=True, blank=True)
-
