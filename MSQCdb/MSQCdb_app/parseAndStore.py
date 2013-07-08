@@ -389,29 +389,29 @@ def parseAndStore(rawFile, raw_file_fullPath, logFile_fh):
     if reportValues.has_key('ReportSpectrumCount'):
         ms1 = reportValues['ReportSpectrumCount']['ms1_scansfull']
         
-    #if ms1 == '0':
-    #    # Add file to ignore list
-    #    fh_out = open(config['ARCHIVE_DIR'] + r'\ignoreFiles.txt', 'a')
-    #    fh_out.write('%s***\n' % (raw_file_fullPath))
-    #    fh_out.close()
-    #        
-    #    print '%s has no MS1 (NISTMSQC). File was added to ignore list\n' \
-    #        % (raw_file_fullPath)
-    #    logFile_fh.flush()
-    #    
-    #else:
-    ## Store objects in db
-    if storeCheck(reportValues) and storeCheck(metaValues):
+    if ms1 == '0':
+        # Add file to ignore list
+        fh_out = open(config['ARCHIVE_DIR'] + r'\ignoreFiles.txt', 'a')
+        fh_out.write('%s***\n' % (raw_file_fullPath))
+        fh_out.close()
             
-        # Create the sample object
-        instrumentName = metaValues['MetadataOverview']['instrument_name']
-        experimentdate = metaValues['MetadataOverview']['experimentdate']
+        print '%s has no MS1 (NISTMSQC). File was added to ignore list\n' \
+            % (raw_file_fullPath)
+        logFile_fh.flush()
+        
+    else:
+        # Store objects in db
+        if storeCheck(reportValues) and storeCheck(metaValues):
+        
+            # Create the sample object
+            instrumentName = metaValues['MetadataOverview']['instrument_name']
+            experimentdate = metaValues['MetadataOverview']['experimentdate']
             
             
-        sample_obj = createSample(rawFile, raw_file_fullPath, 
+            sample_obj = createSample(rawFile, raw_file_fullPath, 
                                       instrumentName, experimentdate)
             
-        # Save to database
-        storeInDB(reportValues, sample_obj)
-        storeInDB(metaValues, sample_obj)
+            # Save to database
+            storeInDB(reportValues, sample_obj)
+            storeInDB(metaValues, sample_obj)
     

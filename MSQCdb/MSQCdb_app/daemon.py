@@ -24,6 +24,7 @@ The daemon stores STDOUT, STDERR to a log file.
 
 
 # Import standard librariesdjang
+import scandir
 import os
 import sys
 import time
@@ -81,7 +82,7 @@ def getRawFiles(fileDir):
     
     # Inspect folder for Promix files
     rawFiles = [os.path.join(root, name)
-                 for root, dirs, files in os.walk(fileDir)
+                 for root, dirs, files in scandir.walk(fileDir)
                  for name in files
                  if 'promix' in name.lower() and name.lower().endswith('.raw')]
     return  rawFiles
@@ -152,6 +153,7 @@ while True:
     try:
         # Inspect folder for new files
         rawFiles = []
+        #rawFiles.extend(getRawFiles(r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE\tyers_data'))
         for fileDir in config['SEARCH_DIRS']:
             rawFiles.extend(getRawFiles(fileDir))
             #rawFiles.extend(getRecentRawFiles(fileDir))

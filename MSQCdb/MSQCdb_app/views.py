@@ -87,7 +87,9 @@ def chartView(request, chartId, position):
     c = Context({ 'chart_data_link': chart_data_link, 'position': position,
                  'chartObject': chartObject, 'series': series,
                  'header': header,
-                 'events': events,  'MEDIA_URL': settings.MEDIA_URL})
+                 'events': events,
+                 'plotMeanStd': chartObject.plotMeanStd,  
+                 'MEDIA_URL': settings.MEDIA_URL})
     
     return HttpResponse(t.render(c))
 

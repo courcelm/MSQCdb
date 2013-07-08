@@ -25,6 +25,7 @@ This is the data model module for the MSQCdb.
 from django.db import models
 from django.contrib.auth.models import User
 from django.core import urlresolvers
+from django.utils.html import escape
 
 
 
@@ -125,6 +126,8 @@ class Chart(models.Model):
     
     yAxisTitle = models.CharField('Y axis title', help_text = 'Title of the y\
                                      axis.', max_length=25)
+    
+    plotMeanStd = models.BooleanField(u'Plot Mean (\u03BC) / Standard deviation (\u03C3)')
     
     created_by = models.ForeignKey(User, null=True, blank=True,
                                    related_name='%(class)s_created_by', 

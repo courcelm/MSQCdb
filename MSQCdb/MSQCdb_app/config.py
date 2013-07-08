@@ -62,10 +62,10 @@ config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE', r'G:\
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP',]
 
 # Time interval that the daemon will wait before searching for new files
-config['SEARCH_INTERVAL'] = 600
+config['SEARCH_INTERVAL'] = 180
 
 # Number of days from cuurent time that the daemon is looking for new files
-config['SEARCH_MAXDAY'] = 20
+config['SEARCH_MAXDAY'] = 30
 
 
 

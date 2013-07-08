@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from MSQCdb.MSQCdb_app.views import *
 
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 urlpatterns = patterns('',
     url(r'^chartDataJSON/(?P<seriesId>\d+)/.*$', chartDataJSON),                       

@@ -15,30 +15,31 @@
 {% endif %}
 
 <script type="text/javascript">
-		
+
 
 
 
 var flags{{position}} = [];
 var seriesOptions{{position}} = [];
-var seriesCounter{{position}} = 0;		
+var seriesCounter{{position}} = 0;
+var stats{{position}} = 0;
 
 $(document).ready(function() {
-	
-	
+
+
 	// Get data for series to display on the chart
     var names{{position}} = [ {% for s in series %}'{{s.name}}???{{s.pk}}' {% if forloop.last %}{% else %},{% endif %}{% endfor %} ];
 
     $.each(names{{position}}, function(i, name) {
 		seriesId = name.split("???")[1];
-		
-		
-		
+
+
+
         $.getJSON('{{ chart_data_link }}/' + seriesId + '/?&callback=?',    function(data) {
 
 			seriesId = name.split("???")[1];
 			seriesName = name.split("???")[0];
-			
+
 
             seriesOptions{{position}}[i] = {
                 name: seriesName,
@@ -52,20 +53,38 @@ $(document).ready(function() {
             // As we're loading the data asynchronously, we don't know what order it will arrive. So
             // we keep a counter and create the chart when all the data is loaded.
             seriesCounter{{position}}++;
-            
+
             $("#loadingmsg{{position}}").append("<br />Retrieving data (" + seriesCounter{{position}} + "/" + names{{position}}.length +  "):  " + seriesName);
 
             if (seriesCounter{{position}} == names{{position}}.length) {
+
+            	{%if plotMeanStd %}
+            	var valuesArray = [];
+            	$.each(data, function (key, val) {
+            		valuesArray.push(val[1]);
+    			});
+
+
+    			computeStats = function(a) {
+				  var r = {mean: 0, variance: 0, deviation: 0}, t = a.length;
+				  for(var m, s = 0, l = t; l--; s += a[l]);
+				  for(m = r.mean = s / t, l = t, s = 0; l--; s += Math.pow(a[l] - m, 2));
+				  return r.deviation = Math.sqrt(r.variance = s / t), r;
+				}
+
+				stats{{position}} = computeStats(valuesArray);
+				{% endif %}
+
                 createChart{{position}}();
             }
         });
     });
-    
-    
-    
-    
+
+
+
+
     // Get Events to be displayed as flag on the chart
-	flags{{position}} =  [ 
+	flags{{position}} =  [
 	{% for event in events %}
 		    {
 				type: 'flags',
@@ -101,25 +120,25 @@ $(document).ready(function() {
 			},
 	{% endfor %}
 	]
-    
-});		
+
+});
 
 
 
-			
+
 // create the chart when all data is loaded
-function createChart{{position}}() {		
-		
+function createChart{{position}}() {
+
 		Highcharts.setOptions({
     		global: {
         		useUTC: true
     		}
 		});
 
-		
+
 		// Create the chart
 		window.chart{{position}} = new Highcharts.StockChart({
-			
+
 		    chart: {
 		        renderTo: 'container{{position}}',
 		        type: 'line',
@@ -147,10 +166,42 @@ function createChart{{position}}() {
                 ordinal: false
 
             },
+
 		    yAxis: {
 		        title: {
 		            text: '{{ chartObject.yAxisTitle }}'
-		        }
+		        },
+		        {%if plotMeanStd %}
+		        plotLines : [
+		        	{
+						value : stats{{position}}.mean,
+						color : 'green',
+						dashStyle : 'shortdash',
+						width : 1,
+						label : {
+							text : '\u03BC'
+						}
+					},
+					{
+						value : stats{{position}}.mean + stats{{position}}.deviation,
+						color : 'red',
+						dashStyle : 'shortdash',
+						width : 1,
+						label : {
+							text : '+\u03C3'
+						}
+					},
+					{
+						value : stats{{position}}.mean - stats{{position}}.deviation,
+						color : 'red',
+						dashStyle : 'shortdash',
+						width : 1,
+						label : {
+							text : '-\u03C3'
+						}
+					}
+				]
+				{% endif %}
 		    },
 			scrollbar : {
 				enabled : false
@@ -165,12 +216,12 @@ function createChart{{position}}() {
                     }
                 }
             },
-			
-			
+
+
 			series: seriesOptions{{position}}.concat(flags{{position}})
-			
+
 		});
-		
+
 
 
 }
