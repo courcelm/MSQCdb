@@ -22,6 +22,7 @@ This module generates view to display information contained in the database.
 
 
 # Import standard libraries
+from datetime import datetime, timedelta
 
 
 # Import Django related libraries
@@ -125,6 +126,37 @@ def chartDataJSON(request, seriesId):
     return HttpResponse(t.render(c), mimetype='application/json')
     
 
+
+@login_required
+def reservationJSON(request):
+    """
+    This function generates a JSON output of data to generate 
+    reservation calendar.
+    """
+    how_many_days = 180
+    reservations = MSQCdbModels.Reservation.objects.filter(\
+                        scheduled_start_date__gte=datetime.now()-timedelta(days=how_many_days))
+    
+    t = loader.get_template('reservation_json.html')
+    c = Context({ 'reservations': reservations})
+    
+    return HttpResponse(t.render(c), mimetype='application/json')
+
+
+@login_required
+def reservationCalendar(request):
+    """
+    This function generates a reservation calendar.
+    """
+    how_many_days = 180
+    reservationInstruments = MSQCdbModels.Reservation.objects.filter(\
+                        scheduled_start_date__gte=datetime.now()-timedelta(days=how_many_days))\
+                        .values('instrument__pk', 'instrument__instrument_name').distinct()
+    
+    t = loader.get_template('reservation_calendar.html')
+    c = Context({'reservationInstruments': reservationInstruments})
+    
+    return HttpResponse(t.render(c), mimetype='text/html')
 
 
 def fieldOptions(request, modelName):

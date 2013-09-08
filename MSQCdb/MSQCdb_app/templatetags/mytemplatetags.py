@@ -49,6 +49,15 @@ def splitLine(value, lineLength = 30 ):
     return mark_safe('<br />'.join(wraplines))
 
 
+@register.filter(is_safe=True)
+def int2color(value):
+    
+    colors = ['black', 'darkcyan', 'darkgreen', 'darkred', 'darkslateblue',
+               'dodgerblue', 'mediumaquamarine', 'mediumvioletred', 'olive', 'slategray',
+               'navy', 'teal', 'limegreen', 'lightsteelblue', 'indianred',
+               ]
+    
+    return colors[value % len(colors)]
 
 
 from django import template

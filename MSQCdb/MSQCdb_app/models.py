@@ -6091,3 +6091,38 @@ class ReportPeakWidthForMiddleHalfOfSignalForId(models.Model):
     ms1_scanfwhm = models.FloatField("MS1 Scan/FWHM", null=True, blank=True)
 
     ids_used = models.IntegerField("IDs Used", null=True, blank=True)
+
+    
+    
+class Reservation(models.Model):
+    """
+    Stores instrument reservation and scheduling.
+    """
+
+    created_by = models.ForeignKey(User, null=True, blank=True,
+                                   related_name='%(class)s_created_by', 
+                                   editable=False)
+    
+    creation_date = models.DateTimeField(auto_now_add=True)
+    
+    modification_date = models.DateTimeField('Modified at', auto_now=True)
+    
+    instrument = models.ForeignKey(Instrument)
+    
+    time_needed = models.FloatField('Time_needed (days)')
+    
+    sample_count = models.IntegerField(blank=True, null=True)
+    
+    comment = models.TextField(help_text='Chromatography, deadline, assistance required, \
+                                project details, etc.',
+                               blank=True, null=True)
+    
+    
+    prefered_start_date = models.DateField('Prefered start date', 
+                                               blank=True, null=True)
+    
+    scheduled_start_date = models.DateField('Scheduled start date', 
+                                                blank=True, null=True)
+    
+    scheduled_end_date = models.DateField('Scheduled end date', 
+                                              blank=True, null=True)

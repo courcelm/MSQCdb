@@ -166,7 +166,7 @@ while True:
         print strftime("%Y-%m-%d %H:%M:%S", localtime()) + ' --  ' + \
                         str(len(rawFiles)) + " files to process: " + \
                         str(rawFiles) + '\n'
-        logFile_fh.flush() 
+        logFile_fh.flush()
         
         
         # Process new files

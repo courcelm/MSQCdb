@@ -8,4 +8,6 @@ urlpatterns = patterns('',
     url(r'^chartView/(?P<chartId>.*)/(?P<position>.*)$', chartView),
     url(r'^reportView/(?P<reportId>.*)$', reportView),
     url(r'^fieldOptions/(?P<modelName>.*)$', fieldOptions),
+    url(r'^reservationJSON/$', reservationJSON),
+    url(r'^reservationCalendar/$', reservationCalendar),
 )

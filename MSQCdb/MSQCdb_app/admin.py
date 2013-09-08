@@ -305,6 +305,136 @@ class ReportAdmin(admin.ModelAdmin):
     truncatedDescription.allow_tags = True
 
 
+class ReservationForm(forms.ModelForm):
+
+    class Meta:
+
+        model = MSQCdbModels.Reservation
+
+
+
+    def clean(self):
+ 
+        if self.cleaned_data['scheduled_end_date'] < self.cleaned_data['scheduled_start_date']:
+            msg = u"Scheduled end date is earlier than start date."
+            raise forms.ValidationError(msg)
+ 
+        return self.cleaned_data
+
+
+
+
+class ReservationAdmin(admin.ModelAdmin):
+    """
+    Admin config for Reservation model.
+    """
+    
+    actions=['really_delete_selected']
+
+    datetime = 'modification_date'
+    
+    form = ReservationForm
+
+    
+    list_display   = ('pk','created_by', 'modification_date', 'instrument', 
+                      'time_needed', 'sample_count', 'comment',
+                      'prefered_start_date', 'scheduled_start_date',
+                      'scheduled_end_date')
+
+    list_filter = ('created_by', 'instrument')
+    
+    search_fields = ('comment',)
+    
+    
+
+    
+    
+    def delete_model(self, request, obj):
+        """
+        Checks permission before deleting a reservation.
+        """
+        
+        if request.user.is_superuser or obj.created_by == request.user or \
+           request.user.groups.filter(name='ms_scheduling').count() == 1:
+            obj.delete()
+        else:
+            self.message_user(request, "Permission denied. Reservation was not deleted.",
+                              level=messages.ERROR)
+           
+    
+    
+    def get_actions(self, request):
+        """
+        From http://stackoverflow.com/questions/1471909/django-model-delete-not-triggered
+        """
+        actions = super(ReservationAdmin, self).get_actions(request)
+        del actions['delete_selected']
+        return actions
+
+
+    def really_delete_selected(self, request, queryset):
+        """
+        Limit deletion of multiple reservations by permission
+        """
+        
+        count = 0
+        for obj in queryset:
+            if request.user.is_superuser or obj.created_by == request.user or \
+               request.user.groups.filter(name='ms_scheduling').count() == 1:
+                obj.delete()
+                count += 1
+
+        message_bit = "%s reservation entries were" % count
+        self.message_user(request, "%s successfully deleted." % message_bit)
+    really_delete_selected.short_description = "Delete selected reservations"
+
+    
+    def get_changelist_form(self, request, **kwargs):
+        return ReservationForm
+    
+    def get_readonly_fields(self, request, obj=None):
+        """
+        This method sets some fields read only based on user group. 
+        """
+                
+        readonly_fields = list(self.readonly_fields)
+        
+        if not request.user.is_superuser and \
+           not request.user.groups.filter(name='ms_scheduling').count() == 1:
+            readonly_fields.extend(['scheduled_start_date'])
+            readonly_fields.extend(['scheduled_end_date'])
+    
+        return readonly_fields
+    
+    
+    def changelist_view(self, request, extra_context=None):
+        
+        self.list_editable = list() # Reset
+        # Bug fix - Some how this vaue stay set between users sessions
+        
+        if request.user.is_superuser or \
+           request.user.groups.filter(name='ms_scheduling').count() == 1:
+            self.list_editable = ('scheduled_start_date', 'scheduled_end_date')
+        
+        return super(ReservationAdmin, self).changelist_view(request, extra_context)
+    
+    # Save the creator of the object
+    def save_model(self, request, obj, form, change):
+
+        ## Store the obj creator
+        if getattr(obj, 'created_by', None) is None:
+            obj.created_by = request.user
+            
+        if request.user.is_superuser or obj.created_by == request.user or \
+            request.user.groups.filter(name='ms_scheduling').count() == 1:
+            
+            if obj.scheduled_end_date < obj.scheduled_start_date:
+                messages.error(request, 'Error: Scheduled end date is earlier than start date.')
+            else:
+                obj.save()
+        else:
+            messages.error(request, '%s is not allowed to modify this reservation.'  
+                                   % (request.user.username))
     
 
 ## Register admin panels
@@ -312,3 +442,4 @@ admin.site.register(MSQCdbModels.EventLog, EventLogAdmin)
 admin.site.register(MSQCdbModels.Sample, SampleAdmin)
 admin.site.register(MSQCdbModels.Chart, ChartAdmin)
 admin.site.register(MSQCdbModels.Report, ReportAdmin)
+admin.site.register(MSQCdbModels.Reservation, ReservationAdmin)

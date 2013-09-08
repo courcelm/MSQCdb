@@ -1,0 +1,192 @@
+<!doctype html>
+
+<head>
+
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+	<title>MSQCdb - MS instruments schedule</title>
+
+
+
+	<script src='/media/js/dhtmlxScheduler_v40_std_130813/codebase/dhtmlxscheduler.js' type="text/javascript" charset="utf-8"></script>
+
+	<script src='/media/js/dhtmlxScheduler_v40_std_130813/codebase/ext/dhtmlxscheduler_timeline.js' type="text/javascript" charset="utf-8"></script>
+
+	<link rel='stylesheet' type='text/css' href='/media/js/dhtmlxScheduler_v40_std_130813/codebase/dhtmlxscheduler.css'>
+
+	<script src="/media/js/dhtmlxScheduler_v40_std_130813/codebase/ext/dhtmlxscheduler_minical.js" type="text/javascript" charset="utf-8"></script>
+
+
+	<style type="text/css" media="screen">
+
+		html, body{
+
+			margin:0;
+
+			padding:0;
+
+			height:100%;
+
+			overflow:hidden;
+
+		}
+
+		.dhx_cal_container.dhx_mini_calendar .dhx_month_head.dhx_year_event {
+			background-color: CornflowerBlue;
+			color: white;
+		}
+
+
+	</style>
+
+
+
+	<script type="text/javascript" charset="utf-8">
+
+		function init() {
+
+			scheduler.locale.labels.timeline_tab = "Timeline";
+
+			scheduler.locale.labels.section_custom="Section";
+
+			scheduler.config.readonly = true;
+
+			scheduler.config.xml_date="%Y-%m-%d %H:%i";
+			
+			scheduler.config.show_loading = true;
+			
+			
+
+			//===============
+
+			//Configuration
+
+			//===============
+
+			var section_id=[
+
+				{% for obj in reservationInstruments %}
+				{key:{{obj.instrument__pk}}, label:"{{obj.instrument__instrument_name}}"},
+				{% endfor %}
+			];
+
+
+
+			scheduler.createTimelineView({
+
+				name:	"timeline",
+
+				x_unit:	"day",
+
+				x_date:	"%D, %d %M",
+
+				x_step:	1,
+
+				x_size: 14,
+
+				y_unit:	section_id,
+
+				y_property:	"section_id",
+
+				render:"bar",
+				
+				event_dy: "full"
+
+			});
+
+
+
+			
+
+			
+
+			//===============
+
+			//Data loading
+
+			//===============
+
+
+			function getMonday(d) {
+  				d = new Date(d);
+  				var day = d.getDay(),
+			    diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+  				return new Date(d.setDate(diff));
+			}
+
+
+			scheduler.init('scheduler_here',getMonday(new Date()),"timeline");
+
+			scheduler.load("/MSQCdb/reservationJSON/","json");
+
+		}
+
+		function show_minical(){
+
+		if (scheduler.isCalendarVisible())
+
+			scheduler.destroyCalendar();
+
+		else
+
+			scheduler.renderCalendar({
+
+				position:"dhx_minical_icon",
+
+				date:scheduler._date,
+
+				navigation:true,
+
+				handler:function(date,calendar){
+
+					scheduler.setCurrentView(date);
+
+					scheduler.destroyCalendar()
+
+				}
+
+			});
+
+	}
+
+
+	</script>
+
+</head>
+
+<body onload="init();">
+
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+
+		<div class="dhx_cal_navline">
+
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+
+			<div class="dhx_cal_next_button">&nbsp;</div>
+
+			<div class="dhx_cal_today_button"></div>
+
+			<div class="dhx_cal_date"></div>
+			
+			<div class="dhx_minical_icon" id="dhx_minical_icon" onclick="show_minical()" style="left:300px;">&nbsp;</div>
+
+			<div class="dhx_cal_tab " name="timeline_tab" style="right:280px;"></div>
+
+			<div class="dhx_cal_tab dhx_cal_tab_first" name="month_tab" style="right:76px;"></div>
+			
+			
+
+
+		</div>
+
+		<div class="dhx_cal_header">
+
+		</div>
+
+		<div class="dhx_cal_data">
+
+		</div>
+
+	</div>
+
+</body>

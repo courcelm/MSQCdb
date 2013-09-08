@@ -1,0 +1,7 @@
+{% load mytemplatetags %}
+
+[
+{% for reservation in reservations %}
+{ start_date: "{{reservation.scheduled_start_date|date:"Y-m-d"}} 00:00", end_date: "{{reservation.scheduled_end_date|date:"Y-m-d"}} 23:59", text:"{{reservation.created_by}} ({{reservation.instrument.instrument_name}})", section_id:{{reservation.instrument.pk}}, color:"{{reservation.instrument.pk|int2color}}"},
+{% endfor %}
+]
