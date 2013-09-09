@@ -305,22 +305,29 @@ class ReportAdmin(admin.ModelAdmin):
     truncatedDescription.allow_tags = True
 
 
-class ReservationForm(forms.ModelForm):
 
+class ReservationForm(forms.ModelForm):
+    """
+    Reservation form to clean scheduled dates.
+    """
+    
     class Meta:
 
         model = MSQCdbModels.Reservation
 
 
-
     def clean(self):
- 
-        if self.cleaned_data['scheduled_end_date'] < self.cleaned_data['scheduled_start_date']:
+        """
+        Check that end date is not before start date.
+        """
+        
+        if 'scheduled_start_date' in self.cleaned_data and \
+            'scheduled_end_date' in self.cleaned_data and \
+            self.cleaned_data['scheduled_end_date'] < self.cleaned_data['scheduled_start_date']:
             msg = u"Scheduled end date is earlier than start date."
             raise forms.ValidationError(msg)
  
         return self.cleaned_data
-
 
 
 
@@ -334,7 +341,6 @@ class ReservationAdmin(admin.ModelAdmin):
     datetime = 'modification_date'
     
     form = ReservationForm
-
     
     list_display   = ('pk','created_by', 'modification_date', 'instrument', 
                       'time_needed', 'sample_count', 'comment',
@@ -344,9 +350,6 @@ class ReservationAdmin(admin.ModelAdmin):
     list_filter = ('created_by', 'instrument')
     
     search_fields = ('comment',)
-    
-    
-
     
     
     def delete_model(self, request, obj):
@@ -360,13 +363,13 @@ class ReservationAdmin(admin.ModelAdmin):
         else:
             self.message_user(request, "Permission denied. Reservation was not deleted.",
                               level=messages.ERROR)
-           
     
     
     def get_actions(self, request):
         """
         From http://stackoverflow.com/questions/1471909/django-model-delete-not-triggered
         """
+        
         actions = super(ReservationAdmin, self).get_actions(request)
         del actions['delete_selected']
         return actions
@@ -390,7 +393,12 @@ class ReservationAdmin(admin.ModelAdmin):
 
     
     def get_changelist_form(self, request, **kwargs):
+        """
+        Custom form for cleaning data.
+        """
+        
         return ReservationForm
+    
     
     def get_readonly_fields(self, request, obj=None):
         """
@@ -408,6 +416,9 @@ class ReservationAdmin(admin.ModelAdmin):
     
     
     def changelist_view(self, request, extra_context=None):
+        """
+        Limits user that can change scheduled dates
+        """
         
         self.list_editable = list() # Reset
         # Bug fix - Some how this vaue stay set between users sessions
@@ -418,7 +429,7 @@ class ReservationAdmin(admin.ModelAdmin):
         
         return super(ReservationAdmin, self).changelist_view(request, extra_context)
     
-    # Save the creator of the object
+    
     def save_model(self, request, obj, form, change):
 
         ## Store the obj creator
@@ -427,11 +438,7 @@ class ReservationAdmin(admin.ModelAdmin):
             
         if request.user.is_superuser or obj.created_by == request.user or \
             request.user.groups.filter(name='ms_scheduling').count() == 1:
-            
-            if obj.scheduled_end_date < obj.scheduled_start_date:
-                messages.error(request, 'Error: Scheduled end date is earlier than start date.')
-            else:
-                obj.save()
+            obj.save()
         else:
             messages.error(request, '%s is not allowed to modify this reservation.'  
                                    % (request.user.username))

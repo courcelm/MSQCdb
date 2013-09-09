@@ -111,6 +111,10 @@ class CustomIndexDashboard(Dashboard):
                           sample all the performance metrics and meta data \
                           associcated. Only administrators can modify Sample \
                           values.<br/><br/>\
+                          <span style="font-weight: bold;">Reservations</span><br />\
+                          MS instrument time requirements should be entered in this section.\
+                          Platform manager will then schedule each entry. MS instrument\
+                          schedule can be consulted in this section.<br/><br/>\
                           </li>\
                           </ul>',
 
