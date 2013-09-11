@@ -311,6 +311,12 @@ class ReservationForm(forms.ModelForm):
     Reservation form to clean scheduled dates.
     """
     
+    def __init__(self, *args,**kwargs):
+        super (ReservationForm,self ).__init__(*args,**kwargs) # populates the post
+        if 'instrument' in self.fields:
+            self.fields['instrument'].queryset = MSQCdbModels.Instrument.objects.filter(active=True)
+    
+    
     class Meta:
 
         model = MSQCdbModels.Reservation
@@ -345,7 +351,9 @@ class ReservationAdmin(admin.ModelAdmin):
     list_display   = ('pk','created_by', 'modification_date', 'instrument', 
                       'time_needed', 'sample_count', 'comment',
                       'prefered_start_date', 'scheduled_start_date',
-                      'scheduled_end_date')
+                      'scheduled_end_date', 'status')
+    
+    
 
     list_filter = ('created_by', 'instrument')
     
@@ -420,12 +428,12 @@ class ReservationAdmin(admin.ModelAdmin):
         Limits user that can change scheduled dates
         """
         
-        self.list_editable = list() # Reset
+        self.list_editable = ('status', ) # Reset
         # Bug fix - Some how this vaue stay set between users sessions
         
         if request.user.is_superuser or \
            request.user.groups.filter(name='ms_scheduling').count() == 1:
-            self.list_editable = ('scheduled_start_date', 'scheduled_end_date')
+            self.list_editable = ('status', 'scheduled_start_date', 'scheduled_end_date')
         
         return super(ReservationAdmin, self).changelist_view(request, extra_context)
     
@@ -450,3 +458,4 @@ admin.site.register(MSQCdbModels.Sample, SampleAdmin)
 admin.site.register(MSQCdbModels.Chart, ChartAdmin)
 admin.site.register(MSQCdbModels.Report, ReportAdmin)
 admin.site.register(MSQCdbModels.Reservation, ReservationAdmin)
+admin.site.register(MSQCdbModels.Instrument)

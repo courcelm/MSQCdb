@@ -38,6 +38,8 @@ class Instrument(models.Model):
     """
     
     instrument_name = models.CharField(max_length=50, unique=True)
+    
+    active = models.BooleanField()
 
     def __unicode__(self):
         return str(self.instrument_name)
@@ -6114,7 +6116,7 @@ class Reservation(models.Model):
     sample_count = models.IntegerField(blank=True, null=True)
     
     comment = models.TextField(help_text='Chromatography, deadline, assistance required, \
-                                project details, etc.',
+                                project details, running late details, etc.',
                                blank=True, null=True)
     
     
@@ -6126,3 +6128,13 @@ class Reservation(models.Model):
     
     scheduled_end_date = models.DateField('Scheduled end date', 
                                               blank=True, null=True)
+
+
+    STATUS_CHOICE = ((1, 'Waiting'),
+                     (2, 'Started'),
+                     (3, 'Running late'),
+                     (4, 'Done')
+                     )
+    
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICE, default=1)
+    
