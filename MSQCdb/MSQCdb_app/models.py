@@ -6136,5 +6136,9 @@ class Reservation(models.Model):
                      (4, 'Done')
                      )
     
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICE, default=1)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICE, default=1,
+                                              help_text='Please update this field when operating the instrument\
+                                               and add commnents if running late. Set to Done when your \
+                                               experiment are completed so the next user knows he can start\
+                                               using the instrument.')
     

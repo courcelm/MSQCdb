@@ -25,9 +25,11 @@ This is the Admin module for the MSQCdb.
 
 # Import Django related libraries
 from django import forms
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.sites import site
 from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
 from django.db.models import get_app, get_models
 from django.utils.text import wrap
 
@@ -355,7 +357,7 @@ class ReservationAdmin(admin.ModelAdmin):
     
     
 
-    list_filter = ('created_by', 'instrument')
+    list_filter = ('created_by', 'instrument', 'status')
     
     search_fields = ('comment',)
     
@@ -444,6 +446,51 @@ class ReservationAdmin(admin.ModelAdmin):
         if getattr(obj, 'created_by', None) is None:
             obj.created_by = request.user
             
+        # Send email to lab manager to notify reservation change
+        # Mcafee viruscan block email
+        if request.user.pk != settings.SCHEDULER_USERID:
+            subject, from_email, to = 'New/Modification MS instrument reservation', \
+                                      'msqcdb@gmail.com', settings.SCHEDULER_EMAIL
+            text_content = 'New/Modification MS instrument reservation'
+            html_content = '<html><body>Reservation id: %s (%s)<br /><br /> Created by: %s<br/><br/>Modified at: %s<br/>%s</body></html>' %\
+                           (obj.pk, obj.instrument.instrument_name, obj.created_by, obj.modification_date, form.as_p())
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+        
+        # Send email to user if someone else modifies your reservation
+        # It should be limited to user in the ms_scheduling group
+        if request.user != obj.created_by:
+            subject, from_email, to = 'Modification to your MS instrument reservation', \
+                                      'msqcdb@gmail.com', request.user.email
+            text_content = 'Modification to your MS instrument reservation'
+            html_content = '<html><body>Reservation id: %s (%s)<br /><br /> Created by: %s<br/><br/>Modified at: %s<br/>%s</body></html>' %\
+                           (obj.pk, obj.instrument.instrument_name, obj.created_by, obj.modification_date, form.as_p())
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+            
+            
+        # Alert next user if running late or completed
+        if obj.status == 3 or obj.status == 4:
+            next_reservations = MSQCdbModels.Reservation.objects.exclude(pk=obj.pk)\
+                                                                        .filter(instrument=obj.instrument, 
+                                                                        scheduled_start_date__gte=obj.scheduled_end_date)\
+                                                                        .order_by('scheduled_start_date')
+            
+            if next_reservations.count() > 0:
+                next_reservation_email = next_reservations[0].created_by.email
+                
+                subject, from_email, to = 'MS instrument status update', \
+                                      'msqcdb@gmail.com', next_reservation_email
+                text_content = 'MS instrument status update'
+                html_content = '<html><body>Reservation id: %s (%s)<br /><br /> Created by: %s<br/><br/>Modified at: %s<br/>%s</body></html>' %\
+                           (obj.pk, obj.instrument.instrument_name, obj.created_by, obj.modification_date, form.as_p())
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
+                msg.send()
+            
+        
         if request.user.is_superuser or obj.created_by == request.user or \
             request.user.groups.filter(name='ms_scheduling').count() == 1:
             obj.save()
