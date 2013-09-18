@@ -1,8 +1,24 @@
 {% extends "admin/change_list.html" %}
+{% load i18n %}
+{% load mytemplatetags %}
 
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="/media/js/jquery-1.8.2.min.js"></script>
 {% endblock %}
+
+
+
+{% block object-tools %}
+    <ul class="grp-object-tools">
+        {% ifusergroup ms_scheduling %}
+            <li><a href="{{recoverlist_url}}" class="recoverlink">{% blocktrans with cl.opts.verbose_name_plural|escape as name %}Recover deleted {{name}}{% endblocktrans %}</a></li>
+        {% endifusergroup %}
+        {% if has_add_permission %}
+            <li><a href="{{add_url}}{% if is_popup %}?_popup=1{% endif %}" class="grp-add-link grp-state-focus">{% blocktrans with cl.opts.verbose_name|escape as name %}Add {{name}}{% endblocktrans %}</a></li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
 
 
 {% block content %}

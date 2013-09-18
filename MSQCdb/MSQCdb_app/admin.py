@@ -33,7 +33,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models import get_app, get_models
 from django.utils.text import wrap
 
-
+import reversion
 
 
 # Import project libraries
@@ -339,13 +339,15 @@ class ReservationForm(forms.ModelForm):
 
 
 
-class ReservationAdmin(admin.ModelAdmin):
+class ReservationAdmin(reversion.VersionAdmin):
     """
     Admin config for Reservation model.
     """
     
     actions=['really_delete_selected']
-
+    
+    change_list_template = 'admin/MSQCdb_app/reservation/change_list.html'
+    
     datetime = 'modification_date'
     
     form = ReservationForm
