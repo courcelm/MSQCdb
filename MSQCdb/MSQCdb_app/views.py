@@ -1,5 +1,6 @@
 ## Copyright 2012 Mathieu Courcelles
 ## Mike Tyers's lab / IRIC / Universite de Montreal 
+from collections import OrderedDict
 
 ## This file is part of the MSQCdb project
 ## MSQCdb is free software: you can redistribute it and/or modify
@@ -22,7 +23,7 @@ This module generates view to display information contained in the database.
 
 
 # Import standard libraries
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 
 # Import Django related libraries
@@ -157,6 +158,51 @@ def reservationCalendar(request):
     c = Context({'reservationInstruments': reservationInstruments})
     
     return HttpResponse(t.render(c), mimetype='text/html')
+
+
+
+
+@login_required
+def reservationPerUser(request, year):
+    """
+    This function generates report of instrument usage for each user.
+    """
+    
+    year = int(year)
+    
+    start = date(year, 1, 1)
+    stop = date(year, 12, 31)
+    
+    reservations = MSQCdbModels.Reservation.objects.filter(scheduled_start_date__gte=start, 
+                                                           scheduled_start_date__lte=stop)
+    
+    instruments = dict()
+    usage = dict()
+    
+    
+    for reservation in reservations:
+        
+        user = reservation.created_by.get_full_name()
+        instrument = reservation.instrument.instrument_name
+        
+        instruments[instrument] = 1
+
+
+        if user not in usage:        
+            usage[user] = dict()
+        
+        if instrument not in usage[user]:
+            usage[user][instrument] = 0
+        
+        usage[user][instrument] +=  (reservation.scheduled_end_date - reservation.scheduled_start_date).days + 1
+        
+    usage = OrderedDict(sorted(usage.items(), key=lambda t: t[0]))
+        
+    t = loader.get_template('reservation_peruser.html')
+    c = Context({'instruments':sorted(instruments.keys()), 'usage': usage})
+    
+    return HttpResponse(t.render(c), mimetype='text/html')
+
 
 
 def fieldOptions(request, modelName):

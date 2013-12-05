@@ -11,6 +11,7 @@
 {% block object-tools %}
     <ul class="grp-object-tools">
         {% ifusergroup ms_scheduling %}
+        	<li><a href='/MSQCdb/reservationPerUser/{% get_year%}/'>Instrument Usage statistics</a></li>
             <li><a href="{{recoverlist_url}}" class="recoverlink">{% blocktrans with cl.opts.verbose_name_plural|escape as name %}Recover deleted {{name}}{% endblocktrans %}</a></li>
         {% endifusergroup %}
         {% if has_add_permission %}

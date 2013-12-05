@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+{% load mytemplatetags %}
+
+{% block content %}
+
+
+<h2>Instrument usage (scheduled days)</h2>
+<br />
+<table border=0>
+<tr><th>Users \ Instruments</th>
+{% for key in instruments %}
+<th>{{key}}</th>
+{% endfor %}	
+</tr>
+{% for user, user_instruments in usage.items %}
+<tr><td>{{user}}</td>
+{% for instrument in instruments %}
+<td>{{user_instruments|get_item:instrument}}</td>
+{% endfor %}
+{% endfor %}
+</table>
+
+
+Note: count is lazy for reservation spanning two years. Only reservation with scheduled start date in the current year are considered.
+{% endblock %}
+
+

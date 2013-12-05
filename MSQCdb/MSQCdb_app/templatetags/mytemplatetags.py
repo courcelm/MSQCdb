@@ -26,6 +26,15 @@ def epoch(value):
 
 
 
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key, '-')
+
+
+@register.simple_tag
+def get_year():
+    return datetime.date.today().year
+
 
 @register.filter(is_safe=True)
 def splitLine(value, lineLength = 30 ):

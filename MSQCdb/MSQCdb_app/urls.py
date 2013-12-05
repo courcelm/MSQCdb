@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^fieldOptions/(?P<modelName>.*)$', fieldOptions),
     url(r'^reservationJSON/$', reservationJSON),
     url(r'^reservationCalendar/$', reservationCalendar),
+    url(r'^reservationPerUser/(?P<year>\d+)/.*$', reservationPerUser),
 )
