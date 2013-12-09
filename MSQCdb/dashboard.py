@@ -182,6 +182,11 @@ class CustomIndexDashboard(Dashboard):
                     'url': '/MSQCdb/reportView/5',
                     'external': True,
                 },
+                {
+                    'title': _('Orbitrap VS'),
+                    'url': '/MSQCdb/reportView/11',
+                    'external': True,
+                },
                 
             ]
         ))
