@@ -1,0 +1,10 @@
+{% load mytemplatetags %}
+
+{{callback}}
+(
+[
+{% for bin_value in bin_values %}
+{{bin_value}},
+{% endfor %}
+]
+)

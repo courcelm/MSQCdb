@@ -5,20 +5,41 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Mathieu Courcelles', 'mathieu.courcelles@umontreal.ca'),
 )
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'msqcdb@gmail.com'
+EMAIL_HOST_PASSWORD = 'msqcdbEMAIL1417'
+EMAIL_PORT = 587
 
 MANAGERS = ADMINS
 
+#SCHEDULER_EMAIL = 'mathieu84@hotmail.com'
+#SCHEDULER_USERID = 1
+
+SCHEDULER_EMAIL = 'eric.bonneil@umontreal.ca'
+SCHEDULER_USERID = 5
+
 DATABASES = {
-    'default': {
+    'default_old': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'C:\\Users\\Mathieu\\My Documents\\Aptana Studio 3 Workspace\\MSQCdb\\sqlite.db',                      # Or path to database file if using sqlite3.
+        #'NAME': r'C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\sqlite.db',                      # Or path to database file if using sqlite3.
+        #'NAME': '/home/django/py/MSQCdb/sqlite.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
+    },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'MSQCdb',                      # Or path to database file if using sqlite3.
+        'USER': 'MSQCdbUser',                      # Not used with sqlite3.
+        'PASSWORD': 'MSQC!db!',                  # Not used with sqlite3.
+        'HOST': '132.204.81.160',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+	}
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -46,7 +67,9 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = 'C:/Users/Mathieu/My Documents/Aptana Studio 3 Workspace/MSQCdb/MSQCdb/media/'
+#MEDIA_ROOT = '/home/django/py/MSQCdb/MSQCdb/media/'
+MEDIA_ROOT = 'C:/Users/Mathieu/Documents/Aptana Studio 3 Workspace/MSQCdb/MSQCdb/media/'
+
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -57,7 +80,8 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+#STATIC_ROOT = '/home/django/py/MSQCdb/MSQCdb/static/'
+STATIC_ROOT = 'C:/Users/Mathieu/Documents/Aptana Studio 3 Workspace/MSQCdb/MSQCdb/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -107,7 +131,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "C:/Users/Mathieu/My Documents/Aptana Studio 3 Workspace/MSQCdb/MSQCdb/MSQCdb_app/templates"
+    "MSQCdb/MSQCdb/MSQCdb_app/templates"
 )
 
 
@@ -129,6 +153,9 @@ INSTALLED_APPS = (
     # Visual enhancment
     'grappelli.dashboard',
     'grappelli',
+    
+    # Django-reversion
+    'reversion',
     
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
@@ -175,3 +202,4 @@ LOGGING = {
 
 GRAPPELLI_ADMIN_TITLE = 'MSQCdb - Database and frontend for the NIST MSQC Pipeline'
 GRAPPELLI_INDEX_DASHBOARD = 'MSQCdb.dashboard.CustomIndexDashboard'
+

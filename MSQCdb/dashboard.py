@@ -161,3 +161,28 @@ class CustomIndexDashboard(Dashboard):
         ))
 
         
+        # append another link list module for "Instrument performance report".
+        self.children.append(modules.LinkList(
+            _('Instrument performance reports'),
+            column=2,
+
+            children=[
+                {
+                    'title': _('LTQ-Orbitrap Elite'),
+                    'url': '/MSQCdb/reportView/7',
+                    'external': True,
+                },
+                {
+                    'title': _('LTQ-Orbitrap XL'),
+                    'url': '/MSQCdb/reportView/3',
+                    'external': True,
+                },
+                {
+                    'title': _('Q-Exactive'),
+                    'url': '/MSQCdb/reportView/5',
+                    'external': True,
+                },
+                
+            ]
+        ))
+        

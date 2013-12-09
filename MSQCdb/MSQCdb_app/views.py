@@ -24,6 +24,7 @@ This module generates view to display information contained in the database.
 
 # Import standard libraries
 from datetime import datetime, timedelta, date
+import numpy as np
 
 
 # Import Django related libraries
@@ -50,6 +51,21 @@ def chartView(request, chartId, position):
     """
     
     chartObject = MSQCdbModels.Chart.objects.get(pk=chartId)
+    
+    
+    if chartObject.chart_type == 'Timeline':
+        return timelineView(request, chartObject, position)
+    else:
+        return histoView(request, chartObject, position)
+    
+
+@login_required
+def timelineView(request, chartObject, position):
+    """
+    This function prepares the Context to display the metrics and Event using
+    the Highstock JavaScript plotting library. 
+    """
+    
     
     series = chartObject.chartseries_set.all()
 
@@ -84,8 +100,8 @@ def chartView(request, chartId, position):
             events = MSQCdbModels.EventLog.objects.all().filter(q_outer_object)
         
     
-    chart_data_link = '/MSQCdb/chartDataJSON'
-    t = loader.get_template('chart.html')
+    chart_data_link = '/MSQCdb/timelineDataJSON'
+    t = loader.get_template('timeline.html')
     c = Context({ 'chart_data_link': chart_data_link, 'position': position,
                  'chartObject': chartObject, 'series': series,
                  'header': header,
@@ -97,11 +113,39 @@ def chartView(request, chartId, position):
 
 
 
-
 @login_required
-def chartDataJSON(request, seriesId):
+def histoView(request, chartObject, position):
     """
-    This function generates a JSON output of data to generate a chart using the 
+    This function prepares the Context to display the histogram using
+    the Highstock JavaScript plotting library. 
+    """
+    
+    series = chartObject.chartseries_set.all()
+
+    header = True 
+    if request.GET.get('header') == 'False':
+        header = False
+    
+     
+    
+    bin_labels = np.arange(chartObject.histo_min, chartObject.histo_max, chartObject.bin_width)
+    
+    chart_data_link = '/MSQCdb/histoDataJSON'
+    t = loader.get_template('histogram.html')
+    c = Context({ 'chart_data_link': chart_data_link, 'position': position,
+                 'chartObject': chartObject, 'series': series,
+                 'header': header,
+                 'bin_width': chartObject.bin_width,
+                 'bin_labels': bin_labels,
+                 'MEDIA_URL': settings.MEDIA_URL})
+    
+    return HttpResponse(t.render(c))
+
+
+
+def chartDataValues(seriesId):
+    """
+    This function prepares objects to generate a chart using the 
     Highstock JavaScript plotting library.
     """
     
@@ -116,16 +160,54 @@ def chartDataJSON(request, seriesId):
     if seriesObject.keyword is not None:
         o = o.filter(sample__raw_file__contains=seriesObject.keyword)
         
-    
-    o = o.order_by('sample__experimentdate')
     o = o.extra(select={'chartValue': seriesObject.field})
+    
+    return o, seriesObject.chart
+
+
+@login_required
+def timelineDataJSON(request, seriesId):
+    """
+    This function generates a JSON output of data to generate a chart using the 
+    Highstock JavaScript plotting library.
+    """
+
+    o, chart = chartDataValues(seriesId)
+    o = o.order_by('sample__experimentdate')
 
     callback = request.GET.get('callback', '')  # For javascript getJSON
-    t = loader.get_template('json.html')
+    t = loader.get_template('timeline_json.html')
     c = Context({ 'callback': callback, 'objects': o})
     
     return HttpResponse(t.render(c), mimetype='application/json')
+
+
+@login_required
+def histoDataJSON(request, seriesId):
+    """
+    This function generates a JSON output of data to generate a chart using the 
+    Highstock JavaScript plotting library.
+    """
+
+    o, chart = chartDataValues(seriesId)
     
+    values_list = []
+    for obj in o:
+        values_list.append(obj.chartValue)
+    
+    
+    bin_values, bin_labels = np.histogram(values_list, bins=np.arange(chart.histo_min,
+                                                                      chart.histo_max, 
+                                                                      chart.bin_width))
+    
+
+    callback = request.GET.get('callback', '')  # For javascript getJSON
+    t = loader.get_template('histo_json.html')
+    c = Context({ 'callback': callback, 'bin_values': bin_values,
+                  
+                 })
+    
+    return HttpResponse(t.render(c), mimetype='application/json')
 
 
 @login_required
@@ -190,16 +272,22 @@ def reservationPerUser(request, year):
 
         if user not in usage:        
             usage[user] = dict()
+            usage[user]['Total'] = 0
         
         if instrument not in usage[user]:
             usage[user][instrument] = 0
         
-        usage[user][instrument] +=  (reservation.scheduled_end_date - reservation.scheduled_start_date).days + 1
+        days = (reservation.scheduled_end_date - reservation.scheduled_start_date).days + 1
+        
+        usage[user][instrument] +=  days
+        usage[user]['Total'] +=  days
         
     usage = OrderedDict(sorted(usage.items(), key=lambda t: t[0]))
+    instruments = sorted(instruments.keys())
+    instruments.append('Total')
         
     t = loader.get_template('reservation_peruser.html')
-    c = Context({'instruments':sorted(instruments.keys()), 'usage': usage})
+    c = Context({'instruments': instruments, 'usage': usage})
     
     return HttpResponse(t.render(c), mimetype='text/html')
 

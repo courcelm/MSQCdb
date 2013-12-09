@@ -1,0 +1,13 @@
+
+
+Install these:
+-Python 2.7 (http://www.python.org/getit/)
+-MySQL-python-1.2.4.win-amd64-py2.7.exe (http://www.lfd.uci.edu/~gohlke/pythonlibs/)
+-numpy-MKL-1.8.0.win-amd64-py2.7.exe (http://www.lfd.uci.edu/~gohlke/pythonlibs/)
+
+
+Python requirements can be installed this way:
+
+pip install -r requirements/local.txt
+or 
+pip install -r requirements/production.txt

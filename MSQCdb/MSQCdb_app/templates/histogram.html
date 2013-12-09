@@ -1,0 +1,171 @@
+{% load mytemplatetags %}
+
+
+{% if header %}
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>MSQCdb</title>
+
+<!-- Inspired from example http://jsfiddle.net/9LGVA/369/ -->
+
+
+<script type="text/javascript" src="/media/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/media/js/Highstock-1.2.4/js/highstock.js"></script>
+<script type="text/javascript" src="/media/js/Highstock-1.2.4/js/modules/exporting.js"></script>
+
+{% endif %}
+
+<script type="text/javascript">
+
+
+
+
+var seriesOptions{{position}} = [];
+var seriesCounter{{position}} = 0;
+var stats{{position}} = 0;
+
+$(document).ready(function() {
+
+
+	// Get data for series to display on the chart
+    var names{{position}} = [ {% for s in series %}'{{s.name}}???{{s.pk}}' {% if forloop.last %}{% else %},{% endif %}{% endfor %} ];
+
+    $.each(names{{position}}, function(i, name) {
+		seriesId = name.split("???")[1];
+
+
+
+        $.getJSON('{{ chart_data_link }}/' + seriesId + '/?&callback=?',    function(data) {
+
+			seriesId = name.split("???")[1];
+			seriesName = name.split("???")[0];
+
+
+            seriesOptions{{position}}[i] = {
+                name: seriesName,
+                data: data,
+                marker: {
+                    enabled : true,
+                    radius : 3
+                }
+            };
+
+            // As we're loading the data asynchronously, we don't know what order it will arrive. So
+            // we keep a counter and create the chart when all the data is loaded.
+            seriesCounter{{position}}++;
+
+            $("#loadingmsg{{position}}").append("<br />Retrieving data (" + seriesCounter{{position}} + "/" + names{{position}}.length +  "):  " + seriesName);
+
+            if (seriesCounter{{position}} == names{{position}}.length) {
+
+                createChart{{position}}();
+            }
+        });
+    });
+
+
+
+
+    
+
+});
+
+
+
+
+// create the chart when all data is loaded
+function createChart{{position}}() {
+
+
+		// Create the chart
+		window.chart{{position}} = new Highcharts.Chart({
+
+		    chart: {
+		        renderTo: 'container{{position}}',
+		        type: 'column',
+		        zoomType: 'x'
+		    },
+			credits: {
+                enabled: false
+            },
+			legend: {
+            	enabled: true,
+            	align: 'left',
+            	verticalAlign: 'top',
+            	floating: true,
+            	x: 75,
+            	y: 0
+           	},
+		    title: {
+		        text: '{{ chartObject.title }}'
+		    },
+            xAxis: {
+				categories: [
+				{% for bin in bin_labels%}
+				{{bin|floatformat}}, 
+				{% endfor %}
+				],
+				labels:{
+            		rotation:-90,
+            		y:20,
+           		},
+				tickmarkPlacement: 'between',
+            },
+
+		    yAxis: {
+		        title: {
+		            text: 'Count'
+		        },
+		        
+		    },
+			scrollbar : {
+				enabled : false
+			},
+			tooltip: {
+	            useHTML: true,
+	            formatter:function() {
+            		return '<b>Range:</b><br/> ['+ this.x.toFixed(1) +', ' +  (this.x + {{bin_width}}).toFixed(1) + '[<br/>'+
+            	'<b>Count:</b> '+ this.y;
+        		}
+        	},
+			plotOptions: {
+				column:{
+	            	pointPadding:0,
+            		groupPadding:0,
+        		},
+                series: {
+                    marker: {
+                        lineWidth: 1
+                    }
+                }
+            },
+
+
+			series: seriesOptions{{position}}
+
+		});
+
+
+
+}
+</script>
+
+{% if header %}
+</head>
+	<body>
+{% endif %}
+
+<div id="container{{position}}">
+	<font size=2>
+	<img src="/media/img/ajax-loader.gif" style="visibility:hidden; width:0px;height:0px;"/>
+	<br /><img src="/media/img/ajax-loader.gif" /> Generating chart...please wait...
+	<div id="loadingmsg{{position}}"></div>
+	</font>
+</div>
+
+{% if header %}
+	</body>
+</html>
+{% endif %}

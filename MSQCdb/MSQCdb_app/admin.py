@@ -154,6 +154,22 @@ class ChartAdmin(admin.ModelAdmin):
     
     change_form_template = 'admin/chart_change_form.html'
     
+    
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'yAxisTitle', 'chart_type')
+        }),
+        ('Timeline options', {
+            'classes': ('grp-collapse grp-closed',),
+            'fields': ('plotMeanStd',)
+        }),
+        ('Histogram options', {
+            'classes': ('grp-collapse grp-closed',),
+            'fields': ('histo_min', 'histo_max', 'bin_width')
+        }),
+    )
+    
+    
     inlines = [ChartSeriesInline, ChartEventFlagInline]
     
     list_display   = ('title', 'created_by', 'yAxisTitle', 'seriesString',
@@ -360,6 +376,8 @@ class ReservationAdmin(reversion.VersionAdmin):
     
 
     list_filter = ('created_by', 'instrument', 'status')
+    
+    list_per_page = 30
     
     search_fields = ('comment',)
     

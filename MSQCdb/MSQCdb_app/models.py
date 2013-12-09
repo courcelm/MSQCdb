@@ -129,7 +129,19 @@ class Chart(models.Model):
     yAxisTitle = models.CharField('Y axis title', help_text = 'Title of the y\
                                      axis.', max_length=25)
     
+    CHART_TYPES = (('Timeline', 'Timeline'),
+                    ('Histogram', 'Histogram')
+                    )
+    
+    chart_type = models.CharField(choices=CHART_TYPES, max_length=25)
+    
     plotMeanStd = models.BooleanField(u'Plot Mean (\u03BC) / Standard deviation (\u03C3)')
+    
+    histo_min = models.FloatField('Minimum', default=0)
+    
+    histo_max = models.FloatField('Maximum', default=10)
+    
+    bin_width = models.FloatField('Bin width', default=1)
     
     created_by = models.ForeignKey(User, null=True, blank=True,
                                    related_name='%(class)s_created_by', 
