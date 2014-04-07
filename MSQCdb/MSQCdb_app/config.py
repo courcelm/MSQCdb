@@ -51,13 +51,17 @@ config['TMPMODEL_DIR'] = r'H:\Mathieu\NIST_MSQC_pipeline_test\tmpmodel'
 config['MODEL_DIR'] = r'C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQCdb\MSQCdb\MSQCdb_app'
 
 # Directory where the daemon will search for new raw files
+#config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QExactivePlus',]
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE',]
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP',]
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS',]
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE',]
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
-config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE', r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
+config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QExactivePlus_slot_160', 
+                         r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', 
+                         r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE', 
+                         'G:\Thibault\-=Proteomics_Raw_Data=-\QExactivePlus']
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\Tyers_ProhitsStorage\QEXACTIVE', r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE']
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP',]
 

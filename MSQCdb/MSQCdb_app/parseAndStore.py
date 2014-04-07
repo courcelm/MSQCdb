@@ -379,6 +379,16 @@ def parseAndStore(rawFile, raw_file_fullPath, logFile_fh):
     metaValues = parse(fh_out, metaFile, 'Meta', ':', fieldsModelDict, 
                        fieldsIgnoreDict)
     
+    # Fix Q Exactive Plus name
+    #print '-%s-' % metaValues['MetadataOverview']['instrument_name']
+    
+    if metaValues['MetadataOverview']['instrument_name'] == 'Q Exactive Plus Orbitrap':
+        
+        slot_id = metaValues['MetadataOverview']['instrument_serial_number'].split('#')[1]
+        metaValues['MetadataOverview']['instrument_name'] += ' slot #' + slot_id
+        
+    #print metaValues['MetadataOverview']['instrument_name']
+    
     reportValues = parse(fh_out, reportFile, 'Report', '\t', fieldsModelDict, 
                          fieldsIgnoreDict)
     fh_out.close()
@@ -410,6 +420,9 @@ def parseAndStore(rawFile, raw_file_fullPath, logFile_fh):
             
             sample_obj = createSample(rawFile, raw_file_fullPath, 
                                       instrumentName, experimentdate)
+            
+#             import sys
+#             sys.exit()
             
             # Save to database
             storeInDB(reportValues, sample_obj)

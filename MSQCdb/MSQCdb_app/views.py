@@ -287,7 +287,8 @@ def reservationPerUser(request, year):
     instruments.append('Total')
         
     t = loader.get_template('reservation_peruser.html')
-    c = Context({'instruments': instruments, 'usage': usage})
+    c = Context({'instruments': instruments, 'usage': usage,
+                 'year': year})
     
     return HttpResponse(t.render(c), mimetype='text/html')
 
