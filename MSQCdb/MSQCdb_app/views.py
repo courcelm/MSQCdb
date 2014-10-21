@@ -179,7 +179,7 @@ def timelineDataJSON(request, seriesId):
     t = loader.get_template('timeline_json.html')
     c = Context({ 'callback': callback, 'objects': o})
     
-    return HttpResponse(t.render(c), mimetype='application/json')
+    return HttpResponse(t.render(c), content_type='application/json')
 
 
 @login_required
@@ -207,7 +207,7 @@ def histoDataJSON(request, seriesId):
                   
                  })
     
-    return HttpResponse(t.render(c), mimetype='application/json')
+    return HttpResponse(t.render(c), content_type='application/json')
 
 
 @login_required
@@ -223,7 +223,7 @@ def reservationJSON(request):
     t = loader.get_template('reservation_json.html')
     c = Context({ 'reservations': reservations})
     
-    return HttpResponse(t.render(c), mimetype='application/json')
+    return HttpResponse(t.render(c), content_type='application/json')
 
 
 @login_required
@@ -239,7 +239,7 @@ def reservationCalendar(request):
     t = loader.get_template('reservation_calendar.html')
     c = Context({'reservationInstruments': reservationInstruments})
     
-    return HttpResponse(t.render(c), mimetype='text/html')
+    return HttpResponse(t.render(c), content_type='text/html')
 
 
 
@@ -290,7 +290,7 @@ def reservationPerUser(request, year):
     c = Context({'instruments': instruments, 'usage': usage,
                  'year': year})
     
-    return HttpResponse(t.render(c), mimetype='text/html')
+    return HttpResponse(t.render(c), content_type='text/html')
 
 
 

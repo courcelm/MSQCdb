@@ -176,6 +176,8 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict,
                     break
                 if line.startswith('=== Identification: ==='):
                     break
+            
+        
                 
                 
                 
@@ -198,6 +200,9 @@ def parse(fh_out, fileName, tablePrefix, separator, fieldsModelDict,
             writeClassHeader(fh_out, section, vname, tablePrefix)
             continue
         
+        # Skip Orbitrap Fusion, to much to store in metadata
+        elif line.startswith('EvTuneCommonDevicesandHCDInjectPos'):
+            break
         else:
             # If we reach here, we read key value pair
             key, value = keyVal_list;

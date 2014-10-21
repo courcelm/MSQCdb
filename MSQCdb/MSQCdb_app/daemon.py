@@ -31,14 +31,18 @@ import time
 from time import  localtime, strftime
 
 # Import Django related libraries
+from django.db.utils import OperationalError
 
 # Import project libraries
-from MSQCdb.MSQCdb_app.models import Sample
+from MSQCdb.MSQCdb_app.models import (Instrument, Sample)
 from config import *
 import processing
 
 
-
+# Fix for Django 1.7
+# http://stackoverflow.com/questions/25244631/models-arent-loaded-yet-error-while-populating-in-django1-8-and-python2-7-8
+import django
+django.setup()
 
 # Function definitions  ######################################################
 
@@ -179,8 +183,13 @@ while True:
             
             #sys.exit()
             
-    except EnvironmentError: # parent of IOError, OSError *and* WindowsError where available
-        print('error')
+    except (EnvironmentError, IOError), e: # parent of IOError, OSError *and* WindowsError where available
+        print('MSQC error:' + str(e))
+    except OperationalError, e:
+        print('MSQC error:' + str(e))
+
+    # Dummy query to DB to keep connection alive
+    instruments = list(Instrument.objects.all())
             
     # Sleep for the specified amount of time
     time.sleep(config['SEARCH_INTERVAL'])

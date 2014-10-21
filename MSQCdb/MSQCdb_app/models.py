@@ -39,7 +39,7 @@ class Instrument(models.Model):
     
     instrument_name = models.CharField(max_length=50, unique=True)
     
-    active = models.BooleanField()
+    active = models.BooleanField(default=False)
 
     def __unicode__(self):
         return str(self.instrument_name)
@@ -135,7 +135,8 @@ class Chart(models.Model):
     
     chart_type = models.CharField(choices=CHART_TYPES, max_length=25)
     
-    plotMeanStd = models.BooleanField(u'Plot Mean (\u03BC) / Standard deviation (\u03C3)')
+    plotMeanStd = models.BooleanField(u'Plot Mean (\u03BC) / Standard deviation (\u03C3)',
+                                      default=False)
     
     histo_min = models.FloatField('Minimum', default=0)
     
@@ -153,7 +154,7 @@ class Chart(models.Model):
     
     def get_admin_url(self):
         return urlresolvers.reverse("admin:%s_%s_change" %
-        (self._meta.app_label, self._meta.module_name), args=(self.id,))
+        (self._meta.app_label, self._meta.model_name), args=(self.id,))
     
     def get_relative_url(self):
         """

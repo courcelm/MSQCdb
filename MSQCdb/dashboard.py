@@ -184,12 +184,17 @@ class CustomIndexDashboard(Dashboard):
                 },
                 {
                     'title': _('Q-Exactive Plus slot #104'),
-                    'url': '/MSQCdb/reportView/13',
+                    'url': '/MSQCdb/reportView/15',
                     'external': True,
                 },
                 {
                     'title': _('Q-Exactive Plus slot #160'),
-                    'url': '/MSQCdb/reportView/16',
+                    'url': '/MSQCdb/reportView/18',
+                    'external': True,
+                },
+                {
+                    'title': _('Orbitrap Fusion'),
+                    'url': '/MSQCdb/reportView/19',
                     'external': True,
                 },
                 {

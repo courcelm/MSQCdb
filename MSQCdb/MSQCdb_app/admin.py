@@ -226,6 +226,8 @@ class ReportChartForm(forms.ModelForm):
     class Meta:
         model = MSQCdbModels.ReportChart
 
+        exclude = []
+
     def __init__(self, *args, **kwargs):
         from django.forms.widgets import HiddenInput
         super(ReportChartForm, self).__init__(*args, **kwargs)
@@ -338,6 +340,10 @@ class ReservationForm(forms.ModelForm):
     class Meta:
 
         model = MSQCdbModels.Reservation
+        
+        fields = ['instrument', 'time_needed', 'sample_count',
+                  'comment', 'prefered_start_date', 'status',
+                  'scheduled_start_date', 'scheduled_end_date']
 
 
     def clean(self):

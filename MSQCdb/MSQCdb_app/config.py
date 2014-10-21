@@ -59,9 +59,11 @@ config['MODEL_DIR'] = r'C:\Users\Mathieu\Documents\Aptana Studio 3 Workspace\MSQ
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\VELOS', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE']
 config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\QExactivePlus_slot_160', 
-                         r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP', 
+                         r'G:\Thibault\-=Proteomics_Raw_Data=-\Tyers_ProhitsStorage\QEXACTIVEPLUS160',
+                         r'G:\Thibault\-=Proteomics_Raw_Data=-\FUSION',
+                         #r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP',
                          r'G:\Thibault\-=Proteomics_Raw_Data=-\ELITE', 
-                         'G:\Thibault\-=Proteomics_Raw_Data=-\QExactivePlus']
+                         r'G:\Thibault\-=Proteomics_Raw_Data=-\QExactivePlus']
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\Tyers_ProhitsStorage\QEXACTIVE', r'G:\Thibault\-=Proteomics_Raw_Data=-\QEXACTIVE']
 #config['SEARCH_DIRS'] = [r'G:\Thibault\-=Proteomics_Raw_Data=-\ORBITRAP',]
 
