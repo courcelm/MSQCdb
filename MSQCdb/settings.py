@@ -8,10 +8,12 @@ ADMINS = (
     ('Mathieu Courcelles', 'mathieu.courcelles@umontreal.ca'),
 )
 
+ALLOWED_HOSTS = ['msqcdb.tyerslab.com']
+
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'msqcdb@gmail.com'
-EMAIL_HOST_PASSWORD = 'msqcdbEMAIL141717'
+EMAIL_HOST_PASSWORD = 'msqcdb141717EMAIL'
 EMAIL_PORT = 587
 
 MANAGERS = ADMINS
@@ -36,7 +38,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'MSQCdb',                      # Or path to database file if using sqlite3.
         'USER': 'MSQCdbUser',                      # Not used with sqlite3.
-        'PASSWORD': 'MSQC!db!',                  # Not used with sqlite3.
+        'PASSWORD': 'MSQC!db!2014',                  # Not used with sqlite3.
         'HOST': '132.204.81.160',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
 	}
@@ -131,7 +133,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "MSQCdb/MSQCdb/MSQCdb_app/templates"
+    "MSQCdb/MSQCdb/MSQCdb_app/templates",
 )
 
 
@@ -163,7 +165,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     
     # Schema migration
-    'south',
+    #'south',
     
     # MSQCdb app
     'MSQCdb.MSQCdb_app',
@@ -196,9 +198,15 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'django.security.DisallowedHost': {
+            'handlers': ['mail_admins'],
+            'level': 'CRITICAL',
+            'propagate': False,
+        },
     }
 }
 
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 GRAPPELLI_ADMIN_TITLE = 'MSQCdb - Database and frontend for the NIST MSQC Pipeline'
 GRAPPELLI_INDEX_DASHBOARD = 'MSQCdb.dashboard.CustomIndexDashboard'

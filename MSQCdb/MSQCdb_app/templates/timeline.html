@@ -91,7 +91,7 @@ $(document).ready(function() {
 				data: [{
 					x: new Date({{event.datetime|epoch}}),
 					title: '{{ event.event_type|slice:"1" }}',
-					text: '<b>{{event.instrument_name}} - {{ event.event_type }}</b><br />{{ event.name|splitLine }}'
+					text: '<b>{{event.instrument_name}} - {{ event.event_type }}</b><br />{{ event.name|splitLine|addslashes }}'
 				}],
 				{% if event.event_type|slice:"1" == 'F' %}
 					shape: 'squarepin',

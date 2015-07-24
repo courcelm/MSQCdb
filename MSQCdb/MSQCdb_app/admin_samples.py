@@ -906,13 +906,19 @@ class SampleAdmin(admin.ModelAdmin):
     
     
     def instrumentmethod(self, obj):
-        return obj.metadataoverview_Meta.all()[0].instrumentmethod
+        if len(obj.metadataoverview_Meta.all()) > 0:
+            return obj.metadataoverview_Meta.all()[0].instrumentmethod
+        else:
+            return 'NA'
     instrumentmethod.short_description = 'InstrumentMethod'
     instrumentmethod.admin_order_field  = 'metadataoverview_Meta__instrumentmethod'
     
     
     def instrument_software_version(self, obj):
-        return obj.metadataoverview_Meta.all()[0].instrument_software_version
+        if len(obj.metadataoverview_Meta.all()) > 0:
+            return obj.metadataoverview_Meta.all()[0].instrument_software_version
+        else:
+            return 'NA'
     instrument_software_version.short_description = 'Instrument Software Version'
     instrument_software_version.admin_order_field  = 'metadataoverview_Meta__instrument_software_version'
 
