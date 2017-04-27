@@ -5,23 +5,23 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Mathieu Courcelles', 'mathieu.courcelles@umontreal.ca'),
+    ('', ''),
 )
 
 ALLOWED_HOSTS = ['msqcdb.tyerslab.com']
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'msqcdb@gmail.com'
-EMAIL_HOST_PASSWORD = 'msqcdb141717EMAIL'
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 
 MANAGERS = ADMINS
 
-#SCHEDULER_EMAIL = 'mathieu84@hotmail.com'
+#SCHEDULER_EMAIL = ''
 #SCHEDULER_USERID = 1
 
-SCHEDULER_EMAIL = 'eric.bonneil@umontreal.ca'
+SCHEDULER_EMAIL = ''
 SCHEDULER_USERID = 5
 
 DATABASES = {
@@ -38,8 +38,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'MSQCdb',                      # Or path to database file if using sqlite3.
         'USER': 'MSQCdbUser',                      # Not used with sqlite3.
-        'PASSWORD': 'MSQC!db!2014',                  # Not used with sqlite3.
-        'HOST': '132.204.81.160',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
 	}
 }
@@ -70,7 +70,7 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 #MEDIA_ROOT = '/home/django/py/MSQCdb/MSQCdb/media/'
-MEDIA_ROOT = 'C:/Users/Mathieu/Documents/Aptana Studio 3 Workspace/MSQCdb/MSQCdb/media/'
+
 
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
@@ -83,7 +83,7 @@ MEDIA_URL = '/media/'
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
 #STATIC_ROOT = '/home/django/py/MSQCdb/MSQCdb/static/'
-STATIC_ROOT = 'C:/Users/Mathieu/Documents/Aptana Studio 3 Workspace/MSQCdb/MSQCdb/static/'
+
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -105,7 +105,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'k%#gcmf$l&amp;6p#g8ln6-n7h&amp;zea9!@^cmm#m@e9lpmbioxjdq29'
+SECRET_KEY = ''
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
